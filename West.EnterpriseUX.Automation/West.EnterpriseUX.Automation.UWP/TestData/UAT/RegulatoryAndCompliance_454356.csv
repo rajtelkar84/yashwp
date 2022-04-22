@@ -1,0 +1,2 @@
+function,persona,inbox,plantTabLabelFirst,alertMesageRequiredFieldValidation,alertTitlePlantSaved,alertMesagePlantSaved,updateSelectedPlantAction,updatePlantPageTitle,newPlantPageTitle,newPlantCreationButtonText,inboxPageTabLabelsExpected
+"Regulatory & Compliance", "Regulatory", "Plant","All","Please Enter the Required field","Success","Plant Data is Successfully Saved","Update Selected Plant","Update Selected Plant","New Plant Creation","New Plant Creation","All;Active;Inactive"

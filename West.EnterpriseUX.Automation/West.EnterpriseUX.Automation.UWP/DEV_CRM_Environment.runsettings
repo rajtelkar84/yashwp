@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+	<RunConfiguration>
+		<DesignMode>false</DesignMode>
+		<DisableParallelization>false</DisableParallelization>
+		<DisableAppDomain>false</DisableAppDomain>
+		<CollectSourceInformation>true</CollectSourceInformation>
+	</RunConfiguration>
+	<TestRunParameters>
+		<Parameter name="AppID" value="WestPharmaceuticalService.DevWestDigital.CRM_78aqb0kyn8f3w!App" />
+		<Parameter name="AppName" value="[Dev] West Digital NExt Gen CRM - Enterprise" />
+		<Parameter name="AppEnvironment" value="Dev" />
+		<Parameter name="TestUser1EmailId" value="TEST_CRM01@westpharma.com" />
+		<Parameter name="TestUser1Password" value="yhefpdgFapnjuspWE+4stA+fM3EEZ8sTwRTis2nFbxI=" />
+		<Parameter name="LogFolderPath" value="C:\Auto\DEV\" />
+		<Parameter name="ScreenshotFolderPath" value="C:\Auto\DEV\Screenshots" />
+		<Parameter name="BuildsPath" value="C:\Builds\" />
+		<Parameter name="BatchInbox" value="Manufacturing,Plant Maintenance,Work Order,Order" />
+		<Parameter name="ClientId" value="14b79b0d-b454-4c3a-be09-30e6b86621ce" />
+		<Parameter name="ClientSecret" value="Pn6Ds_q.-4z9iB6ik_Mv~b0R92ZbkacO1r" />
+	</TestRunParameters>
+</RunSettings>

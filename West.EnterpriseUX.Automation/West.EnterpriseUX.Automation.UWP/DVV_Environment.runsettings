@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+	<RunConfiguration>
+		<DesignMode>false</DesignMode>
+		<DisableParallelization>false</DisableParallelization>
+		<DisableAppDomain>false</DisableAppDomain>
+		<CollectSourceInformation>true</CollectSourceInformation>
+	</RunConfiguration>
+	<TestRunParameters>
+		<Parameter name="AppID" value="WestPharmaceuticalService.DevVerifyWestDigital_78aqb0kyn8f3w!App" />
+		<Parameter name="AppName" value="[DevVerify] West Digital - Enterprise" />
+		<Parameter name="AppEnvironment" value="DVV" />
+		<Parameter name="TestUser1EmailId" value="TEST_UX1@westpharma.com" />
+		<Parameter name="TestUser1Password" value="RGSMH1cWt+uachOYx5Mlxq13J0d0dXU64W5HiCGWEvc=" />
+		<Parameter name="TestUX1Password" value="RGSMH1cWt+uachOYx5Mlxq13J0d0dXU64W5HiCGWEvc=" />
+		<Parameter name="TestUser1" value="TEST_UX1@westpharma.com" />
+		<Parameter name="AutoTestUser1Password" value="RGSMH1cWt+uachOYx5Mlxq13J0d0dXU64W5HiCGWEvc=" />
+		<Parameter name="sdLoginID" value="Test_UX1@westpharma.com" />
+		<Parameter name="pmLoginId" value="Test_UX02@westpharma.com" />
+		<Parameter name="muvpLoginID" value="Test_UX04@westpharma.com" />
+		<Parameter name="approvalRequiredProfile" value="TEST UX1" />
+		<Parameter name="LogFolderPath" value="C:\Auto\DVV\" />
+		<Parameter name="ScreenshotFolderPath" value="C:\Auto\DVV\Screenshots" />
+		<Parameter name="BuildsPath" value="C:\Builds" />
+		<Parameter name="HRTestUsersPassword" value="RGSMH1cWt+uachOYx5Mlxq13J0d0dXU64W5HiCGWEvc=" />
+		<Parameter name="ClientId" value="ac55451e-e6c8-4890-b5a6-49519b59b6a0" />
+		<Parameter name="ClientSecret" value="1oNzi1zTc~mdJ~.oJT194.SDO9_N3ygs0y" />
+		<Parameter name="HRInitiator" value="TEST_UX04@westpharma.com" />
+		<Parameter name="HRLHRBP" value="TEST_UX02@westpharma.com" />
+		<Parameter name="HRGHRBP" value="TEST_UX07@westpharma.com" />
+		<Parameter name="HRM1" value="TEST_UX10@westpharma.com" />
+		<Parameter name="HRM2" value="TEST_UX05@westpharma.com" />
+		<Parameter name="HRPassword" value="Westpharm@2019" />
+		<Parameter name="HR_USOrigin" value ="TEST_UX07@westpharma.com" />
+		<Parameter name="HR_IndiaOrigin" value ="TEST_UX02@westpharma.com" />
+		<Parameter name="HR_GermanyOrigin" value ="TEST_UX04@westpharma.com" />
+		<Parameter name="C1userName" value ="PRAPPC1@WESTPHARMA.COM" />
+		<Parameter name="P1userName" value ="PRAPPP1@WESTPHARMA.COM" />
+		<Parameter name="A1userName" value ="PRAPPA1@WESTPHARMA.COM" />
+		<Parameter name="P1A1C1password" value ="Testing$2020" />
+		
+
+
+		
+	</TestRunParameters>
+</RunSettings>

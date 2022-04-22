@@ -1,0 +1,2 @@
+function,persona,inboxNames,action,documentNumber,filterField,operatorValue,filterValue
+"Warehouse","Internal","Physical Inventory","Delete Document","1000000081","Inventory Status","Equal","Active"

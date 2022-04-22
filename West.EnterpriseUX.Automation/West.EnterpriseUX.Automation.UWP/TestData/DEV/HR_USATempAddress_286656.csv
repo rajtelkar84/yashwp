@@ -1,0 +1,2 @@
+country,region,pincode,city,telephone,addressType,message,endNowMessage
+"USA", "Alabama", "36117", "Birmingham","1205", "Temporary Residence","Temporary Address has been created successfully","Temporary Address has been updated successfully"

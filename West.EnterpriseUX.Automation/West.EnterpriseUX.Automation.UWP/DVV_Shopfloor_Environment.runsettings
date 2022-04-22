@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <RunConfiguration>
+    <DesignMode>false</DesignMode>
+    <DisableParallelization>false</DisableParallelization>
+    <DisableAppDomain>false</DisableAppDomain>
+    <CollectSourceInformation>true</CollectSourceInformation>
+  </RunConfiguration>
+  <TestRunParameters>
+    <Parameter name="AppID" value="WestPharmaceuticalService.DevVerifyWestDigital-Sho_78aqb0kyn8f3w!App" />
+    <Parameter name="AppName" value="[DevVerify] West Digital - ShopFloor" />
+    <Parameter name="AppEnvironment" value="DVV" />
+    <Parameter name="TestUser1EmailId" value="Test_UX09@westpharma.com" />
+    <Parameter name="TestUser1Password" value="RGSMH1cWt+uachOYx5Mlxq13J0d0dXU64W5HiCGWEvc=" />
+    <Parameter name="LogFolderPath" value="C:\Auto\DVV\" />
+    <Parameter name="ScreenshotFolderPath" value="C:\Auto\DVV\Screenshots" />
+    <Parameter name="BuildsPath" value="C:\Builds" />
+    <Parameter name="HRTestUsersPassword" value="RGSMH1cWt+uachOYx5Mlxq13J0d0dXU64W5HiCGWEvc=" />
+    <Parameter name="ClientId" value="ac55451e-e6c8-4890-b5a6-49519b59b6a0" />
+    <Parameter name="ClientSecret" value="1oNzi1zTc~mdJ~.oJT194.SDO9_N3ygs0y" />
+
+  </TestRunParameters>
+</RunSettings>

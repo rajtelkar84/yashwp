@@ -1,0 +1,2 @@
+function,persona,inbox,packOptionTabLabelFirst,alertMesageRequiredFieldValidation,alertTitlePackOptionSaved,alertMesagePackOptionSaved,updateSelectedPackOptionAction,updatePackOptionPageTitle,newPackOptionPageTitle,newPackOptionCreationButtonText,inboxPageTabLabelsExpected
+"Regulatory & Compliance", "Regulatory", "Pack Option","All","Please Enter the Required field","Success","Pack Option Data is Successfully Saved","Update Selected Pack Option","Update Selected Pack Option","New Pack Option Creation","New Pack Option Creation","All;Active;Inactive"

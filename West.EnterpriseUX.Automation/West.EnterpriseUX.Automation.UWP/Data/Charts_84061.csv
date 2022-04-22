@@ -1,0 +1,3 @@
+function,persona,inbox,measureOne,dimensionOne,measureTwo,dimensionTwo
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Net Value", "Overall Processing", "Net Value YTD", "Delivery Status"
+"Manufacturing", "Order Management", "DMO Orders", "Quantity", "CreatedByUser", "Quantity", "ProcessOrder"

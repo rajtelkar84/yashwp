@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <TestRunParameters>
+    <Parameter name="CloudAutomation" value="true" />
+    <Parameter name="PlatformName" value="Android" />
+    <Parameter name="PlatformVersion" value="9.0" />
+    <Parameter name="DeviceName" value="Google Pixel 3" />
+    <Parameter name="NewCommandTimeout" value="45" />
+    <Parameter name="LocalTunneling" value="true" />
+    <Parameter name="Project" value="Dev WD Android Automation" />
+    <Parameter name="Build" value="AndroidPlatform" />
+    <Parameter name="AutomationName" value="UiAutomator1" />
+    <Parameter name="TestName" value="SmokeTest" />
+    <Parameter name="BrowserstackUserName" value="sunilkumarpechit1" />
+    <Parameter name="BrowserstackPassword" value="V8YHz2s5xQP5LFopNpoB" />
+    <Parameter name="AppURL" value="bs://57171d10b3636425a84678bab2a8a0ce24174e65" />
+    <Parameter name="LogFolderPath" value="C:\MobileAuto\Dev\" />
+    <Parameter name="ScreenshotFolderPath" value="C:\MobileAuto\Dev\Screenshots" />
+    <Parameter name="BuildsPath" value="C:\Builds\" />
+    <Parameter name="TestUser1EmailId" value="UX-Auto-testuser2@westpharma.com" />
+    <Parameter name="TestUser1Password" value="nNzLheKlOF15w7WErR2aSuiErsobi47axQFviCGG+8M=" />
+  </TestRunParameters>
+</RunSettings>

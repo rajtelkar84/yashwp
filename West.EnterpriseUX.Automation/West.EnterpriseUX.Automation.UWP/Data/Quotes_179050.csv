@@ -1,0 +1,2 @@
+function,persona,inbox,soldToID,searchByMaterialID,currency,incoterms,minOrderQuantity,orderQuantity,productPrice,productAnnualSalesForecast,qlMaterialID,justification
+"Sales", "Sales", "Quotes", "1000039", "1012-2714", "USD ( United States Dollar )", "FCA", "350", "350", "311", "10000", "1012-2714", "Auotomated Test completed Quote-Search by ID"

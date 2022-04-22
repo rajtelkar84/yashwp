@@ -1,0 +1,2 @@
+function,persona,inboxNames,detailedAction,documentNumber,filterField,operatorValue,filterValue
+"Warehouse","Internal","Physical Inventory","Print Document","1000000030","Inventory Status","Equal","Active"

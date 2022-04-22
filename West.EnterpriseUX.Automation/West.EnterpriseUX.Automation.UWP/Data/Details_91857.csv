@@ -1,0 +1,3 @@
+function,persona,inbox,filterField,operatorValue,filterValue
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Sales Organization", "Equal", "All"
+"Sales", "Order Fulfillment/Sales Support", "Deliveries", "Currency", "Starts With", "BRL"

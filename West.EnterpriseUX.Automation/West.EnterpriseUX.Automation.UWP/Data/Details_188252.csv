@@ -1,0 +1,4 @@
+function,persona,inbox,searchOption,searchValue
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Starts with", "Tech"
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Ends with", "PA"
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Contains", "Group"

@@ -1,0 +1,2 @@
+function,persona,inbox,randomNumber,daysPastOrFuture,activity,reference,callType,phoneCode,phoneNumber,priority,subject,description,status,startTime,endTime
+"Sales", "Cases", "Activities (Sales)","Yes","2","Phone Call","Prospect","Outgoing","US","9000000000","Normal","Subject Edit","Description edit","New","11:00 PM","11:30 PM"

@@ -1,0 +1,5 @@
+testUser,country,region,pincode,iBAN
+"TEST_UX08@westpharma.com", "Germany", "Berlin", "10115", "DE72500105174643687368"
+"TEST_UX04@westpharma.com", "United Kingdom", "London", "E1 6AN", "NA"
+"TEST_UX06@westpharma.com", "US Pennsylvania", "Alaska ", "99501", "NA"
+"TEST_UX07@westpharma.com", "India", "Bangalore", "560085", "NA"

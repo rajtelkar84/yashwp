@@ -1,0 +1,2 @@
+function,inbox,persona,rowname,itemdesc,newitemdesc,location,projectcode,costcenter,glaccount,update-item,updatequantity,updateprice,update-costcenter,update-glaccount,updatepercentage
+"My Requests","My Purchase Requisitions","Requests","Row1","Item01","Item02New","USSC","C-180654.1.2","USSC008","623100","Updated Item","8","200","USSC008*USSC009","621500","90*10"

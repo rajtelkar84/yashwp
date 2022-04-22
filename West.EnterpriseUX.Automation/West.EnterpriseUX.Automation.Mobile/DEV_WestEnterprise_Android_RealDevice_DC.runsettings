@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <TestRunParameters>
+    <Parameter name="CloudAutomation" value="false" />
+    <Parameter name="PlatformName" value="Android" />
+    <Parameter name="PlatformVersion" value="10" />
+    <Parameter name="DeviceName" value="motorola one" />
+    <Parameter name="newCommandTimeout" value="60" />
+    <Parameter name="AppPackage" value="com.westpharma.uxframework.dev" />
+    <Parameter name="AppActivity" value="crc6429df2d9d200d6e98.SplashScreenActivity" />
+    <Parameter name="AppName" value="com.westpharma.uxframework.dev.apk" />
+    <Parameter name="LogFolderPath" value="C:\MobileAuto\Dev\" />
+    <Parameter name="ScreenshotFolderPath" value="C:\MobileAuto\Dev\Screenshots" />
+    <Parameter name="BuildsPath" value="C:\Builds\" />
+  </TestRunParameters>
+</RunSettings>

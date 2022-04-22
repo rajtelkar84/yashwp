@@ -1,0 +1,2 @@
+function,persona,inbox,coatingTabLabelFirst,alertMesageRequiredFieldValidation,alertTitleCoatingSaved,alertMesageCoatingSaved,updateSelectedCoatingAction,updateCoatingPageTitle,newCoatingPageTitle,newCoatingCreationButtonText,InboxPageTabLabelsExpected
+"Regulatory & Compliance", "Regulatory", "Coating","All","Please Enter the Required field","Success","Coating Data is Successfully Saved","Update Selected Coating","Update Selected Coating","New Coating Creation","New Coating Creation","All;Coating-Active;Coating-Inactive"

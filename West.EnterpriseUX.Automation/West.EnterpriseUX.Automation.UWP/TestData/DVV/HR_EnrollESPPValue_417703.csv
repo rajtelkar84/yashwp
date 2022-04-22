@@ -1,0 +1,2 @@
+esppElection,contributionType,amountPerPayCheck,expectedMessage,editExpectedMessage
+"Withdraw and Refund Current Payroll Deductions","Value","$10","You have successfully enrolled in West Pharmaceutical’s Employee Stock Purchase Plan (ESPP). You have elected to have ${amount}.00 deducted from your bi-weekly paycheck to go towards this Plan","You have successfully withdrawn from West's ESPP program. The current Offering Period's deductions will be refunded to you as soon as administratively possible. You will be eligible to re-enroll during the next Enrollment Period"

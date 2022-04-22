@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <TestRunParameters>
+    <Parameter name="CloudAutomation" value="false" />
+    <Parameter name="PlatformName" value="Android" />
+    <Parameter name="PlatformVersion" value="10" />
+    <Parameter name="DeviceName" value="motorola one" />
+    <Parameter name="newCommandTimeout" value="60" />
+    <Parameter name="AppPackage" value="com.westpharma.uxframework.shopfloor.dev" />
+    <Parameter name="AppActivity" value="crc6429df2d9d200d6e98.SplashScreenActivity" />
+    <Parameter name="AppName" value="com.westpharma.uxframework.dev.apk" />
+    <Parameter name="TestUser1EmailId" value="UX-Auto-testuser1@westpharma.com" />
+    <Parameter name="TestUser1Password" value="nNzLheKlOF15w7WErR2aSuiErsobi47axQFviCGG+8M=" />
+  </TestRunParameters>
+</RunSettings>

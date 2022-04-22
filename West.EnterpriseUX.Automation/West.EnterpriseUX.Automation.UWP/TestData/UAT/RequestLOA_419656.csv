@@ -1,0 +1,2 @@
+function,persona,inbox,loaStatus_InProgress,inbox_LOADocuments,editRequestLoaAction,editLoaDocumentAction,alertTitleStatusChange_InProgress,alertMesageStatusChange_InProgress,alertTitleDocumentUpdate,alertMesageDocumentUpdate,requestLOATab_InProgress
+"Regulatory & Compliance", "Regulatory", "Request LOA","In Progress","LOA Documents","Edit Request Loa","Edit Loa Document","Successfully Changed to In Progress Request Loa","Word Document Event Successfully Triggered","Success","Successfully Updated LOA Document","In Progress"

@@ -1,0 +1,2 @@
+function,persona,inbox,randomNumber,firstName,lastName,email,phoneCode,phoneNumber,moreInfo,prospectSource,companyName
+"Sales", "Prospects", "Prospects","Yes","FN_create","LN_create","auto@auto.com","IN","9060666615","More Info","Webinar","merck"

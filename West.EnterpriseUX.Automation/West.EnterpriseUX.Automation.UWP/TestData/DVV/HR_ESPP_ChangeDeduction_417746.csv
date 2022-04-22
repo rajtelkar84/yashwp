@@ -1,0 +1,2 @@
+esppElection,contributionType,expectedMessage,enrollMessage
+"Change Deduction Amount","Value","You have successfully updated your ESPP bi-weekly deduction amount to ${amount}.00","You have successfully enrolled in West Pharmaceutical’s Employee Stock Purchase Plan (ESPP)."

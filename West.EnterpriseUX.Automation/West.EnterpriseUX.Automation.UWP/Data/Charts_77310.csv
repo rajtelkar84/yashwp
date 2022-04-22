@@ -1,0 +1,11 @@
+function,persona,inbox,chartType,measure,dimension
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Pie", "Net Value", "Overall Processing"
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Doughnut", "Net Value", "Overall Processing"
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Bar", "Net Value", "Overall Processing"
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Column", "Net Value", "Overall Processing"
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Funnel", "Net Value", "Overall Processing"
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Histogram", "Net Value", "Overall Processing"
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Line", "Count", "Changed On"
+"Manufacturing", "Order Management", "DMO Orders", "Pie", "Quantity", "CreatedByUser"
+"Manufacturing", "Order Management", "DMO Orders", "Doughnut", "Quantity", "CreatedByUser"
+"Manufacturing", "Order Management", "DMO Orders", "Bar", "Quantity", "CreatedByUser"

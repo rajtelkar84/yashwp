@@ -1,0 +1,3 @@
+function,persona,inbox,measure,dimension
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Net Value", "Overall Processing"
+"Manufacturing", "Order Management", "DMO Orders", "Quantity", "CreatedByUser"

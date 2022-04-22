@@ -1,0 +1,2 @@
+function,persona,inbox,loaStatus_InProgress,editRequestLoaAction,alertTitleStatusChange_InProgress,alertMesageStatusChange_InProgress,requestLOATab_InProgress,inbox_LOADocuments,loaDocumentsTabLabelFirst,fileRefAppAgency_CDER,fileRefAppAgency_CDER_Count,fileRefAppAgency_HC,fileRefAppAgency_HC_Count
+"Regulatory & Compliance", "Regulatory", "Request LOA","In Progress","Edit Request Loa","Successfully Changed to In Progress Request Loa","Word Document Event Successfully Triggered","In Progress","LOA Documents","This Month Documents","CDER","1","HC","1"

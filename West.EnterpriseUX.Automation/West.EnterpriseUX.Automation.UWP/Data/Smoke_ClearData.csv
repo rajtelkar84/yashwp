@@ -1,0 +1,5 @@
+function,persona,inbox
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders"
+"Sales", "Order Fulfillment/Sales Support", "Customers"
+"Sales", "Order Fulfillment/Sales Support", "Deliveries"
+"Manufacturing", "Order Management", "DMO Orders"

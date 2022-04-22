@@ -1,0 +1,4 @@
+function,persona,inbox,description,measure,dimension
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Creating Pivot View.", "Net Value", "Overall Processing"
+function,persona,inbox,description,measure,dimension
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders","Testing Create Pivot Functionality", "Net Value", "Overall Processing"

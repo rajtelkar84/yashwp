@@ -1,0 +1,3 @@
+function,persona,inbox,kPI,filterField,operatorValue,filterValue,propertyValueOne,propertyValueTwo
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "All","Sold-To Party", "Equal", "All","Net Value","Count"
+"Manufacturing", "Order Management", "DMO Orders", "All","PlantId", "Equal", "All","Quantity","Count"

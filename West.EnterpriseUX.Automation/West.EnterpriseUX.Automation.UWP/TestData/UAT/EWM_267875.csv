@@ -1,0 +1,2 @@
+function,persona,inboxNames,action,filterField,operatorValue,filterValue
+"Warehouse","Internal","Physical Inventory","Change Count","Inventory Status","Equal","Counted"

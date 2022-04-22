@@ -1,0 +1,2 @@
+function,persona,inbox,loaStatus_InProgress,editRequestLoaAction,alertTitleStatusChange_InProgress,alertMesageStatusChange_InProgress,requestLOATab_InProgress,agencyLabel,itemsLabel,productsLabel
+"Regulatory & Compliance", "Regulatory", "Request LOA","In Progress","Edit Request Loa","Successfully Changed to In Progress Request Loa","Word Document Event Successfully Triggered","In Progress","Loa Agency","Loa Items","Loa Products"

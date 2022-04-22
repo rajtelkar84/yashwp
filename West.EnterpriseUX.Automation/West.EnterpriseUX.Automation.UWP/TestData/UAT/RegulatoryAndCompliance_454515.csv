@@ -1,0 +1,2 @@
+function,persona,inbox,requestContactTabLabelFirst,newRequestContactButtonText,inboxPageTabLabelsExpected,loaId,contactType,lastName,firstName,company
+"Regulatory & Compliance", "Regulatory", "Request Contact","All","New Request Contact Creation","All;Contact Type - Requestor;Contact Type - Additional Notification;Contact Type - Company","9640","Company","CustLstNmAutomation","CustFstNmAutomation","CustCompanyAutomation"

@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <RunConfiguration>
+    <DesignMode>false</DesignMode>
+    <DisableParallelization>false</DisableParallelization>
+    <DisableAppDomain>false</DisableAppDomain>
+    <CollectSourceInformation>true</CollectSourceInformation>
+  </RunConfiguration>
+  <TestRunParameters>
+    <Parameter name="AppID" value="WestPharmaceuticalService.UATWestDigital_78aqb0kyn8f3w!App" />
+    <Parameter name="AppName" value="[Quality] West Digital - Enterprise" />
+    <Parameter name="AppEnvironment" value="UAT" />
+    <Parameter name="TestUser1EmailId" value="Test_UX09@westpharma.com" />
+    <Parameter name="TestUser1Password" value="RGSMH1cWt+uachOYx5Mlxq13J0d0dXU64W5HiCGWEvc=" />
+    <Parameter name="LogFolderPath" value="C:\Auto\UAT\" />
+    <Parameter name="ScreenshotFolderPath" value="C:\Auto\UAT\Screenshots" />
+    <Parameter name="BuildsPath" value="C:\Builds" />
+    <Parameter name="HRTestUsersPassword" value="RGSMH1cWt+uachOYx5Mlxq13J0d0dXU64W5HiCGWEvc=" />
+    <Parameter name="BatchFunction" value="Manufacturing" />
+    <Parameter name="BatchInbox" value="Work Order" />
+    <Parameter name="ChildInbox" value="Operations" />
+    <Parameter name="GroupInbox" value="Work Order" />
+	<Parameter name="ClientId" value="07534973-8481-4669-8178-8848038877eb" />
+	<Parameter name="ClientSecret" value="0x42-~~B7N14H.W2Os6BC56wAXul8mnv7O" />
+	  <Parameter name="HRInitiator" value="TEST_UX04@westpharma.com" />
+	  <Parameter name="HRLHRBP" value="TEST_UX02@westpharma.com" />
+	  <Parameter name="HRGHRBP" value="TEST_UX07@westpharma.com" />
+	  <Parameter name="HRM1" value="TEST_UX10@westpharma.com" />
+	  <Parameter name="HRM2" value="TEST_UX05@westpharma.com" />
+	  <Parameter name="HRPassword" value="Westpharm@2019" />
+	  <Parameter name="HR_USOrigin" value ="TEST_UX07@westpharma.com" />
+	  <Parameter name="HR_IndiaOrigin" value ="TEST_UX05@westpharma.com" />
+	  <Parameter name="HR_GermanyOrigin" value ="TEST_UX02@westpharma.com" />
+  </TestRunParameters>
+</RunSettings>

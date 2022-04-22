@@ -1,0 +1,2 @@
+function,persona,inbox,randomNumber,daysPastOrFuture,activity,reference,callType,phoneCode,phoneNumber,priority,subject,description,status
+"Sales", "Cases", "Activities (Sales)","Yes","3","Phone Call","Contact","Outgoing","US","9060666615","High","Subject","Description","New"

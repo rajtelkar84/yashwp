@@ -1,0 +1,3 @@
+function,persona,inbox,firstLevelChildInbox,secondLevelChildInbox
+"Sales", "Order Fulfillment/Sales Support", "Customers", "Sales Orders", "Deliveries (Sales Orders)"
+"Sales", "Order Fulfillment/Sales Support", "Customers", "Sales Orders", "Invoices (Sales Orders)"

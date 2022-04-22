@@ -1,0 +1,3 @@
+function,persona,inbox,kPI,filterField,operatorValue,filterValue
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Open", "Sold-To Party", "Equal", "West"
+"Manufacturing", "Order Management", "DMO Orders", "All", "PlantId", "Equal", "All"

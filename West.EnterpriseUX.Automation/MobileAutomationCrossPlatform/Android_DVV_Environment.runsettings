@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+  <RunConfiguration>
+    <DesignMode>false</DesignMode>
+    <DisableParallelization>false</DisableParallelization>
+    <DisableAppDomain>false</DisableAppDomain>
+    <CollectSourceInformation>true</CollectSourceInformation>
+  </RunConfiguration>
+  <TestRunParameters>
+    <Parameter name="AppName" value="[DVV] West Digital - Enterprise" />
+    <Parameter name="AppEnvironment" value="DVV" />
+    <Parameter name="TestUser1EmailId" value="Test_UX02@westpharma.com" />
+    <Parameter name="TestUser1Password" value="Westpharm@2019" />
+	<Parameter name="PlatformName" value="android" />
+	<Parameter name="DeviceName" value="samsung" />
+	<Parameter name="AppPackage" value="com.westpharma.uxframework.dvv" />
+	<Parameter name="AppActivity" value="crc6429df2d9d200d6e98.MainActivity" />
+	<Parameter name="NoReset" value="true" />
+  </TestRunParameters>
+</RunSettings>

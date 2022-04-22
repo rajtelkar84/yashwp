@@ -1,0 +1,2 @@
+function,persona,inbox,randomNumber,firstName,lastName,email,phoneCode,phoneNumber,moreInfo,leadSource,topic,intrestedIn,campaignType,rating,companyName,companyWebsite,companyAddressLine1,companyAddressLine2,companyAddressLine3,city,zipCode,country,state
+"Sales", "Leads", "Leads","Yes","FN","LN","auto@auto.com","US","9060666615","More Info","Prospect","topic","Product Sales","Customer Referral","Cold","merck","www.veeresh.com","Address1","Address2","Address3","Alaska","10001","USA","New York"

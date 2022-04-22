@@ -1,0 +1,2 @@
+function,persona,inbox,agencyTabLabelFirst,agencyNameAbbreviation,alertMesageRequiredFieldValidation,alertTitleAgencySaved,alertMesageAgencySaved,updateSelectedAgencyAction,updateAgencyPageTitle,newAgencyPageTitle,newAgencyCreationButtonText,InboxPageTabLabelsExpected
+"Regulatory & Compliance", "Regulatory", "Agency","All","CBER;CDER;CDRH;HC","Please Enter All required fields","Success","Agency Data is Successfully Saved","Update Selected Agency","Update Selected Agency","New Agency Creation","New Agency Creation","All;Active;Inactive"

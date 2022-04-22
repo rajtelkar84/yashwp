@@ -1,0 +1,3 @@
+function,persona,inbox,filterField,operatorValue,filterValue,searchValue,firstLevelChildInbox
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Sold-To Party", "Equal", "All", "Test", "Sales Order Items"
+"Manufacturing", "Order Management", "DMO Orders", "PlantId", "Equal", "All", "10", "Order Operations"

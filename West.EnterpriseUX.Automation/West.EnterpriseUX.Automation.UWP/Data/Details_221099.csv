@@ -1,0 +1,2 @@
+function,persona,inbox,filterFieldOne,operatorValueOne,filterValueOne,filterFieldTwo,operatorValueTwo,filterValueTwo,filterFieldThree,operatorValueThree,filterValueThree
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Sold-To Party", "Contains", "3SBio Inc", "Changed On", "Rolling Date", "This Year","Sold-To Party", "Contains", "Accu-Glass"

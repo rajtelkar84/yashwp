@@ -1,0 +1,2 @@
+salutation,firstName,lastName,comapanyName,street1,street2,street3,country,state,website,email,zip,city,phoneNumber,jobTitle,jobFunction,owner
+"Mr.","Copy","Details","NewCustomer", "street1", "street2", "street3", "India", "Andhra Pradesh","www.west.com", "abcd@west.com", "123456", "Banglore", "ph@1234567890","Manager","Marketing","Pangulur, Vijay"

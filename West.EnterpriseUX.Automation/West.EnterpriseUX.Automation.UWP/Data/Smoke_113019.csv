@@ -1,0 +1,3 @@
+function,persona,inbox,filterValueOne,filterValueTwo,kPIValue,chartMesaure,chartDimension
+"Sales", "Order Fulfillment/Sales Support", "Sales Orders", "Sold-To Party", "Sales Organization", "Net Value", "Net Value", "Overall Processing"
+"Manufacturing", "Order Management", "DMO Orders", "PlantId", "MaterialNumber", "Quantity", "Quantity", "CreatedByUser"

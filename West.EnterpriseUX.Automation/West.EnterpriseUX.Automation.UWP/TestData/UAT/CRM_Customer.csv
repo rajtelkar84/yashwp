@@ -1,0 +1,2 @@
+function,inbox,comapanyName,street1,street2,street3,country,state,accountManager,website,email,zip,city,phoneType,phoneNumber,countryCode,testUser
+"Sales","CRM Accounts/Customers","NewCustomer", "street1", "street2", "street3", "India", "Andhra Pradesh", "Pangulur, Vijay (EXTERNAL)", "www.west.com", "abcd@west.com", "123456", "Hyderabad", "Main", "ph@1234567890", "(IN)","TEST CRM03"
