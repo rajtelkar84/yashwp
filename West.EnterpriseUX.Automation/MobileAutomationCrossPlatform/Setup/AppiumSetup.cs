@@ -1,5 +1,6 @@
 ﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Reporter;
+using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
@@ -10,15 +11,19 @@ using OpenQA.Selenium.Appium.Service;
 using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
+using West.EnterpriseUX.Automation.MobileNew.configFiles;
 
 namespace West.EnterpriseUX.Automation.MobileNew
 {
     [TestClass]
     public class AppiumSetup
     {
-        private AppiumLocalService service;
+        static AppiumLocalService service;
+        
         protected AppiumDriver<IWebElement> driver;
         public static ExtentReports extent;
         public static ExtentTest test;
@@ -30,22 +35,52 @@ namespace West.EnterpriseUX.Automation.MobileNew
         private AppiumOptions appiumOptions;
         public BasePage _basePageInstance;
 
+        public static Android_DVV_Environment android_DVV_Environment;
+        public static string workingDirectory;
+        public static string projectDirectory;
+        public static string projectDirectoryfull;
+        public static string dvvJsonFilePath;
+
         public TestContext TestContext { get; set; }
 
         [AssemblyInitialize]
         public static void LoadProperties(TestContext context)
         {
+             workingDirectory = Environment.CurrentDirectory;
+            // or: Directory.GetCurrentDirectory() gives the same result
+            // This will get the current PROJECT bin directory (ie ../bin/)
+             projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
+            // This will get the current PROJECT directory
+             projectDirectoryfull = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+
+             dvvJsonFilePath = projectDirectoryfull + "/configFiles/"+"Android_DVV_Environment.json";
+
+            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+           // configurationBuilder.AddJsonFile("/Users/csadmin/Desktop/WestPharmaMobileAutomation/EnterpriseUX.MobileAutomation/West.EnterpriseUX.Automation/MobileAutomationCrossPlatform/configFiles/Android_DVV_Environment.json");
+            configurationBuilder.AddJsonFile(dvvJsonFilePath);
+            IConfigurationRoot configurationRoot = configurationBuilder.Build();
+            android_DVV_Environment = new Android_DVV_Environment();
+            configurationRoot.Bind(android_DVV_Environment);
+
+            platformName = android_DVV_Environment.PlatformName ;
+            deviceName = android_DVV_Environment.DeviceName;
+            appPackage = android_DVV_Environment.AppPackage;
+            appActivity = android_DVV_Environment.appActivity;
+            noReset = Convert.ToBoolean(android_DVV_Environment.NoReset.ToString());
+
+            /*
             platformName = context.Properties["PlatformName"].ToString();
             deviceName = context.Properties["DeviceName"].ToString();
             appPackage = context.Properties["AppPackage"].ToString();
             appActivity = context.Properties["AppActivity"].ToString();
             noReset = Convert.ToBoolean(context.Properties["NoReset"].ToString());
+            */
 
             if (extent == null)
             {
                 extent = new ExtentReports();
-                ExtentHtmlReporter reporter = new ExtentHtmlReporter(@"C:\Users\patilg\OneDrive - West Pharmaceutical Services, Inc\Desktop\ExtentReports\");
-
+                // ExtentHtmlReporter reporter = new ExtentHtmlReporter(@"C:\Users\patilg\OneDrive - West Pharmaceutical Services, Inc\Desktop\ExtentReports\");
+                ExtentHtmlReporter reporter = new ExtentHtmlReporter(projectDirectoryfull+ "/ExtentReports/");
                 extent.AttachReporter(reporter);
             }
         }
@@ -60,6 +95,20 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public void StartAppiumServerAndInvokeDriver()
         {
             test = extent.CreateTest(TestContext.TestName);
+
+            string abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
+
+            Console.WriteLine(abc);
+
+            Environment.SetEnvironmentVariable("ANDROID_HOME", "/Users/csadmin/Library/Android/sdk");
+
+
+            Environment.SetEnvironmentVariable("JAVA_HOME", "/Library/Java/JavaVirtualMachines/openlogic-openjdk-8.jdk/Contents/Home");
+
+            abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
+
+            Console.WriteLine(abc);
+
 
             LaunchApp();
 
@@ -94,14 +143,29 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         private void LaunchApp()
         {
+          /*  
             AppiumServiceBuilder appiumServiceBuilder = new AppiumServiceBuilder()
                  .UsingAnyFreePort()
-                 .WithAppiumJS(new System.IO.FileInfo(@"C:\Users\patilg\AppData\Roaming\npm\node_modules\appium\build\lib\main.js"));
+                 .WithAppiumJS(new System.IO.FileInfo("/Applications/Appium Server GUI.app/Contents/Resources/app/node_modules/appium/lib/main.js"));
 
-            service = appiumServiceBuilder.Build();
+            */
+            // .WithAppiumJS(new System.IO.FileInfo(@"C:\Users\patilg\AppData\Roaming\npm\node_modules\appium\build\lib\main.js"));
+            //.WithAppiumJS(new System.IO.FileInfo(@"/usr/local/lib/node_modules/appium/main.js"));
 
+
+            //  service = appiumServiceBuilder.Build();
+
+            AppiumLocalService _appiumLocalService;
+            _appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
+            _appiumLocalService.Start();
+            Console.WriteLine("Appium Service Started: " + _appiumLocalService.IsRunning);
+            var abv = _appiumLocalService.IsRunning;
+
+
+/*
             if (!service.IsRunning)
                 service.Start();
+*/
 
             if (platformName.ToLower().Equals("android"))
             {
@@ -113,7 +177,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, appActivity);
                 appiumOptions.AddAdditionalCapability(MobileCapabilityType.NoReset, noReset);
 
-                driver = new AndroidDriver<IWebElement>(service, appiumOptions);
+                // driver = new AndroidDriver<IWebElement>(service, appiumOptions);
+                driver = new AndroidDriver<IWebElement>(_appiumLocalService, appiumOptions);
             }
             else
             {
