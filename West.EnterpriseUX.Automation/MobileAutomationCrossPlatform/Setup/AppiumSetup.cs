@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.Enums;
+using OpenQA.Selenium.Appium.iOS;
 using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Appium.Service;
 using OpenQA.Selenium.Interactions;
@@ -32,14 +33,24 @@ namespace West.EnterpriseUX.Automation.MobileNew
         private static string appPackage;
         private static string appActivity;
         private static Boolean noReset;
+        private static string bundleId;
+        private static string automationName;
+        private static string udid;
+        public static string configFile;
         private AppiumOptions appiumOptions;
         public BasePage _basePageInstance;
 
-        public static Android_DVV_Environment android_DVV_Environment;
+        public static CommonEnvironment commonEnvironment;
         public static string workingDirectory;
         public static string projectDirectory;
         public static string projectDirectoryfull;
-        public static string dvvJsonFilePath;
+        public static string JsonFilePath;
+
+
+        public static string EnvName = "DVV";
+        public static string PlatformName = "ANDROID";
+        public static string laptopName = "MACBOOK";
+        public static string EnvName_PlatformName = EnvName + "_" + PlatformName;
 
         public TestContext TestContext { get; set; }
 
@@ -47,26 +58,60 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static void LoadProperties(TestContext context)
         {
              workingDirectory = Environment.CurrentDirectory;
-            // or: Directory.GetCurrentDirectory() gives the same result
-            // This will get the current PROJECT bin directory (ie ../bin/)
              projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
-            // This will get the current PROJECT directory
              projectDirectoryfull = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
 
-             dvvJsonFilePath = projectDirectoryfull + "/configFiles/"+"Android_DVV_Environment.json";
+            if(laptopName.ToUpper().Trim().Equals("MACBOOK"))
+            {
+                configFile = "/configFiles/";
+            }
+            else
+            {
+                configFile = @"\configFiles\";
+            }
+
+            switch(EnvName_PlatformName.ToUpper())
+            {
+                case "DEV_ANDROID":
+                    JsonFilePath = projectDirectoryfull + configFile + "Android_DEV_Environment.json";
+                    break;
+                case "DVV_ANDROID":
+                    JsonFilePath = projectDirectoryfull + configFile+ "Android_DVV_Environment.json";
+                    break;
+                case "UAT_ANDROID":
+                    JsonFilePath = projectDirectoryfull + configFile + "Android_Quality_Environment.json";
+                    break;
+                case "DEV_IOS":
+                    JsonFilePath = projectDirectoryfull + configFile + "IOS_DEV_Environment.json";
+                    break;
+                case "DVV_IOS":
+                    JsonFilePath = projectDirectoryfull + configFile + "IOS_DVV_Environment.json";
+                    break;
+                case "UAT_IOS":
+                    JsonFilePath = projectDirectoryfull + configFile + "IOS_Quality_Environment.json";
+                    break;
+                default:
+                    Console.WriteLine($"Either PlatformName{PlatformName} or EnvName {EnvName} is not set properly");
+                    break;
+            }
+
+           //  dvvJsonFilePath = projectDirectoryfull + "/configFiles/"+"Android_DVV_Environment.json";
 
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
            // configurationBuilder.AddJsonFile("/Users/csadmin/Desktop/WestPharmaMobileAutomation/EnterpriseUX.MobileAutomation/West.EnterpriseUX.Automation/MobileAutomationCrossPlatform/configFiles/Android_DVV_Environment.json");
-            configurationBuilder.AddJsonFile(dvvJsonFilePath);
+            configurationBuilder.AddJsonFile(JsonFilePath);
             IConfigurationRoot configurationRoot = configurationBuilder.Build();
-            android_DVV_Environment = new Android_DVV_Environment();
-            configurationRoot.Bind(android_DVV_Environment);
+            commonEnvironment = new CommonEnvironment();
+            configurationRoot.Bind(commonEnvironment);
 
-            platformName = android_DVV_Environment.PlatformName ;
-            deviceName = android_DVV_Environment.DeviceName;
-            appPackage = android_DVV_Environment.AppPackage;
-            appActivity = android_DVV_Environment.appActivity;
-            noReset = Convert.ToBoolean(android_DVV_Environment.NoReset.ToString());
+            platformName = commonEnvironment.PlatformName ;
+            deviceName = commonEnvironment.DeviceName;
+            appPackage = commonEnvironment.AppPackage;
+            appActivity = commonEnvironment.appActivity;
+            noReset = Convert.ToBoolean(commonEnvironment.NoReset.ToString());
+            bundleId = commonEnvironment.bundleId;
+            automationName = commonEnvironment.automationName;
+            udid = commonEnvironment.udid;
 
             /*
             platformName = context.Properties["PlatformName"].ToString();
@@ -96,24 +141,21 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             test = extent.CreateTest(TestContext.TestName);
 
-            string abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
+            if (laptopName.ToUpper().Trim().Equals("MACBOOK"))
+            {
 
-            Console.WriteLine(abc);
+                string abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
+                Console.WriteLine(abc);
 
-            Environment.SetEnvironmentVariable("ANDROID_HOME", "/Users/csadmin/Library/Android/sdk");
+                Environment.SetEnvironmentVariable("ANDROID_HOME", "/Users/csadmin/Library/Android/sdk");
+                Environment.SetEnvironmentVariable("JAVA_HOME", "/Library/Java/JavaVirtualMachines/openlogic-openjdk-8.jdk/Contents/Home");
 
-
-            Environment.SetEnvironmentVariable("JAVA_HOME", "/Library/Java/JavaVirtualMachines/openlogic-openjdk-8.jdk/Contents/Home");
-
-            abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
-
-            Console.WriteLine(abc);
-
+                abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
+                Console.WriteLine(abc);
+            }
 
             LaunchApp();
-
             _basePageInstance = new BasePage(driver);
-
             LoginToWDApp();
         }
 
@@ -182,7 +224,16 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
             else
             {
+                appiumOptions = new AppiumOptions();
+                appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, platformName);
+                appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, deviceName);
+                appiumOptions.AddAdditionalCapability(IOSMobileCapabilityType.BundleId, bundleId);
+                appiumOptions.AddAdditionalCapability(MobileCapabilityType.AutomationName, automationName);
+                appiumOptions.AddAdditionalCapability(MobileCapabilityType.Udid, udid);
+                appiumOptions.AddAdditionalCapability(MobileCapabilityType.NoReset, noReset);
                 Console.WriteLine("Create iOS capabilities.");
+
+                driver = new IOSDriver<IWebElement>(_appiumLocalService, appiumOptions);
             }
 
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);

@@ -1,0 +1,13 @@
+﻿{
+  "PlatformName": "ios",
+  "DeviceName": "Rajkumar’s iPhone",
+  "bundleId": "com.westpharma.uxframework.qa",
+  "automationName": "XCUITest",
+  "NoReset": "true",
+  "   ": "73ce4ccb458538408d194332f4ffd4f18b8c28f2",
+  "AppName": "[Quality] West Digital - Enterprise",
+  "AppEnvironment": "Quality",
+  "TestUser1EmailId": "Test_UX02@westpharma.com",
+  "TestUser1Password": "Westpharm@2019"
+
+}
