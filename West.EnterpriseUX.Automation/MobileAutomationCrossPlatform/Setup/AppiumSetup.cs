@@ -47,7 +47,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static string JsonFilePath;
 
 
-        public static string EnvName = "DVV";
+        public static string EnvName = "UAT";
         public static string PlatformName = "ANDROID";
         public static string laptopName = "MACBOOK";
         public static string EnvName_PlatformName = EnvName + "_" + PlatformName;
