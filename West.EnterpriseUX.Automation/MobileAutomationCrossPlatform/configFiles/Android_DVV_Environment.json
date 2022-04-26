@@ -1,0 +1,12 @@
+﻿{
+  "PlatformName": "android",
+  "DeviceName": "samsung",
+  "AppPackage": "com.westpharma.uxframework.dvv",
+  "appActivity": "crc6429df2d9d200d6e98.MainActivity",
+  "NoReset": "true",
+  "AppName": "[DVV] West Digital - Enterprise",
+  "AppEnvironment": "DVV",
+  "TestUser1EmailId": "Test_UX02@westpharma.com",
+  "TestUser1Password": "Westpharm@2019"
+
+}
