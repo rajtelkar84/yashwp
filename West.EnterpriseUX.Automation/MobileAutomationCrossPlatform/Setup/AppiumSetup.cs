@@ -1,5 +1,6 @@
 ﻿using AventStack.ExtentReports;
 using AventStack.ExtentReports.Reporter;
+using AventStack.ExtentReports.Reporter.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
@@ -17,6 +18,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using West.EnterpriseUX.Automation.MobileNew.configFiles;
+using West.EnterpriseUX.Automation.MobileNew.Utilities;
 
 namespace West.EnterpriseUX.Automation.MobileNew
 {
@@ -46,10 +48,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static string projectDirectoryfull;
         public static string JsonFilePath;
 
-
         public static string EnvName = "UAT";
         public static string PlatformName = "ANDROID";
-        public static string laptopName = "MACBOOK";
+        public static string laptopName = "Windows";
         public static string EnvName_PlatformName = EnvName + "_" + PlatformName;
 
         public TestContext TestContext { get; set; }
@@ -95,11 +96,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     break;
             }
 
-           //  dvvJsonFilePath = projectDirectoryfull + "/configFiles/"+"Android_DVV_Environment.json";
+            //dvvJsonFilePath = projectDirectoryfull + "/configFiles/"+"Android_DVV_Environment.json";
 
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-           // configurationBuilder.AddJsonFile("/Users/csadmin/Desktop/WestPharmaMobileAutomation/EnterpriseUX.MobileAutomation/West.EnterpriseUX.Automation/MobileAutomationCrossPlatform/configFiles/Android_DVV_Environment.json");
+            
+            //configurationBuilder.AddJsonFile("/Users/csadmin/Desktop/WestPharmaMobileAutomation/EnterpriseUX.MobileAutomation/West.EnterpriseUX.Automation/MobileAutomationCrossPlatform/configFiles/Android_DVV_Environment.json");
+            
             configurationBuilder.AddJsonFile(JsonFilePath);
+
             IConfigurationRoot configurationRoot = configurationBuilder.Build();
             commonEnvironment = new CommonEnvironment();
             configurationRoot.Bind(commonEnvironment);
@@ -123,10 +127,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             if (extent == null)
             {
-                extent = new ExtentReports();
-                // ExtentHtmlReporter reporter = new ExtentHtmlReporter(@"C:\Users\patilg\OneDrive - West Pharmaceutical Services, Inc\Desktop\ExtentReports\");
-                ExtentHtmlReporter reporter = new ExtentHtmlReporter(projectDirectoryfull+ "/ExtentReports/");
-                extent.AttachReporter(reporter);
+                extent = ExtentManager.GetInstance();
             }
         }
 
@@ -143,7 +144,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             if (laptopName.ToUpper().Trim().Equals("MACBOOK"))
             {
-
                 string abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
                 Console.WriteLine(abc);
 
@@ -198,8 +198,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
             //  service = appiumServiceBuilder.Build();
 
             AppiumLocalService _appiumLocalService;
+
             _appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
             _appiumLocalService.Start();
+
             Console.WriteLine("Appium Service Started: " + _appiumLocalService.IsRunning);
             var abv = _appiumLocalService.IsRunning;
 
@@ -318,6 +320,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 Console.WriteLine($"{ex.Message} {ex.StackTrace}");
             }
+        }
+
+        public static String GetTimestamp(DateTime value)
+        {
+            return value.ToString("yyyyMMddHHmmssffff");
         }
     }
 }
