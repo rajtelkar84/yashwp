@@ -11,9 +11,9 @@ namespace West.EnterpriseUX.Automation.MobileNew.Utilities
     public class ExtentManager : AppiumSetup
     {
         private static ExtentReports extentInstance;
-        private static String reportFileName = DateTime.Now.ToString("dddd, dd MMMM yyyy") + ".html";
-        private static String reportFilepath = projectDirectoryfull + "/ExtentReports";
-        private static String reportFileLocation = reportFilepath + "/" + reportFileName;
+        private static String timestamp = DateTime.Now.ToString("ddd, dd-MM-yyyy, HH-mm-ss, tt");
+        private static String reportFilepath = projectDirectoryfull + "/ExtentReports/" + timestamp;
+        private static String reportFileLocation = reportFilepath + "/" + timestamp;
 
         public static ExtentReports GetInstance()
         {
@@ -29,13 +29,18 @@ namespace West.EnterpriseUX.Automation.MobileNew.Utilities
 
             ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(fileName);
 
-            htmlReporter.Config.DocumentTitle = reportFileName;
-            htmlReporter.Config.ReportName = reportFileName;
+            htmlReporter.Config.DocumentTitle = timestamp;
+            htmlReporter.Config.ReportName = timestamp;
             htmlReporter.Config.Theme = Theme.Standard;
             htmlReporter.Config.Encoding = "utf-8";
 
             extentInstance = new ExtentReports();
             extentInstance.AttachReporter(htmlReporter);
+
+            //Adding environment details
+            extentInstance.AddSystemInfo("Environment", EnvName);
+            extentInstance.AddSystemInfo("Platform", PlatformName);
+            extentInstance.AddSystemInfo("Laptop OS", laptopName);
 
             return extentInstance;
         }
