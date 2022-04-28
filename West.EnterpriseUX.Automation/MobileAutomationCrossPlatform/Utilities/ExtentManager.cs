@@ -10,8 +10,10 @@ namespace West.EnterpriseUX.Automation.MobileNew.Utilities
     {
         private static ExtentReports extentInstance;
         private static String timestamp = DateTime.Now.ToString("ddd, dd-MM-yyyy, HH.mm.ss tt");
-        private static String reportFilepath = projectDirectoryfull + "/ExtentReports/" + timestamp;
-        private static String reportFileLocation = reportFilepath + "/" + timestamp;
+        private static string docummentsFolderPath = String.Empty;
+        private static string documentsDirectory = String.Empty;
+        private static String reportFilepath = String.Empty;
+        private static String reportFileLocation = String.Empty;
 
         public static ExtentReports GetInstance()
         {
@@ -23,8 +25,25 @@ namespace West.EnterpriseUX.Automation.MobileNew.Utilities
         //Create an extent report instance
         public static ExtentReports CreateInstance()
         {
-            String fileName = GetReportPath(reportFilepath);
+            String fileName = String.Empty;
 
+            if (laptopName.ToUpper().Equals("WINDOWS"))
+            {
+                docummentsFolderPath = "OneDrive - West Pharmaceutical Services, Inc\\Documents";
+                documentsDirectory = Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), docummentsFolderPath);
+                reportFilepath = documentsDirectory + "\\ExtentReports\\" + timestamp;
+                reportFileLocation = reportFilepath + "\\" + timestamp;
+                fileName = GetReportPath(reportFilepath);
+            }
+            else
+            {
+                docummentsFolderPath = "/Documents";
+                documentsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + docummentsFolderPath;
+                reportFilepath = documentsDirectory + "/ExtentReports/" + timestamp;
+                reportFileLocation = reportFilepath + "/" + timestamp;
+                fileName = GetReportPath(reportFilepath);
+            }
+            
             ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(fileName);
 
             htmlReporter.Config.DocumentTitle = timestamp;

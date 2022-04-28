@@ -12,9 +12,14 @@ namespace West.EnterpriseUX.Automation.MobileNew.configFiles
         public string AppEnvironment { get; set; }
         public string TestUser1EmailId { get; set; }
         public string TestUser1Password { get; set; }
+        public string TestUser2EmailId { get; set; }
+        public string TestUser2Password { get; set; }
         public string bundleId { get; set; }
         public string automationName { get; set; }
         public string udid { get; set; }
+        public string EnvName { get; set; }
+        public string DeviceOS { get; set; }
+        public string laptopName { get; set; }
 
     }
 }
