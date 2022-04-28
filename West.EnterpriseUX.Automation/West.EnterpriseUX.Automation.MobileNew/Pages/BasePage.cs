@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Appium;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using West.EnterpriseUX.Automation.MobileNew.Setup;
 
 namespace West.EnterpriseUX.Automation.MobileNew
@@ -41,6 +42,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 if(InboxesIcon.Count > 0)
                 {
                     InboxesIcon[0].Click();
+                    Thread.Sleep(2000);
                     _inboxPageInstance = new InboxPage(_driver);
                     return _inboxPageInstance;
                 }

@@ -1,0 +1,12 @@
+﻿{
+  "PlatformName": "android",
+  "DeviceName": "samsung",
+  "AppPackage": "com.westpharma.uxframework.uat",
+  "appActivity": "crc6429df2d9d200d6e98.MainActivity",
+  "NoReset": "true",
+  "AppName": "[UAT] West Digital - Enterprise",
+  "AppEnvironment": "UAT",
+  "TestUser1EmailId": "Test_UX02@westpharma.com",
+  "TestUser1Password": "Westpharm@2019"
+
+}

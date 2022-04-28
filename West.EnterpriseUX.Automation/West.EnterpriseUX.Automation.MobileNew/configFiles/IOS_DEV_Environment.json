@@ -1,0 +1,13 @@
+﻿{
+  "PlatformName": "ios",
+  "DeviceName": "Rajkumar’s iPhone",
+  "bundleId": "com.westpharma.uxframework.dev",
+  "automationName": "XCUITest",
+  "NoReset": "true",
+  "udid": "73ce4ccb458538408d194332f4ffd4f18b8c28f2",
+  "AppName": "[DEV] West Digital - Enterprise",
+  "AppEnvironment": "DEV",
+  "TestUser1EmailId": "Test_UX02@westpharma.com",
+  "TestUser1Password": "Westpharm@2019"
+
+}
