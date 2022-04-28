@@ -7,6 +7,7 @@
   "AppName": "[UAT] West Digital - Enterprise",
   "AppEnvironment": "UAT",
   "TestUser1EmailId": "Test_UX02@westpharma.com",
-  "TestUser1Password": "Westpharm@2019"
-
+  "TestUser1Password": "Westpharm@2019",
+  "TestUser2EmailId": "PRAPPP1@WESTPHARMA.COM",
+  "TestUser2Password": "Testing$2020"
 }

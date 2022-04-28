@@ -1,5 +1,0 @@
-﻿{
-  "EnvName": "UAT",           //Options: DEV, DVV, UAT
-  "DeviceOS": "ANDROID",  //Options: ANDROID, iOS
-  "laptopName": "Windows"     //Options: Windows, Macbook
-}

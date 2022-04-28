@@ -24,13 +24,7 @@
     <None Remove="Microsoft.Extensions.Configuration.Json" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="Android_DVV_Environment.runsettings">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="BatchFiles\startAppium.bat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Android_UAT_Environment.runsettings">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="TestData\DVV\InboxData.xlsx">
@@ -66,10 +60,6 @@
     <None Update="configFiles\IOS_DVV_Environment %28copy%29.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="configFiles\" />
   </ItemGroup>
 
 </Project>

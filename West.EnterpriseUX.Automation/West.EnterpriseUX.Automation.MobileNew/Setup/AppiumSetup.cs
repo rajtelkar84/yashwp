@@ -39,15 +39,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
         private AppiumOptions appiumOptions;
         public BasePage _basePageInstance;
 
-        public static CommonEnvironment commonEnvironment;
+        public static CommonEnvironment commonEnvironment = new CommonEnvironment();
         public static string workingDirectory;
         public static string projectDirectory;
         public static string projectDirectoryfull;
         public static string JsonFilePath;
 
-        public static string EnvName = "UAT";
-        public static string PlatformName = "ANDROID";
-        public static string laptopName = "Windows";
+        public static string EnvName = Constant.ENV_NAME;
+        public static string PlatformName = Constant.DEVICE_OS;
+        public static string laptopName = Constant.LAPTOP_NAME;
         public static string EnvName_PlatformName = EnvName + "_" + PlatformName;
 
         public TestContext TestContext { get; set; }
@@ -55,11 +55,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [AssemblyInitialize]
         public static void LoadProperties(TestContext context)
         {
-             workingDirectory = Environment.CurrentDirectory;
-             projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
-             projectDirectoryfull = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
+            workingDirectory = Environment.CurrentDirectory;
+            projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
+            projectDirectoryfull = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
 
-            if(laptopName.ToUpper().Trim().Equals("MACBOOK"))
+            if (laptopName.ToUpper().Trim().Equals("MACBOOK"))
             {
                 configFile = "/configFiles/";
             }
@@ -68,7 +68,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 configFile = @"\configFiles\";
             }
 
-            switch(EnvName_PlatformName.ToUpper())
+            switch (EnvName_PlatformName.ToUpper())
             {
                 case "DEV_ANDROID":
                     JsonFilePath = projectDirectoryfull + configFile + "Android_DEV_Environment.json";
@@ -93,15 +93,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     break;
             }
 
-            //dvvJsonFilePath = projectDirectoryfull + "/configFiles/"+"Android_DVV_Environment.json";
-
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
             configurationBuilder.AddJsonFile(JsonFilePath);
 
-            //configurationBuilder.AddJsonFile("/Users/csadmin/Desktop/WestPharmaMobileAutomation/EnterpriseUX.MobileAutomation/West.EnterpriseUX.Automation/MobileAutomationCrossPlatform/configFiles/Android_DVV_Environment.json");
-
             IConfigurationRoot configurationRoot = configurationBuilder.Build();
-            commonEnvironment = new CommonEnvironment();
             configurationRoot.Bind(commonEnvironment);
 
             platformName = commonEnvironment.PlatformName;
@@ -112,14 +107,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
             bundleId = commonEnvironment.bundleId;
             automationName = commonEnvironment.automationName;
             udid = commonEnvironment.udid;
-
-            /*
-            platformName = context.Properties["PlatformName"].ToString();
-            deviceName = context.Properties["DeviceName"].ToString();
-            appPackage = context.Properties["AppPackage"].ToString();
-            appActivity = context.Properties["AppActivity"].ToString();
-            noReset = Convert.ToBoolean(context.Properties["NoReset"].ToString());
-            */
 
             if (extent == null)
             {
@@ -174,7 +161,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             Screenshot screenshot = driver.GetScreenshot();
             test.AddScreenCaptureFromBase64String(screenshot.AsBase64EncodedString, title: TestContext.TestName);
 
-            LogoutFromWDApp();
+            //LogoutFromWDApp();
             driver?.Quit();
             service?.Dispose();
         }
@@ -243,11 +230,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             (new TouchAction(driver)).Tap(284, 441).Perform();
 
-            new Actions(driver).SendKeys("PRAPPP1@WESTPHARMA.COM").Perform();
+            new Actions(driver).SendKeys(commonEnvironment.TestUser2EmailId).Perform();
             Thread.Sleep(5000);
             new Actions(driver).SendKeys(Keys.Enter).Perform();
             Thread.Sleep(5000);
-            new Actions(driver).SendKeys("Testing$2020").Perform();
+            new Actions(driver).SendKeys(commonEnvironment.TestUser2Password).Perform();
             Thread.Sleep(5000);
             new Actions(driver).SendKeys(Keys.Enter).Perform();
             Thread.Sleep(5000);
