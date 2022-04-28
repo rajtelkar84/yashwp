@@ -22,14 +22,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             for (int r = 2; r <= rowCount; r++)
             {
-                object[] main = new object[columnCount];
+                object[] dataRow = new object[columnCount];
+
                 for (int c = 1; c <= columnCount; c++)
                 {
                     string cellValue = range.Cell(r, c).GetString();
                     Console.WriteLine(cellValue);
-                    main[c - 1] = cellValue;
+                    dataRow[c - 1] = cellValue;
                 }
-                yield return main;
+                yield return dataRow;
             }
 
             book.Dispose();

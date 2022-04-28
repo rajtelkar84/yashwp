@@ -2,16 +2,14 @@
 using AventStack.ExtentReports.Reporter;
 using AventStack.ExtentReports.Reporter.Configuration;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace West.EnterpriseUX.Automation.MobileNew.Utilities
 {
     public class ExtentManager : AppiumSetup
     {
         private static ExtentReports extentInstance;
-        private static String timestamp = DateTime.Now.ToString("ddd, dd-MM-yyyy, HH-mm-ss, tt");
+        private static String timestamp = DateTime.Now.ToString("ddd, dd-MM-yyyy, HH.mm.ss tt");
         private static String reportFilepath = projectDirectoryfull + "/ExtentReports/" + timestamp;
         private static String reportFileLocation = reportFilepath + "/" + timestamp;
 

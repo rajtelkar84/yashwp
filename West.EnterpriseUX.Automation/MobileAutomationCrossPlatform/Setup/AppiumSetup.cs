@@ -1,6 +1,4 @@
 ﻿using AventStack.ExtentReports;
-using AventStack.ExtentReports.Reporter;
-using AventStack.ExtentReports.Reporter.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
@@ -13,7 +11,6 @@ using OpenQA.Selenium.Appium.Service;
 using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -99,16 +96,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
             //dvvJsonFilePath = projectDirectoryfull + "/configFiles/"+"Android_DVV_Environment.json";
 
             ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            
-            //configurationBuilder.AddJsonFile("/Users/csadmin/Desktop/WestPharmaMobileAutomation/EnterpriseUX.MobileAutomation/West.EnterpriseUX.Automation/MobileAutomationCrossPlatform/configFiles/Android_DVV_Environment.json");
-            
             configurationBuilder.AddJsonFile(JsonFilePath);
+
+            //configurationBuilder.AddJsonFile("/Users/csadmin/Desktop/WestPharmaMobileAutomation/EnterpriseUX.MobileAutomation/West.EnterpriseUX.Automation/MobileAutomationCrossPlatform/configFiles/Android_DVV_Environment.json");
 
             IConfigurationRoot configurationRoot = configurationBuilder.Build();
             commonEnvironment = new CommonEnvironment();
             configurationRoot.Bind(commonEnvironment);
 
-            platformName = commonEnvironment.PlatformName ;
+            platformName = commonEnvironment.PlatformName;
             deviceName = commonEnvironment.DeviceName;
             appPackage = commonEnvironment.AppPackage;
             appActivity = commonEnvironment.appActivity;
@@ -178,7 +174,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             Screenshot screenshot = driver.GetScreenshot();
             test.AddScreenCaptureFromBase64String(screenshot.AsBase64EncodedString, title: TestContext.TestName);
 
-            //LogoutFromWDApp();
+            LogoutFromWDApp();
             driver?.Quit();
             service?.Dispose();
         }
@@ -205,11 +201,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
             Console.WriteLine("Appium Service Started: " + _appiumLocalService.IsRunning);
             var abv = _appiumLocalService.IsRunning;
 
-
-/*
+            /*
             if (!service.IsRunning)
                 service.Start();
-*/
+            */
 
             if (platformName.ToLower().Equals("android"))
             {
@@ -320,11 +315,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 Console.WriteLine($"{ex.Message} {ex.StackTrace}");
             }
-        }
-
-        public static String GetTimestamp(DateTime value)
-        {
-            return value.ToString("yyyyMMddHHmmssffff");
         }
     }
 }
