@@ -11,10 +11,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [Description("Go to specific inbox test")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.InboxDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void GoToSpecificInboxTest(string function, string inbox)
+        public void GoToSpecificInboxTest(string persona, string inbox)
         {
             InboxPage inboxPage = _basePageInstance.NavigateToInboxPage();
-            inboxPage.NavigateToInbox(function, inbox);
+            inboxPage.NavigateToInbox(persona, inbox);
+            WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
         }
     }
 }

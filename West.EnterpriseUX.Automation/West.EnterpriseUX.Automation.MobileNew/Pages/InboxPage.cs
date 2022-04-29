@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Appium;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using West.EnterpriseUX.Automation.MobileNew.Setup;
 
 namespace West.EnterpriseUX.Automation.MobileNew
@@ -17,17 +18,40 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         #region InboxPage Elements
 
-        public IList<IWebElement> LoaderImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoaderImage']"), iosLocator: MobileBy.XPath(""));
-       
+        public IList<IWebElement> PersonaName(string personaName)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='"+ personaName + "']"), iosLocator: MobileBy.XPath(""));
+        }
+        public IList<IWebElement> InboxName(string inboxName)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + inboxName + "']"), iosLocator: MobileBy.XPath(""));
+        }
+
         #endregion
 
         #region InboxPage Actions
 
-        public void NavigateToInbox(string function, string inboxName)
+        public void NavigateToInbox(string persona, string inbox)
         {
             try
             {
-                Console.Write(function + ", " + inboxName);
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (PersonaName(persona).Count == 0)
+                {
+                    Scroll();
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+                PersonaName(persona)[0].Click();
+
+                Thread.Sleep(1000);
+
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (InboxName(inbox).Count == 0)
+                {
+                    Scroll();
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+                InboxName(inbox)[0].Click();
             }
             catch (Exception ex)
             {
