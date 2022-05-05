@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
+using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -26,6 +27,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + inboxName + "']"), iosLocator: MobileBy.XPath(""));
         }
+        public IWebElement GlobalSearchIcon => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath(""));
+        public IWebElement SearchForInbox => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='InboxPicker_Container']"), iosLocator: MobileBy.XPath(""));
+        public IWebElement SearchForRecords => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchRecords_Container']"), iosLocator: MobileBy.XPath(""));
+        public IWebElement SearchButton => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='SEARCH']"), iosLocator: MobileBy.XPath(""));
+        public IWebElement InboxNameText => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='InboxName']"), iosLocator: MobileBy.XPath(""));
 
         #endregion
 
@@ -38,7 +44,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 while (PersonaName(persona).Count == 0)
                 {
-                    Scroll();
+                    ScrollUp();
                 }
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 PersonaName(persona)[0].Click();
@@ -48,7 +54,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 while (InboxName(inbox).Count == 0)
                 {
-                    Scroll();
+                    ScrollUp();
                 }
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 InboxName(inbox)[0].Click();
@@ -57,6 +63,31 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public DetailsPage PerformGlobalSearch(string persona, string inbox, string searchRecord)
+        {
+            try
+            {
+                GlobalSearchIcon.Click();
+                WaitForMoment(1);
+                SearchForInbox.Click();
+                new Actions(_driver).SendKeys(inbox.Trim() + " (" + persona.Trim() + ")").Perform();
+                new Actions(_driver).SendKeys(Keys.Enter).Perform();
+                WaitForMoment(1);
+                SearchForRecords.Click();
+                new Actions(_driver).SendKeys(searchRecord.Trim()).Perform();
+                new Actions(_driver).SendKeys(Keys.Enter).Perform();
+                WaitForMoment(1);
+                SearchButton.Click();
+
+                return new DetailsPage(_driver);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }   
+            return null;
         }
 
         #endregion

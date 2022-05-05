@@ -4,6 +4,7 @@ using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace West.EnterpriseUX.Automation.MobileNew.Setup
 {
@@ -51,7 +52,7 @@ namespace West.EnterpriseUX.Automation.MobileNew.Setup
             _wait.IgnoreExceptionTypes(typeof(Exception));
         }
 
-        public void Scroll()
+        public void ScrollUp()
         {
             (new TouchAction(_driver))
                     .Press(480, 900)
@@ -59,6 +60,16 @@ namespace West.EnterpriseUX.Automation.MobileNew.Setup
                     .MoveTo(480, 400)
                     .Release()
                     .Perform();
+        }
+
+        public static void WaitForMoment(int delay)
+        {
+            Thread.Sleep(delay * 1000);
+        }
+
+        public static void WaitForMoment(double delay)
+        {
+            Thread.Sleep(Convert.ToInt32(delay * 1000));
         }
     }
 }
