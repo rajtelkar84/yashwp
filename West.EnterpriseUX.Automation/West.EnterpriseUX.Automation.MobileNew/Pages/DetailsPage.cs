@@ -17,13 +17,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
             _driver = driver;
         }
 
-        #region InboxPage Elements
+        #region DetailsPage Elements
 
+        public IWebElement DetailsAbstractionTabTitle => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='DETAILS']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> FirstWidgetTextValues => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='ExpandableListViewID']/android.widget.LinearLayout[1]/android.view.ViewGroup/android.view.ViewGroup/descendant::*[contains(@class, 'android.widget.TextView')]"), iosLocator: MobileBy.XPath(""));
 
-        #endregion
+        #endregion DetailsPage Elements
 
-        #region InboxPage Actions
+        #region DetailsPage Actions
 
         public string GetFirstWidgetTextValues()
         {
@@ -40,6 +41,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
             return allTextValues;
         }
 
-        #endregion
+        #endregion DetailsPage Actions
     }
 }
