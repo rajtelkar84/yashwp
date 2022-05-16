@@ -21,7 +21,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         public IWebElement DetailsAbstractionTabTitle => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='DETAILS']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> FirstWidgetTextValues => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='ExpandableListViewID']/android.widget.LinearLayout[1]/android.view.ViewGroup/android.view.ViewGroup/descendant::*[contains(@class, 'android.widget.TextView')]"), iosLocator: MobileBy.XPath(""));
-
+        public IList<IWebElement> BlankViewGroup => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='ExpandableListViewID']/android.view.ViewGroup"), iosLocator: MobileBy.XPath(""));
+        
         #endregion DetailsPage Elements
 
         #region DetailsPage Actions
@@ -39,6 +40,26 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 return allTextValues;
             }
             return allTextValues;
+        }
+
+        public bool VerifyScrollingFunctionalityOnDetailsPage()
+        {
+            try
+            {
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (BlankViewGroup.Count == 0)
+                {
+                    ScrollUp();
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+                return BlankViewGroup[0].Displayed;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return !BlankViewGroup[0].Displayed;
         }
 
         #endregion DetailsPage Actions

@@ -36,7 +36,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IWebElement KpisAbstractionTab => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='KPIs']"), iosLocator: MobileBy.XPath(""));
         public IWebElement ChartsAbstractionTab => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='Charts']"), iosLocator: MobileBy.XPath(""));
         public IWebElement StoryboardsAbstractionTab => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='Storyboards']"), iosLocator: MobileBy.XPath(""));
-        
+       
         #endregion InboxPage Elements
 
         #region InboxPage Actions

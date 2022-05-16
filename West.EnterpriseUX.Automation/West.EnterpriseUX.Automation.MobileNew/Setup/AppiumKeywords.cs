@@ -54,10 +54,14 @@ namespace West.EnterpriseUX.Automation.MobileNew.Setup
 
         public void ScrollUp()
         {
+            double x = _driver.Manage().Window.Size.Width * 0.5;
+            double y1 = _driver.Manage().Window.Size.Height * 0.75;
+            double y2 = _driver.Manage().Window.Size.Height * 0.25;
+
             (new TouchAction(_driver))
-                    .Press(480, 900)
+                    .Press(x, y1)
                     .Wait(1000)
-                    .MoveTo(480, 400)
+                    .MoveTo(x, y2)
                     .Release()
                     .Perform();
         }

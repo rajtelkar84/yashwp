@@ -8,15 +8,16 @@ namespace West.EnterpriseUX.Automation.MobileNew
     {
         [TestMethod]
         [TestCategory("InboxPageTest")]
-        [Description("Go to specific inbox test;")]
+        [Description("Verifying Inbox page navigation from Home Page;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.InboxDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void GoToSpecificInboxTest(string persona, string inbox, string searchRecord)
+        public void TC_252675_GoToSpecificInboxTest(string persona, string inbox, string searchRecord)
         {
             try
             {
                 InboxPage inboxPage = _basePageInstance.NavigateToInboxPage();
                 inboxPage.NavigateToInbox(persona, inbox);
+
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
             }
             catch (Exception ex)
@@ -31,7 +32,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [Description("Verifying Global Search functionality;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.InboxDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void VerifyGlobalSearchTest(string persona, string inbox, string searchRecord)
+        public void TC_252664_VerifyGlobalSearchTest(string persona, string inbox, string searchRecord)
         {
             try
             {
@@ -55,7 +56,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [Description("Navigate to each of the abstractions in the Inbox Page;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.InboxDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void NavigateToEachOfTheAbstractionsTest(string persona, string inbox, string searchRecord)
+        public void TC_252670_NavigateToEachOfTheAbstractionsTest(string persona, string inbox, string searchRecord)
         {
             try
             {
