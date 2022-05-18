@@ -8,7 +8,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
     {
         [TestMethod]
         [TestCategory("DashboardPageTest")]
-        [Description("Get Dashboard page source test")]
+        [Description("Get Dashboard page source test;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
         public void PageSourceTest(string emailId, string password, string inbox)
@@ -19,10 +19,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         [TestMethod]
         [TestCategory("DashboardPageTest")]
-        [Description("Open Inboxes page test")]
+        [Description("Verifying Inbox page navigation from Home Page;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void OpenInboxesPageTest(string emailId, string password, string inbox)
+        public void TC_252675_InboxPageNavigationFromHomePageTest(string emailId, string password, string inbox)
         {
             Console.WriteLine(emailId + " : " + password + " : " + inbox);
             _basePageInstance.NavigateToInboxPage();
