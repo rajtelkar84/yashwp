@@ -36,7 +36,13 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IWebElement KpisAbstractionTab => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='KPIs']"), iosLocator: MobileBy.XPath(""));
         public IWebElement ChartsAbstractionTab => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='Charts']"), iosLocator: MobileBy.XPath(""));
         public IWebElement StoryboardsAbstractionTab => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='Storyboards']"), iosLocator: MobileBy.XPath(""));
-       
+        public IList<IWebElement> ContextMenuForInbox(string inboxName)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + inboxName + "']/parent::*/following-sibling::*/child::*[@content-desc='inboxContextMenu']"), iosLocator: MobileBy.XPath(""));
+        }
+        public IWebElement FavoriteIcon => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Favorite']"), iosLocator: MobileBy.XPath(""));
+        public IWebElement UnfavouriteIcon => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Unfavourite']"), iosLocator: MobileBy.XPath(""));
+
         #endregion InboxPage Elements
 
         #region InboxPage Actions
@@ -70,6 +76,57 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine(ex.Message);
             }
             return null;
+        }
+
+        public void ScrollToInboxAndClickOnContextMenu(string persona, string inbox)
+        {
+            try
+            {
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (PersonaName(persona).Count == 0)
+                {
+                    ScrollUp();
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+                PersonaName(persona)[0].Click();
+
+                Thread.Sleep(1000);
+
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (InboxName(inbox).Count == 0)
+                {
+                    ScrollUp();
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+                ContextMenuForInbox(inbox)[0].Click();
+                
+                Thread.Sleep(2000);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public bool ClickOnFavoriteIconInContextMenu()
+        {
+            bool isInboxFavorited = false;
+            try
+            {
+                if (FavoriteIcon.Displayed)
+                {
+                    FavoriteIcon.Click();
+                    isInboxFavorited = true;
+                    Console.WriteLine("Inbox is Favorited successfully");
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Inbox is already in Favorites, Unfavouriting it");
+                UnfavouriteIcon.Click();
+            }
+            return isInboxFavorited;
         }
 
         public DetailsPage PerformGlobalSearch(string persona, string inbox, string searchRecord)

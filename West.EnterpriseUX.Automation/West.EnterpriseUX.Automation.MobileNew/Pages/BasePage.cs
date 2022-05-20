@@ -11,6 +11,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
     {
         public static AppiumDriver<IWebElement> _driver;
         public InboxPage _inboxPageInstance;
+        public FavoritePage _favoritePageInstance;
 
         public BasePage(AppiumDriver<IWebElement> driver) : base(driver)
         {
@@ -45,6 +46,25 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     Thread.Sleep(2000);
                     _inboxPageInstance = new InboxPage(_driver);
                     return _inboxPageInstance;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public FavoritePage NavigateToFavoritePage()
+        {
+            try
+            {
+                if (FavoriteIcon.Count > 0)
+                {
+                    FavoriteIcon[0].Click();
+                    Thread.Sleep(2000);
+                    _favoritePageInstance = new FavoritePage(_driver);
+                    return _favoritePageInstance;
                 }
             }
             catch (Exception ex)

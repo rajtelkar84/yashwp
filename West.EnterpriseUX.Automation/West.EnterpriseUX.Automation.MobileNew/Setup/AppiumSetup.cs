@@ -303,5 +303,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine($"{ex.Message} {ex.StackTrace}");
             }
         }
+
+        public static void WaitForMoment(int delay)
+        {
+            Thread.Sleep(delay * 1000);
+        }
+
+        public static void WaitForMoment(double delay)
+        {
+            Thread.Sleep(Convert.ToInt32(delay * 1000));
+        }
     }
 }
