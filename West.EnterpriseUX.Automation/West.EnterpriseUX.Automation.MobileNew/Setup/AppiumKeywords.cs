@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Support.UI;
@@ -57,6 +58,20 @@ namespace West.EnterpriseUX.Automation.MobileNew.Setup
             double x = _driver.Manage().Window.Size.Width * 0.5;
             double y1 = _driver.Manage().Window.Size.Height * 0.75;
             double y2 = _driver.Manage().Window.Size.Height * 0.25;
+
+            (new TouchAction(_driver))
+                    .Press(x, y1)
+                    .Wait(1000)
+                    .MoveTo(x, y2)
+                    .Release()
+                    .Perform();
+        }
+
+        public void ScrollDown()
+        {
+            double x = _driver.Manage().Window.Size.Width * 0.5;
+            double y1 = _driver.Manage().Window.Size.Height * 0.25;
+            double y2 = _driver.Manage().Window.Size.Height * 0.75;
 
             (new TouchAction(_driver))
                     .Press(x, y1)

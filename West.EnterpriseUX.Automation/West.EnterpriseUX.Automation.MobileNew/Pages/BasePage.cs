@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static AppiumDriver<IWebElement> _driver;
         public InboxPage _inboxPageInstance;
         public FavoritePage _favoritePageInstance;
+        public FeedbackPage _feedbackPageInstance;
 
         public BasePage(AppiumDriver<IWebElement> driver) : base(driver)
         {
@@ -31,7 +33,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> InsightsIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[@resource-id='com.westpharma.uxframework.uat:id/icon'])[3]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> InboxesIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[@resource-id='com.westpharma.uxframework.uat:id/icon'])[4]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> MyTaskIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[@resource-id='com.westpharma.uxframework.uat:id/icon'])[5]"), iosLocator: MobileBy.XPath(""));
-
+        public IList<IWebElement> MoreOptions => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='moreOptions']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> NotificationsOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Notifications']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> ReloadOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Reload']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> FeedbackOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Feedback']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> SelectOption(string option)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + option + "']"), iosLocator: MobileBy.XPath(""));
+        }
         #endregion
 
         #region BasePage Actions
@@ -65,6 +74,57 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     Thread.Sleep(2000);
                     _favoritePageInstance = new FavoritePage(_driver);
                     return _favoritePageInstance;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public void ClickOnMoreOptions()
+        {
+            try
+            {
+                if (MoreOptions.Count > 0)
+                {
+                    MoreOptions[0].Click();
+                    Thread.Sleep(1000);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("MoreOptions is not displayed.");
+            }
+        }
+
+        public void VerifyAllOptionsFromMoreOptions()
+        {
+            Assert.IsTrue(NotificationsOption[0].Displayed);
+            Assert.IsTrue(NotificationsOption[0].Text.Trim().Equals("Notifications"));
+            Assert.IsTrue(NotificationsOption[0].Enabled);
+
+            Assert.IsTrue(ReloadOption[0].Displayed);
+            Assert.IsTrue(ReloadOption[0].Text.Trim().Equals("Reload"));
+            Assert.IsTrue(ReloadOption[0].Enabled);
+
+            Assert.IsTrue(FeedbackOption[0].Displayed);
+            Assert.IsTrue(FeedbackOption[0].Text.Trim().Equals("Feedback"));
+            Assert.IsTrue(FeedbackOption[0].Enabled);
+        }
+
+        public FeedbackPage ClickOnOption(string option)
+        {
+            try
+            {
+                if (SelectOption(option).Count > 0)
+                {
+                    SelectOption(option)[0].Click();
+                    Thread.Sleep(3000);
+                    _feedbackPageInstance = new FeedbackPage(_driver);
+                    return _feedbackPageInstance;
                 }
             }
             catch (Exception ex)
