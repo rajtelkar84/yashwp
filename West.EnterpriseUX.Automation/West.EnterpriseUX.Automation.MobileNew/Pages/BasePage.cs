@@ -41,6 +41,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + option + "']"), iosLocator: MobileBy.XPath(""));
         }
+        public IList<IWebElement> BackButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='back']"), iosLocator: MobileBy.XPath(""));
         #endregion
 
         #region BasePage Actions
@@ -132,6 +133,20 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine(ex.Message);
             }
             return null;
+        }
+
+        public void VerifyCommonElementsDisplayedOrNot()
+        {
+            try
+            {
+                Assert.IsTrue(BackButton[0].Displayed);
+                Assert.IsTrue(MoreOptions[0].Displayed);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Common elements are not displayed");
+            }
         }
 
         #endregion

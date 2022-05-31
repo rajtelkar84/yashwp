@@ -11,7 +11,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
     public class DetailsPage : AppiumKeywords
     {
         public static AppiumDriver<IWebElement> _driver;
- 
+        public SemanticPage _semanticPageInstance;
+
         public DetailsPage(AppiumDriver<IWebElement> driver) : base(driver)
         {
             _driver = driver;
@@ -33,10 +34,17 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             if(FirstWidgetTextValues.Count > 0)
             {
-                foreach(IWebElement element in FirstWidgetTextValues)
+                FirstWidgetTextValues[0].Click();
+                WaitForMoment(2);
+
+                foreach (IWebElement element in FirstWidgetTextValues)
                 {
                     allTextValues = allTextValues + ", " + element.Text.Trim();
                 }
+
+                FirstWidgetTextValues[0].Click();
+                WaitForMoment(2);
+
                 return allTextValues;
             }
             return allTextValues;
@@ -60,6 +68,24 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine(ex.Message);
             }
             return !BlankViewGroup[0].Displayed;
+        }
+
+        public SemanticPage ClickOnViewDetails()
+        {
+            if (FirstWidgetTextValues.Count > 0)
+            {
+                foreach (IWebElement element in FirstWidgetTextValues)
+                {
+                    if(element.Text.Trim().Equals("View Details"))
+                    {
+                        element.Click();
+                        _semanticPageInstance = new SemanticPage(_driver);
+                        break;
+                    }
+                }
+                return _semanticPageInstance;
+            }
+            return null;
         }
 
         #endregion DetailsPage Actions
