@@ -33,9 +33,6 @@
     <None Update="TestData\UAT\InboxData.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="TestData\UAT\LoginData.xlsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="TestData\DVV\LoginData.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -58,6 +55,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="configFiles\IOS_DVV_Environment %28copy%29.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="TestData\UAT\LoginData.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
