@@ -5,6 +5,7 @@ using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 
 namespace West.EnterpriseUX.Automation.MobileNew.Setup
@@ -63,6 +64,16 @@ namespace West.EnterpriseUX.Automation.MobileNew.Setup
                     .Press(x, y1)
                     .Wait(1000)
                     .MoveTo(x, y2)
+                    .Release()
+                    .Perform();
+        }
+
+        public void ScrollUpInLabelsDropdown()
+        {
+            (new TouchAction(_driver))
+                    .Press(250, 1000)
+                    .Wait(1000)
+                    .MoveTo(250, 500)
                     .Release()
                     .Perform();
         }

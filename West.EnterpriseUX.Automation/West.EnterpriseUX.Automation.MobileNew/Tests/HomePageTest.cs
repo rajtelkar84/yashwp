@@ -1,5 +1,9 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Appium.MultiTouch;
+using OpenQA.Selenium.Interactions;
 using System;
+using System.Collections.Generic;
 
 namespace West.EnterpriseUX.Automation.MobileNew
 {
@@ -7,13 +11,29 @@ namespace West.EnterpriseUX.Automation.MobileNew
     public class HomePageTest : AppiumSetup
     {
         [TestMethod]
-        [TestCategory("HomePageTest")]
-        [Description("Get Dashboard page source test;")]
+        [TestCategory("LoginTest")]
+        [Description("Login to WD app and Get Dashboard page source test;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void PageSourceTest(string emailId, string password, string inbox)
+        public void LoginToWDAPPTest(string emailId, string password, string inbox)
         {
-            Console.WriteLine(emailId + " : " + password);
+            IList<IWebElement> loader = _basePageInstance.LoaderImage;
+            WaitForLoaderToDisappear(loader);
+
+            (new TouchAction(driver)).Tap(284, 441).Perform();
+
+            new Actions(driver).SendKeys(emailId.Trim()).Perform();
+            WaitForMoment(5);
+            new Actions(driver).SendKeys(Keys.Enter).Perform();
+            WaitForMoment(5);
+            new Actions(driver).SendKeys(password.Trim()).Perform();
+            WaitForMoment(5);
+            new Actions(driver).SendKeys(Keys.Enter).Perform();
+            WaitForMoment(5);
+            new Actions(driver).SendKeys(Keys.Enter).Perform();
+
+            WaitForLoaderToDisappear(loader);
+
             Console.WriteLine(driver.PageSource);
         }
 

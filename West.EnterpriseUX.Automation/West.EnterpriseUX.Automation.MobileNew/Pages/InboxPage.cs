@@ -3,6 +3,7 @@ using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using West.EnterpriseUX.Automation.MobileNew.Setup;
 
@@ -42,6 +43,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
         }
         public IWebElement FavoriteIcon => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Favorite']"), iosLocator: MobileBy.XPath(""));
         public IWebElement UnfavouriteIcon => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Unfavourite']"), iosLocator: MobileBy.XPath(""));
+        public IWebElement MoreOptions => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='moreOptions']"), iosLocator: MobileBy.XPath(""));
+        public IWebElement ManageLabelsOption => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Manage Labels']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> DisplayedLabels => WaitAndFindElements(androidLocator: MobileBy.XPath("//android.widget.ScrollView/descendant::android.widget.TextView"), iosLocator: MobileBy.XPath(""));
 
         #endregion InboxPage Elements
 
@@ -229,6 +233,97 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 else
                 {
                     Console.WriteLine("Storyboards abstraction is not displayed.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public void ClickOnManageLabelsOption()
+        {
+            try
+            {
+                if(MoreOptions.Displayed && MoreOptions.Enabled)
+                {
+                    MoreOptions.Click();
+
+                    if(ManageLabelsOption.Displayed && ManageLabelsOption.Enabled)
+                    {
+                        ManageLabelsOption.Click();
+                    }
+                    else
+                    {
+                        Console.WriteLine("Manage labels option is not displayed/enabled.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("More options is not displayed/enabled.");
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public ISet<string> GetAllLabels()
+        {
+            try
+            {
+                ISet<string> allLabels = new HashSet<string>() { };  
+                IList<string> displayedLabels = GetAllDisplayedLabels();
+
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                var isAllDisplayedLabelsPresent = false;
+
+                // scrolling up and getting all the lables till the end of the page
+                while (!isAllDisplayedLabelsPresent)
+                {
+                    allLabels.UnionWith(displayedLabels);
+                    ScrollUp();
+                    displayedLabels = GetAllDisplayedLabels();
+                    foreach (string label in displayedLabels)
+                    {
+                        if (allLabels.Contains(label))
+                            isAllDisplayedLabelsPresent = true;
+                        else
+                        {
+                            isAllDisplayedLabelsPresent = false;
+                            break;
+                        }
+                    }
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+                return allLabels;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public IList<string> GetAllDisplayedLabels()
+        {
+            try
+            {
+                IList<string> labels = new List<string>();
+
+                if (DisplayedLabels.Count > 0)
+                {
+                    foreach (IWebElement element in DisplayedLabels)
+                    {
+                        labels.Add(element.Text.ToString().Trim());
+                    }
+                    return labels;
+                }
+                else
+                {
+                    Console.WriteLine("Labels are not displayed.");
                 }
             }
             catch (Exception ex)

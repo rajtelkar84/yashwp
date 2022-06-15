@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 
 namespace West.EnterpriseUX.Automation.MobileNew
 {
@@ -95,6 +96,32 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 _basePageInstance.VerifyCommonElementsDisplayedOrNot();
                 semanticPage.VerifyInboxMenuTitle(firstWidgetTextValues);
                 semanticPage.VerifyAllTheTabsAreDisplayedOrNot();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("DetailsPageTest")]
+        [Description("Verifying the navigation of dashboard labels in the inbox page;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.InboxDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252671_NavigationToDashboardLabelsTest(string persona, string inbox, string searchRecord)
+        {
+            try
+            {
+                InboxPage inboxPage = _basePageInstance.NavigateToInboxPage();
+                DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                inboxPage.ClickOnManageLabelsOption();
+                ISet<string> allLables = inboxPage.GetAllLabels();
+                _basePageInstance.BackButton[0].Click();
+                detailsPage.NavigateToAllLables(allLables);
             }
             catch (Exception ex)
             {

@@ -230,11 +230,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             (new TouchAction(driver)).Tap(284, 441).Perform();
 
-            new Actions(driver).SendKeys(commonEnvironment.TestUser2EmailId).Perform();
+            new Actions(driver).SendKeys(commonEnvironment.TestUser1EmailId).Perform();
             Thread.Sleep(5000);
             new Actions(driver).SendKeys(Keys.Enter).Perform();
             Thread.Sleep(5000);
-            new Actions(driver).SendKeys(commonEnvironment.TestUser2Password).Perform();
+            new Actions(driver).SendKeys(commonEnvironment.TestUser1Password).Perform();
             Thread.Sleep(5000);
             new Actions(driver).SendKeys(Keys.Enter).Perform();
             Thread.Sleep(5000);
