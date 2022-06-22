@@ -55,6 +55,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [AssemblyInitialize]
         public static void LoadProperties(TestContext context)
         {
+            //Environment.SetEnvironmentVariable("newEnvName", "DVV");
+            string value = Environment.GetEnvironmentVariable("newEnvName");
+            Console.WriteLine($"Environment Variable: newEnvName = {value}");
+            EnvName = value;
+            EnvName_PlatformName = EnvName + "_" + PlatformName;
+
+            workingDirectory = Environment.CurrentDirectory;
+            Console.WriteLine($"Environment Name: {EnvName}, EnvName_PlatformName: {EnvName_PlatformName}, PlatformName: {PlatformName}, LaptopName: {laptopName}");
             workingDirectory = Environment.CurrentDirectory;
             projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
             projectDirectoryfull = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
