@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using West.EnterpriseUX.Automation.MobileNew.configFiles;
 using West.EnterpriseUX.Automation.MobileNew.Utilities;
@@ -23,7 +24,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
     public class AppiumSetup
     {
         static AppiumLocalService service;
-        
+
         protected AppiumDriver<IWebElement> driver;
         public static ExtentReports extent;
         public static ExtentTest test;
@@ -36,6 +37,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         private static string automationName;
         private static string udid;
         public static string configFile;
+        public static string batchFile;
         private AppiumOptions appiumOptions;
         public BasePage _basePageInstance;
 
@@ -51,18 +53,22 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static string EnvName_PlatformName = EnvName + "_" + PlatformName;
 
         public TestContext TestContext { get; set; }
-
         [AssemblyInitialize]
         public static void LoadProperties(TestContext context)
         {
-            //Environment.SetEnvironmentVariable("newEnvName", "DVV");
-            string value = Environment.GetEnvironmentVariable("newEnvName");
-            Console.WriteLine($"Environment Variable: newEnvName = {value}");
-            EnvName = value;
+            //Environment.SetEnvironmentVariable("ENVNAME", "DVV");
+            string value = Environment.GetEnvironmentVariable("ENVNAME");
+           
+            if(value != null)
+            {
+                EnvName = value;
+            }
             EnvName_PlatformName = EnvName + "_" + PlatformName;
 
             workingDirectory = Environment.CurrentDirectory;
             Console.WriteLine($"Environment Name: {EnvName}, EnvName_PlatformName: {EnvName_PlatformName}, PlatformName: {PlatformName}, LaptopName: {laptopName}");
+
+            EnvName = Environment.GetEnvironmentVariable("newEnvName");
             workingDirectory = Environment.CurrentDirectory;
             projectDirectory = Directory.GetParent(workingDirectory).Parent.FullName;
             projectDirectoryfull = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
@@ -74,6 +80,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
             else
             {
                 configFile = @"\configFiles\";
+            }
+            if (laptopName.ToUpper().Trim().Equals("MACBOOK"))
+            {
+                batchFile = "/BatchFiles/";
+            }
+            else
+            {
+                batchFile = @"\BatchFiles\";
             }
 
             switch (EnvName_PlatformName.ToUpper())
@@ -144,7 +158,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
                 Console.WriteLine(abc);
             }
-
+            OpenEmulator();
             LaunchApp();
             _basePageInstance = new BasePage(driver);
             LoginToWDApp();
@@ -263,6 +277,22 @@ namespace West.EnterpriseUX.Automation.MobileNew
             WaitForLoaderToDisappear(loader);
         }
 
+        private void OpenEmulator()
+        {
+            try
+            {
+                Console.WriteLine($"Opening Emulator through Batch file...........");
+                string emulatorPath = projectDirectoryfull + batchFile + "OpenEmulator.bat";
+                Process.Start(emulatorPath);
+                Console.WriteLine($"Open Emulator Batch File Path : {emulatorPath}");
+                WaitForMoment(1);
+                Process[] emulators = Process.GetProcesses();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in launching emulator: {ex.Message}");
+            }
+        }
         public void WaitForLoaderToDisappear(IList<IWebElement> loader, string locatorName = "all")
         {
             int timeout = 60;
