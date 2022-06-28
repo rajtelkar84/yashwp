@@ -78,6 +78,16 @@ namespace West.EnterpriseUX.Automation.MobileNew.Setup
                     .Perform();
         }
 
+        public void ScrollUpInFilterOpratorPicker()
+        {
+            (new TouchAction(_driver))
+                    .Press(350, 806)
+                    .Wait(1000)
+                    .MoveTo(350, 617)
+                    .Release()
+                    .Perform();
+        }
+
         public void ScrollDown()
         {
             double x = _driver.Manage().Window.Size.Width * 0.5;

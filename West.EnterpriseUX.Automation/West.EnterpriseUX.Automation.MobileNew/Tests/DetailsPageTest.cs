@@ -129,5 +129,42 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine(ex.Message);
             }
         }
+
+        [TestMethod]
+        [TestCategory("DetailsPageTest")]
+        [Description("Verifying Clear All functionality in the Inbox Filter Page;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.FilterDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252673_ClearAllFunctionalityInTheInboxFilterPageTest(string persona, string inbox, string searchRecord, string filterField1, string operator1, string filterValue1, string filterField2, string operator2, string filterValue2)
+        {
+            try
+            {
+                InboxPage inboxPage = _basePageInstance.NavigateToInboxPage();
+                DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                FilterPage filterPage1 = inboxPage.ClickOnFilterOption();
+                filterPage1.ClickOnAddFilter();
+                filterPage1.SelectFilterFieldValue(filterField1.Trim());
+                filterPage1.SelectOperatorValue(operator1.Trim());
+                filterPage1.EnterFilterValue(filterValue1.Trim());
+                filterPage1.ClickOnApplyFilter();
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                FilterPage filterPage2 = inboxPage.ClickOnFilterOption();
+                Assert.IsTrue(filterPage2.IsFilterPresentInActiveFilters(filterField1, operator1, filterValue1));
+
+                filterPage2.ClickOnClearAll();
+                FilterPage filterPage3 = inboxPage.ClickOnFilterOption();
+                Assert.IsFalse(filterPage3.IsFilterPresentInActiveFilters(filterField1, operator1, filterValue1));
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }

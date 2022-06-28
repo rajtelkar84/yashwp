@@ -46,6 +46,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IWebElement MoreOptions => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='moreOptions']"), iosLocator: MobileBy.XPath(""));
         public IWebElement ManageLabelsOption => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Manage Labels']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> DisplayedLabels => WaitAndFindElements(androidLocator: MobileBy.XPath("//android.widget.ScrollView/descendant::android.widget.TextView"), iosLocator: MobileBy.XPath(""));
+        public IWebElement FilterOption => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Filter']"), iosLocator: MobileBy.XPath(""));
 
         #endregion InboxPage Elements
 
@@ -324,6 +325,38 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 else
                 {
                     Console.WriteLine("Labels are not displayed.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public FilterPage ClickOnFilterOption()
+        {
+            try
+            {
+                if (MoreOptions.Displayed && MoreOptions.Enabled)
+                {
+                    MoreOptions.Click();
+                    WaitForMoment(0.5);
+
+                    if (FilterOption.Displayed && FilterOption.Enabled)
+                    {
+                        WaitForMoment(0.5);
+                        FilterOption.Click();
+                        return new FilterPage(_driver);
+                    }
+                    else
+                    {
+                        Console.WriteLine("FilterOption option is not displayed/enabled.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("More options is not displayed/enabled.");
                 }
             }
             catch (Exception ex)
