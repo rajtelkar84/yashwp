@@ -15,7 +15,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [Description("Login to WD app and Get Dashboard page source test;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void LoginToWDAPPTest(string emailId, string password, string inbox)
+        public void LoginToWDAPPTest(string emailId, string password)
         {
             IList<IWebElement> loader = _basePageInstance.LoaderImage;
             WaitForLoaderToDisappear(loader);
@@ -42,10 +42,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [Description("Verifying Inbox page navigation from Home Page;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void TC_252675_InboxPageNavigationFromHomePageTest(string emailId, string password, string inbox)
+        public void TC_252675_InboxPageNavigationFromHomePageTest(string emailId, string password)
         {
-            Console.WriteLine(emailId + " : " + password + " : " + inbox);
-            _basePageInstance.NavigateToInboxPage();
+            InboxPage inboxesPage = _basePageInstance.NavigateToInboxesTab();
+            Assert.IsNotNull(inboxesPage);
         }
 
         [TestMethod]
@@ -53,18 +53,20 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [Description("Submitting the feedback from the Application;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void TC_252649_SubmitTheFeedbackTest(string emailId, string password, string inbox)
+        public void TC_252649_SubmitTheFeedbackTest(string emailId, string password)
         {
             try
             {
-                _basePageInstance.ClickOnMoreOptions();
-                _basePageInstance.VerifyAllOptionsFromMoreOptions();
-                FeedbackPage _feedbackPage = _basePageInstance.ClickOnOption("Feedback");
+                //_basePageInstance.ClickOnMoreOptions();
+                //_basePageInstance.VerifyAllOptionsFromMoreOptions();
+                //FeedbackPage _feedbackPage = _basePageInstance.ClickOnOption("Feedback");
+
+                FeedbackPage _feedbackPage = _basePageInstance.ClickOnFeedbackIcon();
                 _feedbackPage.VerifyTheFieldsOnFeedbackPage();
-                _feedbackPage.SelectRating(3);
+                //_feedbackPage.SelectRating(3);
                 _feedbackPage.TitleTextBox.SendKeys("Test feedback title");
                 _feedbackPage.DescriptionTextBox.SendKeys("Test feedback description");
-                //_feedbackPage.SelectEmployee("Patil, Girishwar (EXTERNAL)");
+                _feedbackPage.SelectEmployee("Patil, Girishwar (EXTERNAL)");
                 _feedbackPage.SelectConsents();
                 _feedbackPage.VerifyAndSubmitTheFeedback();
                 _feedbackPage.VerifyFeedbackConfirmation();

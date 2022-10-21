@@ -13,6 +13,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static AppiumDriver<IWebElement> _driver;
         public InboxPage _inboxPageInstance;
         public FavoritePage _favoritePageInstance;
+        public GlobalSearchPage _searchPageInstance;
         public FeedbackPage _feedbackPageInstance;
 
         public BasePage(AppiumDriver<IWebElement> driver) : base(driver)
@@ -28,15 +29,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> LogoutOkButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='okButton']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> AllLoadingTexts => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Loading') or contains(@text,'Fetching') or contains(@text,'Fetching Modules') or contains(@text,'Preparing') or contains(@text,'Retry') or contains(@text,'Authenticating user') or contains(@text,'Adding') or contains(@text,'Saving') or contains(@text,'Deleting') or contains(@text,'Removing') or contains(@text,'Refreshing') or contains(@text,'Please wait') or contains(@text,'Sharing Insights') or contains(@text,'Fetching')]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> UserInfromationPopUp => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='confirmationOptions']"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> DashboardIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[@resource-id='com.westpharma.uxframework.uat:id/navigation_bar_item_icon_view'])[1]"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> FavoriteIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[@resource-id='com.westpharma.uxframework.uat:id/navigation_bar_item_icon_view'])[2]"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> InsightsIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[@resource-id='com.westpharma.uxframework.uat:id/navigation_bar_item_icon_view'])[3]"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> InboxesIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[@resource-id='com.westpharma.uxframework.uat:id/navigation_bar_item_icon_view'])[4]"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> MyTaskIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[@resource-id='com.westpharma.uxframework.uat:id/navigation_bar_item_icon_view'])[5]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> DashboardIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[1]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> FavoriteIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[2]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> SearchIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[4]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> InboxesIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[3]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> MyTaskIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[5]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> MoreOptions => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='moreOptions']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> NotificationsOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Notifications']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> ReloadOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Reload']"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> FeedbackOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Feedback']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> FeedbackIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='feedbackIcon']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> SelectOption(string option)
         {
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + option + "']"), iosLocator: MobileBy.XPath(""));
@@ -46,7 +47,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         #region BasePage Actions
 
-        public InboxPage NavigateToInboxPage()
+        public InboxPage NavigateToInboxesTab()
         {
             try
             {
@@ -65,7 +66,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             return null;
         }
 
-        public FavoritePage NavigateToFavoritePage()
+        public FavoritePage NavigateToFavoriteTab()
         {
             try
             {
@@ -75,6 +76,25 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     Thread.Sleep(2000);
                     _favoritePageInstance = new FavoritePage(_driver);
                     return _favoritePageInstance;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public GlobalSearchPage NavigateToGlobalSearhTab()
+        {
+            try
+            {
+                if (SearchIcon.Count > 0)
+                {
+                    SearchIcon[0].Click();
+                    Thread.Sleep(2000);
+                    _searchPageInstance = new GlobalSearchPage(_driver);
+                    return _searchPageInstance;
                 }
             }
             catch (Exception ex)
@@ -111,9 +131,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
             Assert.IsTrue(ReloadOption[0].Text.Trim().Equals("Reload"));
             Assert.IsTrue(ReloadOption[0].Enabled);
 
-            Assert.IsTrue(FeedbackOption[0].Displayed);
-            Assert.IsTrue(FeedbackOption[0].Text.Trim().Equals("Feedback"));
-            Assert.IsTrue(FeedbackOption[0].Enabled);
+            Assert.IsTrue(FeedbackIcon[0].Displayed);
+            Assert.IsTrue(FeedbackIcon[0].Text.Trim().Equals("Feedback"));
+            Assert.IsTrue(FeedbackIcon[0].Enabled);
         }
 
         public FeedbackPage ClickOnOption(string option)
@@ -123,6 +143,25 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 if (SelectOption(option).Count > 0)
                 {
                     SelectOption(option)[0].Click();
+                    Thread.Sleep(3000);
+                    _feedbackPageInstance = new FeedbackPage(_driver);
+                    return _feedbackPageInstance;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public FeedbackPage ClickOnFeedbackIcon()
+        {
+            try
+            {
+                if (FeedbackIcon.Count > 0)
+                {
+                    FeedbackIcon[0].Click();
                     Thread.Sleep(3000);
                     _feedbackPageInstance = new FeedbackPage(_driver);
                     return _feedbackPageInstance;

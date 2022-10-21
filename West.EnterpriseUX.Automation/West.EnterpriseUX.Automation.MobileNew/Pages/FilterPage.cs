@@ -20,10 +20,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         #region FilterPage Elements
 
-        public IList<IWebElement> AddFilterButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='ADD FILTER']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> AddFilterButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='+ ADD NEW CONDITION']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> FilterField => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='FilterFieldPicker Input Field']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> FilterFieldViewGroup => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='FilterFieldPicker_Container']/parent::*/following-sibling::android.view.ViewGroup"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> FilterOperator => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='FilterOperatorPicker_Container']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> FilterOperator => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Select Filter Operator']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> OperatorPicker => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@resource-id='android:id/numberpicker_input']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> FilterValueTextBox => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Editor']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> DeleteFilter => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='DeleteFilterImage']"), iosLocator: MobileBy.XPath(""));
@@ -34,6 +34,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + condition + "']"), iosLocator: MobileBy.XPath(""));
         }
         public IWebElement SelectFilterField(string value)
+        {
+            return WaitAndFindElement(androidLocator: MobileBy.XPath("//*[contains(@text,'" + value + "')]"), iosLocator: MobileBy.XPath(""));
+        }
+        public IWebElement SelectOperator(string value)
         {
             return WaitAndFindElement(androidLocator: MobileBy.XPath("//*[contains(@text,'" + value + "')]"), iosLocator: MobileBy.XPath(""));
         }
@@ -92,19 +96,23 @@ namespace West.EnterpriseUX.Automation.MobileNew
                             ScrollUp();
                         }
                         _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+                        FilterField[0].Click();
                         FilterField[0].Clear();
                     }
                     else
+                    {
+                        FilterField[0].Click();
                         FilterField[0].Clear();
+                    }
 
                     WaitForMoment(0.5);
                     FilterField[0].SendKeys(fieldValue);
                     WaitForMoment(0.5);
-                    FilterField[0].Click();
+                    _driver.HideKeyboard();
                     WaitForMoment(1);
                     IWebElement fieldValueElement = SelectFilterField(fieldValue);
                     new TouchAction(_driver).Tap(fieldValueElement).Perform();
-                    _driver.HideKeyboard();
+                    new Actions(_driver).SendKeys(Keys.Enter).Perform();
                     break;
                 }
                 catch (Exception ex)
@@ -133,12 +141,25 @@ namespace West.EnterpriseUX.Automation.MobileNew
                         }
                         _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                         FilterOperator[0].Click();
+                        FilterOperator[0].Clear();
                     }
                     else
+                    {
                         FilterOperator[0].Click();
+                        FilterOperator[0].Clear();
+                    }
 
                     WaitForMoment(0.5);
+                    FilterOperator[0].SendKeys(operatorValue);
+                    WaitForMoment(0.5);
+                    _driver.HideKeyboard();
+                    WaitForMoment(1);
+                    IWebElement OperatorElement = SelectOperator(operatorValue);
+                    new TouchAction(_driver).Tap(OperatorElement).Perform();
+                    new Actions(_driver).SendKeys(Keys.Enter).Perform();
+                    break;
 
+                    /*
                     if (!OperatorPicker[0].Text.Equals(operatorValue))
                     {
                         _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
@@ -156,6 +177,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                         OkButton[0].Click();
                         break;
                     }
+                    */
                 }
                 catch (Exception ex)
                 {
@@ -183,20 +205,16 @@ namespace West.EnterpriseUX.Automation.MobileNew
                         }
                         _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                         FilterValueTextBox[0].Click();
-                        //FilterValueTextBox[0].Clear();
                     }
                     else
                     {
                         FilterValueTextBox[0].Click();
-                        //FilterValueTextBox[0].Clear();
                     }
                         
                     WaitForMoment(0.5);
                     FilterValueTextBox[0].Clear();
                     WaitForMoment(0.5);
                     FilterValueTextBox[0].SendKeys(filterValue);
-                    WaitForMoment(0.5);
-                    FilterValueTextBox[0].Click();
                     WaitForMoment(0.5);
                     _driver.HideKeyboard();
                     break;

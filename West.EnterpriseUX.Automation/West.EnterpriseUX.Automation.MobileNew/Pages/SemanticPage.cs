@@ -21,7 +21,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         #region SemanticPage Elements
         public IList<IWebElement> InboxMenuTitle => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='inboxMenuTitle']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> OverviewTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='OVERVIEW']"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> CollaborationTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='COLLABORATION(BETA)']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> CollaborationTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='COLLABORATION']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> _360ViewTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='360º VIEW']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> RelatedItemsTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='RELATED ITEMS']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> ListOfChildInbox => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='InboxName']/ancestor::android.widget.ListView/descendant::android.widget.TextView[@content-desc='InboxName']"), iosLocator: MobileBy.XPath(""));

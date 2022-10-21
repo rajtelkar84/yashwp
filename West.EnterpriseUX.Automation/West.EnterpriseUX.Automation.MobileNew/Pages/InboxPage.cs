@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Interactions;
 using System;
@@ -29,6 +30,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + inboxName + "']"), iosLocator: MobileBy.XPath(""));
         }
         public IWebElement GlobalSearchIcon => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath(""));
+        public IWebElement InboxSearchBox => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchEntry']"), iosLocator: MobileBy.XPath(""));
         public IWebElement SearchForInbox => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='InboxPicker_Container']"), iosLocator: MobileBy.XPath(""));
         public IWebElement SearchForRecords => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchRecords_Container']"), iosLocator: MobileBy.XPath(""));
         public IWebElement SearchButton => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='SEARCH']"), iosLocator: MobileBy.XPath(""));
@@ -40,6 +42,19 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> ContextMenuForInbox(string inboxName)
         {
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + inboxName + "']/parent::*/following-sibling::*/child::*[@content-desc='inboxContextMenu']"), iosLocator: MobileBy.XPath(""));
+        }
+        public IList<IWebElement> SelectInbox(string inboxName)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text, '" + inboxName + "') and @content-desc='InboxName']"), iosLocator: MobileBy.XPath(""));
+        }
+        public IList<IWebElement> SelectContextMenuOfInbox(string inboxName)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + inboxName + "' and @content-desc='InboxName']/parent::android.view.ViewGroup/following-sibling::android.view.ViewGroup//*[@content-desc='inboxContextMenu']"), iosLocator: MobileBy.XPath(""));
+        }
+        //*[@text='Sales Orders' and @content-desc='InboxName']/parent::android.view.ViewGroup/following-sibling::android.view.ViewGroup//*[@content-desc='inboxContextMenu']
+        public IList<IWebElement> SelectAbstraction(string abstraction)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + abstraction + "']"), iosLocator: MobileBy.XPath(""));
         }
         public IWebElement FavoriteIcon => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Favorite']"), iosLocator: MobileBy.XPath(""));
         public IWebElement UnfavouriteIcon => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Unfavourite']"), iosLocator: MobileBy.XPath(""));
@@ -156,6 +171,66 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 Console.WriteLine(ex.Message);
             }   
+            return null;
+        }
+
+        public Object SearchInboxAndSelectAbstraction(string inbox, string abstraction)
+        {
+            try
+            {
+                InboxSearchBox.Click();
+                InboxSearchBox.Clear();
+                new Actions(_driver).SendKeys(inbox.Trim()).Perform();
+                new Actions(_driver).SendKeys(Keys.Enter).Perform();
+                WaitForMoment(1);
+                
+                //SelectInbox(inbox.Trim());
+                IList<IWebElement> inboxContextMenu = SelectContextMenuOfInbox(inbox.Trim());
+                if(inboxContextMenu.Count > 0)
+                {
+                    inboxContextMenu[0].Click();
+                }
+                else
+                {
+                    Console.WriteLine("Inbox context menu is not displayed for Inbox " + inbox);
+                    Assert.Fail("Inbox context menu is not displayed for Inbox " + inbox);
+                }
+
+                WaitForMoment(1);
+
+                IList<IWebElement> abstractionOption = SelectAbstraction(abstraction.Trim());
+                if (abstractionOption.Count > 0)
+                {
+                    abstractionOption[0].Click();
+                }
+                else
+                {
+                    Console.WriteLine(abstraction + " abstraction option for Inbox " + inbox + " is not displayed");
+                    Assert.Fail(abstraction + " abstraction option for Inbox " + inbox + " is not displayed");
+                }
+
+                if (abstraction.Equals("Details"))
+                {
+                    return new DetailsPage(_driver);
+                }
+                else if (abstraction.Equals("KPIs"))
+                {
+                    return new KpisPage(_driver);
+                }
+                else if (abstraction.Equals("Charts"))
+                {
+                    return new ChartsPage(_driver);
+                }
+                else if (abstraction.Equals("Storyboards"))
+                {
+                    return new StoryboardsPage(_driver);
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
             return null;
         }
 
@@ -338,6 +413,18 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
+                if (FilterOption.Displayed && FilterOption.Enabled)
+                {
+                    WaitForMoment(0.5);
+                    FilterOption.Click();
+                    return new FilterPage(_driver);
+                }
+                else
+                {
+                    Console.WriteLine("FilterOption option is not displayed/enabled.");
+                }
+
+                /*
                 if (MoreOptions.Displayed && MoreOptions.Enabled)
                 {
                     MoreOptions.Click();
@@ -358,6 +445,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 {
                     Console.WriteLine("More options is not displayed/enabled.");
                 }
+                */
             }
             catch (Exception ex)
             {

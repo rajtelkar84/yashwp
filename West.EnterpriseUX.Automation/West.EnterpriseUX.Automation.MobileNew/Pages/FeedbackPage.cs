@@ -22,7 +22,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IWebElement FeedbackPageTitle => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Feedback']"), iosLocator: MobileBy.XPath(""));
         public IWebElement RatingQuestion => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='How would you rate your experience?*']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> RatingOptions => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='StarRating']/android.widget.LinearLayout/android.view.ViewGroup"), iosLocator: MobileBy.XPath(""));
-        public IWebElement Title => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Title']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> Title => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Title']"), iosLocator: MobileBy.XPath(""));
         public IWebElement TitleAsterisk => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Title']/following-sibling::*"), iosLocator: MobileBy.XPath(""));
         public IWebElement TitleTextBox => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='feedbackTitle']"), iosLocator: MobileBy.XPath(""));
         public IWebElement Description => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='Description']"), iosLocator: MobileBy.XPath(""));
@@ -85,7 +85,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             Assert.IsTrue(FeedbackPageTitle.Displayed);
             Assert.IsTrue(RatingQuestion.Displayed);
-            Assert.IsTrue(Title.Displayed);
+            Assert.IsTrue(Title[0].Displayed);
             Assert.IsTrue(TitleAsterisk.Displayed);
             Assert.IsTrue(TitleTextBox.Displayed);
             Assert.IsTrue(TitleTextBox.Enabled);
@@ -103,14 +103,30 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 ScrollUp();
             }
             _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
             Assert.IsTrue(ConsentText1[0].Displayed);
-            Assert.IsTrue(ConsentCheckbox1[0].Displayed);
-            Assert.IsTrue(ConsentCheckbox1[0].Enabled);
+            //Assert.IsTrue(ConsentCheckbox1[0].Displayed);
+            //Assert.IsTrue(ConsentCheckbox1[0].Enabled);
+
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+            while (ConsentText2.Count == 0)
+            {
+                ScrollUp();
+            }
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
             Assert.IsTrue(ConsentText2[0].Displayed);  
             Assert.IsTrue(ConsentCheckbox2[0].Displayed);
             Assert.IsTrue(ConsentCheckbox2[0].Enabled);           
             Assert.IsTrue(SubmitButton[0].Displayed);
             Assert.IsFalse(SubmitButton[0].Enabled);
+
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+            while (Title.Count == 0)
+            {
+                ScrollDown();
+            }
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
         }
 
         public void SelectRating(int num)
@@ -142,7 +158,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     ScrollUp();
                 }
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
-                ConsentCheckbox1[0].Click();
+                //ConsentCheckbox1[0].Click();
                 ConsentCheckbox2[0].Click();
             }
             catch (Exception ex)

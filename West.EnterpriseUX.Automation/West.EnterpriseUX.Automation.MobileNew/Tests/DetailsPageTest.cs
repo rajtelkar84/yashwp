@@ -16,8 +16,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                InboxPage inboxPage = _basePageInstance.NavigateToInboxPage();
-                DetailsPage detailsPage = inboxPage.PerformGlobalSearch(persona, inbox, searchRecord);
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                //DetailsPage detailsPage = inboxPage.PerformGlobalSearch(persona, inbox, searchRecord);
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
 
@@ -40,28 +41,29 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                InboxPage inboxPage = _basePageInstance.NavigateToInboxPage();
-                DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                //DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
 
                 string firstWidgetTextValues = detailsPage.GetFirstWidgetTextValues().Trim().ToLower();
                 SemanticPage semanticPage = detailsPage.ClickOnViewDetails();
 
-                WaitForMoment(5);
+                WaitForMoment(10);
 
                 _basePageInstance.VerifyCommonElementsDisplayedOrNot();
                 semanticPage.VerifyInboxMenuTitle(firstWidgetTextValues);
                 semanticPage.VerifyAllTheTabsAreDisplayedOrNot();
                 semanticPage.SelectChildInbox("Sales Order Items");
 
-                WaitForMoment(5);
+                WaitForMoment(10);
 
-                Assert.AreEqual("Sales Order Items", inboxPage.InboxNameText.Text.Trim());
+                Assert.IsTrue(inboxesTab.InboxNameText.Text.Trim().Contains("Sales Order Items"));
                 Assert.IsTrue(detailsPage.DetailsAbstractionTabTitle.Displayed);
-                Assert.IsTrue(inboxPage.OpenKpisAbstraction().KpisAbstractionTabTitle.Selected);
-                Assert.IsTrue(inboxPage.OpenChartsAbstraction().ChartsAbstractionTabTitle.Selected);
-                Assert.IsTrue(inboxPage.OpenStoryboardsAbstraction().StoryboardsAbstractionTabTitle.Selected);
+                Assert.IsTrue(inboxesTab.OpenKpisAbstraction().KpisAbstractionTabTitle.Selected);
+                Assert.IsTrue(inboxesTab.OpenChartsAbstraction().ChartsAbstractionTabTitle.Selected);
+                Assert.IsTrue(inboxesTab.OpenStoryboardsAbstraction().StoryboardsAbstractionTabTitle.Selected);
 
                 detailsPage.DetailsAbstractionTabTitle.Click();
                 WaitForMoment(10);
@@ -83,8 +85,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                InboxPage inboxPage = _basePageInstance.NavigateToInboxPage();
-                DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                //DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
 
@@ -113,13 +116,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                InboxPage inboxPage = _basePageInstance.NavigateToInboxPage();
-                DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                //DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
 
-                inboxPage.ClickOnManageLabelsOption();
-                ISet<string> allLables = inboxPage.GetAllLabels();
+                inboxesTab.ClickOnManageLabelsOption();
+                ISet<string> allLables = inboxesTab.GetAllLabels();
                 _basePageInstance.BackButton[0].Click();
                 detailsPage.NavigateToAllLables(allLables);
             }
@@ -139,12 +143,12 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                InboxPage inboxPage = _basePageInstance.NavigateToInboxPage();
-                DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
 
-                FilterPage filterPage1 = inboxPage.ClickOnFilterOption();
+                FilterPage filterPage1 = inboxesTab.ClickOnFilterOption();
                 filterPage1.ClickOnAddFilter();
                 filterPage1.SelectFilterFieldValue(filterField1.Trim());
                 filterPage1.SelectOperatorValue(operator1.Trim());
@@ -153,11 +157,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
 
-                FilterPage filterPage2 = inboxPage.ClickOnFilterOption();
+                FilterPage filterPage2 = inboxesTab.ClickOnFilterOption();
                 Assert.IsTrue(filterPage2.IsFilterPresentInActiveFilters(filterField1, operator1, filterValue1));
 
+                filterPage2.ClickOnAddFilter();
                 filterPage2.ClickOnClearAll();
-                FilterPage filterPage3 = inboxPage.ClickOnFilterOption();
+
+                WaitForMoment(5);
+
+                FilterPage filterPage3 = inboxesTab.ClickOnFilterOption();
                 Assert.IsFalse(filterPage3.IsFilterPresentInActiveFilters(filterField1, operator1, filterValue1));
             }
             catch (Exception ex)
