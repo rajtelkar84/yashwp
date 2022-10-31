@@ -25,7 +25,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> _360ViewTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='360º VIEW']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> RelatedItemsTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='RELATED ITEMS']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> ListOfChildInbox => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='InboxName']/ancestor::android.widget.ListView/descendant::android.widget.TextView[@content-desc='InboxName']"), iosLocator: MobileBy.XPath(""));
-
+        public IList<IWebElement> HomeButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Home']"), iosLocator: MobileBy.XPath(""));
+        
         //*[@content-desc='InboxName']/ancestor::android.widget.ListView/child::*
         //*[@content-desc="InboxName"]/ancestor::android.widget.ListView/descendant::android.widget.TextView[@content-desc="InboxName"]
         #endregion SemanticPage Elements
@@ -112,6 +113,27 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("Not able to select child inbox " + childInbox + " from Semantic Page");
+            }
+        }
+
+        public void ClickOnHomeButton()
+        {
+            try
+            {
+                if (HomeButton.Count > 0 && HomeButton[0].Displayed && HomeButton[0].Enabled)
+                {
+                    HomeButton[0].Click();
+                    WaitForMoment(2);
+                }
+                else
+                {
+                    Console.WriteLine("Home button is not present on Child Inbox page.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Assert.Fail("Home button is not present on Child Inbox page.");
             }
         }
 

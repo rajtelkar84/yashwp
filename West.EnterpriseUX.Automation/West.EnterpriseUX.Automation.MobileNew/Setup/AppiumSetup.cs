@@ -40,6 +40,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static string batchFile;
         private AppiumOptions appiumOptions;
         public BasePage _basePageInstance;
+        public static Helper _helper = new Helper();
 
         public static CommonEnvironment commonEnvironment = new CommonEnvironment();
         public static string workingDirectory;

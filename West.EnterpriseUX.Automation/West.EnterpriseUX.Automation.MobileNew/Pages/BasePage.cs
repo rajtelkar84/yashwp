@@ -43,6 +43,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + option + "']"), iosLocator: MobileBy.XPath(""));
         }
         public IList<IWebElement> BackButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='back']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> PageTitle => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='TitleLabel']"), iosLocator: MobileBy.XPath(""));
+
+
         #endregion
 
         #region BasePage Actions

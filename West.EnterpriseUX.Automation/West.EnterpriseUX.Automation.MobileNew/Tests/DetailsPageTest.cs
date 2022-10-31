@@ -174,5 +174,83 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine(ex.Message);
             }
         }
+
+        [TestMethod]
+        [TestCategory("DetailsPageTest")]
+        [Description("Creating the New Dashboard Label in the inbox details page;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.FilterDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252674_CreatingNewDashboardLabelInInboxDetailsPageTest(string persona, string inbox, string searchRecord, string filterField1, string operator1, string filterValue1, string filterField2, string operator2, string filterValue2)
+        {
+            try
+            {
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                FilterPage filterPage1 = inboxesTab.ClickOnFilterOption();
+                filterPage1.ClickOnAddFilter();
+                filterPage1.SelectFilterFieldValue(filterField1.Trim());
+                filterPage1.SelectOperatorValue(operator1.Trim());
+                filterPage1.EnterFilterValue(filterValue1.Trim());
+                filterPage1.ClickOnApplyFilter();
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                string labelName = string.Empty;
+                string uniqueNumber = _helper.GenerateUniqueRandomNumber();
+                labelName = $"Label" + uniqueNumber.ToString();
+
+                detailsPage.ClickOnCreateLabelButton();
+                detailsPage.EnterLabelName(labelName);
+                detailsPage.SaveButton[0].Click();
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                Assert.IsTrue(detailsPage.Label(labelName).Count > 0);
+                Assert.IsTrue(detailsPage.Label(labelName)[0].Displayed);
+                Assert.IsTrue(detailsPage.Label(labelName)[0].Text.Contains(labelName));
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("DetailsPageTest")]
+        [Description("Verifying functionality of Home button;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.InboxDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252676_VerifyHomeButtonNavigationFromChildInboxPageTest(string persona, string inbox, string searchRecord)
+        {
+            try
+            {
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                string firstWidgetTextValues = detailsPage.GetFirstWidgetTextValues().Trim().ToLower();
+                SemanticPage semanticPage = detailsPage.ClickOnViewDetails();
+
+                WaitForMoment(10);
+                semanticPage.SelectChildInbox("Sales Order Items");
+                WaitForMoment(10);
+
+                semanticPage.ClickOnHomeButton();
+
+                Assert.IsTrue(_basePageInstance.PageTitle.Count > 0);
+                Assert.IsTrue(_basePageInstance.PageTitle[0].Displayed);
+                Assert.IsTrue(_basePageInstance.PageTitle[0].Text.Equals("Inboxes"));
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }
