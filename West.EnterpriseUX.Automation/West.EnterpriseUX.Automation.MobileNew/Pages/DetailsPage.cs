@@ -33,6 +33,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> CreateLabelButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Save_Container']/android.view.ViewGroup/android.view.ViewGroup[2]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> LabelNameTextBox => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Label Name']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> SaveButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='SAVE']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> ExpandOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='expnad']/android.widget.TextView"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> ExpandViewPopupTitle => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='PopupTitle']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> ExpandViewFeedbackImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='FeedBackImage']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> ExpandViewCloseImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='ClosePopupImage']"), iosLocator: MobileBy.XPath(""));
 
         #endregion DetailsPage Elements
 
@@ -58,6 +62,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 return allTextValues;
             }
             return allTextValues;
+        }
+
+        public void ClickOnFirstWidget()
+        {
+            if (FirstWidgetTextValues.Count > 0)
+            {
+                FirstWidgetTextValues[0].Click();
+                WaitForMoment(1);
+            }
         }
 
         public bool VerifyScrollingFunctionalityOnDetailsPage()
@@ -96,6 +109,17 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 return _semanticPageInstance;
             }
             return null;
+        }
+
+        public void ClickOnExpand()
+        {
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+            while(ExpandOption.Count == 0)
+            {
+                ScrollUp();
+            }
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            ExpandOption[0].Click();
         }
 
         public void NavigateToAllLables(ISet<string> allLables)
@@ -182,6 +206,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 Console.WriteLine(ex.ToString());
                 Assert.Fail("Label Name text box is not present.");
+            }
+        }
+
+        public void RefreshTheGrid()
+        {
+            if (FirstWidgetTextValues.Count > 0)
+            {
+                ScrollDown();
             }
         }
 

@@ -23,7 +23,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         #region BasePage Elements
 
-        public IList<IWebElement> LoaderImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoaderImage']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> LoaderImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoadingIndicator']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> LoaderLabel => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoaderLabel']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> HamberMenu => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='hamberMenu']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> Logout => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Logout']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> LogoutOkButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='okButton']"), iosLocator: MobileBy.XPath(""));
@@ -40,7 +41,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> FeedbackIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='feedbackIcon']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> SelectOption(string option)
         {
-            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + option + "']"), iosLocator: MobileBy.XPath(""));
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Name' and contains(@text, '" + option + "')]"), iosLocator: MobileBy.XPath(""));
         }
         public IList<IWebElement> BackButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='back']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> PageTitle => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='TitleLabel']"), iosLocator: MobileBy.XPath(""));
@@ -114,7 +115,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 if (MoreOptions.Count > 0)
                 {
                     MoreOptions[0].Click();
-                    Thread.Sleep(1000);
+                    WaitForMoment(2);
                 }
             }
             catch (Exception ex)
@@ -139,23 +140,20 @@ namespace West.EnterpriseUX.Automation.MobileNew
             Assert.IsTrue(FeedbackIcon[0].Enabled);
         }
 
-        public FeedbackPage ClickOnOption(string option)
+        public void ClickOnOption(string option)
         {
             try
             {
-                if (SelectOption(option).Count > 0)
+                IList<IWebElement> moreOptionToSelect = SelectOption(option);
+                if (moreOptionToSelect.Count > 0)
                 {
-                    SelectOption(option)[0].Click();
-                    Thread.Sleep(3000);
-                    _feedbackPageInstance = new FeedbackPage(_driver);
-                    return _feedbackPageInstance;
+                    moreOptionToSelect[0].Click();
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            return null;
         }
 
         public FeedbackPage ClickOnFeedbackIcon()

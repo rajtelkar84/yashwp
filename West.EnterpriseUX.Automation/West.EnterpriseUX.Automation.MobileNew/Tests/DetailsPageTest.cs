@@ -252,5 +252,126 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine(ex.Message);
             }
         }
+
+        [TestMethod]
+        [TestCategory("DetailsPageTest")]
+        [Description("Verifying the Expand Records View in the details page;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.InboxDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252679_VerifyingExpandRecordsViewInDetailsPageTest(string persona, string inbox, string searchRecord)
+        {
+            try
+            {
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                detailsPage.ClickOnFirstWidget();
+                detailsPage.ClickOnExpand();
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                Assert.IsTrue(detailsPage.ExpandViewPopupTitle.Count > 0);
+                Assert.IsTrue(detailsPage.ExpandViewPopupTitle[0].Displayed);
+                Assert.IsTrue(detailsPage.ExpandViewFeedbackImage.Count > 0);
+                Assert.IsTrue(detailsPage.ExpandViewFeedbackImage[0].Enabled);
+                Assert.IsTrue(detailsPage.ExpandViewCloseImage.Count > 0);
+                Assert.IsTrue(detailsPage.ExpandViewCloseImage[0].Enabled);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("DetailsPageTest")]
+        [Description("Verifying Grid Refresh functionality;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.InboxDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252680_VerifyGridRefreshFunctionalityTest(string persona, string inbox, string searchRecord)
+        {
+            try
+            {
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+                detailsPage.RefreshTheGrid();
+
+                Assert.IsTrue(_basePageInstance.LoaderImage[0].Displayed);
+                Assert.IsTrue(_basePageInstance.LoaderLabel[0].Displayed);
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("DetailsPageTest")]
+        [Description("Verifying Global Reload functionality;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.InboxDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252682_VerifyGlobalReloadFunctionalityTest(string persona, string inbox, string searchRecord)
+        {
+            try
+            {
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+
+                //Verifying reload functionality on Details abstraction
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                _basePageInstance.ClickOnMoreOptions();
+                _basePageInstance.ClickOnOption("Reload");
+                Assert.IsTrue(_basePageInstance.LoaderImage[0].Displayed);
+                Assert.IsTrue(_basePageInstance.LoaderLabel[0].Displayed);
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                //Verifying reload functionality on KPIs abstraction
+                KpisPage kpisPage = inboxesTab.OpenKpisAbstraction();
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                _basePageInstance.ClickOnMoreOptions();
+                _basePageInstance.ClickOnOption("Reload");
+                Assert.IsTrue(_basePageInstance.LoaderImage[0].Displayed);
+                Assert.IsTrue(_basePageInstance.LoaderLabel[0].Displayed);
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                //Verifying reload functionality on Charts abstraction
+                ChartsPage chartsPage = inboxesTab.OpenChartsAbstraction();
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                _basePageInstance.ClickOnMoreOptions();
+                _basePageInstance.ClickOnOption("Reload");
+                Assert.IsTrue(_basePageInstance.LoaderImage[0].Displayed);
+                Assert.IsTrue(_basePageInstance.LoaderLabel[0].Displayed);
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                //Verifying reload functionality on Storyboards abstraction
+                StoryboardsPage storyboardsPage = inboxesTab.OpenStoryboardsAbstraction();
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                _basePageInstance.ClickOnMoreOptions();
+                _basePageInstance.ClickOnOption("Reload");
+                Assert.IsTrue(_basePageInstance.LoaderImage[0].Displayed);
+                Assert.IsTrue(_basePageInstance.LoaderLabel[0].Displayed);
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
     }
 }

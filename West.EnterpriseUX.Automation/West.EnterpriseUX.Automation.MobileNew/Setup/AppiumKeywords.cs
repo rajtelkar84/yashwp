@@ -91,7 +91,7 @@ namespace West.EnterpriseUX.Automation.MobileNew.Setup
         public void ScrollDown()
         {
             double x = _driver.Manage().Window.Size.Width * 0.5;
-            double y1 = _driver.Manage().Window.Size.Height * 0.25;
+            double y1 = _driver.Manage().Window.Size.Height * 0.35;
             double y2 = _driver.Manage().Window.Size.Height * 0.75;
 
             (new TouchAction(_driver))
