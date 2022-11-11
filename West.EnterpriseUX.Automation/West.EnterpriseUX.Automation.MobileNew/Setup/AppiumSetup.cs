@@ -191,30 +191,25 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         private void LaunchApp()
         {
-          /*  
+            /*  
             AppiumServiceBuilder appiumServiceBuilder = new AppiumServiceBuilder()
                  .UsingAnyFreePort()
                  .WithAppiumJS(new System.IO.FileInfo("/Applications/Appium Server GUI.app/Contents/Resources/app/node_modules/appium/lib/main.js"));
+                 .WithAppiumJS(new System.IO.FileInfo(@"C:\Users\patilg\AppData\Roaming\npm\node_modules\appium\build\lib\main.js"));
+                 .WithAppiumJS(new System.IO.FileInfo(@"/usr/local/lib/node_modules/appium/main.js"));
 
+            service = appiumServiceBuilder.Build();
+
+            if (!service.IsRunning)
+                service.Start();
             */
-            // .WithAppiumJS(new System.IO.FileInfo(@"C:\Users\patilg\AppData\Roaming\npm\node_modules\appium\build\lib\main.js"));
-            //.WithAppiumJS(new System.IO.FileInfo(@"/usr/local/lib/node_modules/appium/main.js"));
-
-
-            //  service = appiumServiceBuilder.Build();
 
             AppiumLocalService _appiumLocalService;
-
             _appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
             _appiumLocalService.Start();
 
             Console.WriteLine("Appium Service Started: " + _appiumLocalService.IsRunning);
             var abv = _appiumLocalService.IsRunning;
-
-            /*
-            if (!service.IsRunning)
-                service.Start();
-            */
 
             if (platformName.ToLower().Equals("android"))
             {
@@ -226,8 +221,34 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, appActivity);
                 appiumOptions.AddAdditionalCapability(MobileCapabilityType.NoReset, noReset);
 
-                // driver = new AndroidDriver<IWebElement>(service, appiumOptions);
                 driver = new AndroidDriver<IWebElement>(_appiumLocalService, appiumOptions);
+
+                // Browserstack POC
+                /*
+                AppiumOptions caps = new AppiumOptions();
+
+                // Set your BrowserStack access credentials
+                caps.AddAdditionalCapability("browserstack.user", "girishwarpatil_xjIfsk");
+                caps.AddAdditionalCapability("browserstack.key", "njA25T7MX9rGB1kFyX8E");
+
+                // Set URL of the application under test
+                caps.AddAdditionalCapability("app", "bs://6ae3789050b8ac1386fdb16068335ee6e238759f");
+
+                // Specify device and os_version
+                caps.AddAdditionalCapability("os_version", "11.0");
+                caps.AddAdditionalCapability("device", "Samsung Galaxy M52");
+                caps.AddAdditionalCapability("browserstack.local", "true");
+
+                // Specify the platform name
+                caps.PlatformName = "Android";
+
+                // Set other BrowserStack capabilities
+                caps.AddAdditionalCapability("project", "WD2.0");
+                caps.AddAdditionalCapability("build", "com.westpharma.uxframework.dev");
+                caps.AddAdditionalCapability("name", "West Digital 2.0");
+
+                driver = new AndroidDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), caps);
+                */
             }
             else
             {
@@ -238,7 +259,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 appiumOptions.AddAdditionalCapability(MobileCapabilityType.AutomationName, automationName);
                 appiumOptions.AddAdditionalCapability(MobileCapabilityType.Udid, udid);
                 appiumOptions.AddAdditionalCapability(MobileCapabilityType.NoReset, noReset);
-                Console.WriteLine("Create iOS capabilities.");
 
                 driver = new IOSDriver<IWebElement>(_appiumLocalService, appiumOptions);
             }
@@ -248,34 +268,48 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         private void LoginToWDApp()
         {
-            IList<IWebElement> loader = _basePageInstance.LoaderImage;
-            WaitForLoaderToDisappear(loader);
+            try
+            {
+                IList<IWebElement> loader = _basePageInstance.LoaderImage;
+                WaitForLoaderToDisappear(loader);
 
-            (new TouchAction(driver)).Tap(284, 441).Perform();
+                (new TouchAction(driver)).Tap(284, 441).Perform();
+                new Actions(driver).SendKeys(commonEnvironment.TestUser1EmailId).Perform();
+                Thread.Sleep(5000);
+                new Actions(driver).SendKeys(Keys.Enter).Perform();
+                Thread.Sleep(5000);
+                new Actions(driver).SendKeys(commonEnvironment.TestUser1Password).Perform();
+                Thread.Sleep(5000);
+                new Actions(driver).SendKeys(Keys.Enter).Perform();
+                Thread.Sleep(5000);
+                new Actions(driver).SendKeys(Keys.Enter).Perform();
 
-            new Actions(driver).SendKeys(commonEnvironment.TestUser1EmailId).Perform();
-            Thread.Sleep(5000);
-            new Actions(driver).SendKeys(Keys.Enter).Perform();
-            Thread.Sleep(5000);
-            new Actions(driver).SendKeys(commonEnvironment.TestUser1Password).Perform();
-            Thread.Sleep(5000);
-            new Actions(driver).SendKeys(Keys.Enter).Perform();
-            Thread.Sleep(5000);
-            new Actions(driver).SendKeys(Keys.Enter).Perform();
-
-            WaitForLoaderToDisappear(loader);
+                WaitForLoaderToDisappear(loader);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void LogoutFromWDApp()
         {
-            IList<IWebElement> loader = _basePageInstance.LoaderImage;
-            WaitForLoaderToDisappear(loader);
+            try
+            {
+                IList<IWebElement> loader = _basePageInstance.LoaderImage;
 
-            _basePageInstance.HamberMenu[0].Click();
-            _basePageInstance.Logout[0].Click();
-            _basePageInstance.LogoutOkButton[0].Click();
+                WaitForLoaderToDisappear(loader);
 
-            WaitForLoaderToDisappear(loader);
+                _basePageInstance.ProfileMenu[0].Click();
+                _basePageInstance.Logout[0].Click();
+                _basePageInstance.LogoutOkButton[0].Click();
+
+                WaitForLoaderToDisappear(loader);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         private void OpenEmulator()

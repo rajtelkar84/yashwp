@@ -9,7 +9,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
 {
     public class ExcelUtils
     {
-
         public static IEnumerable<object[]> GetSheetData(string path, string sheetname)
         {
             XLWorkbook book = new XLWorkbook(path);

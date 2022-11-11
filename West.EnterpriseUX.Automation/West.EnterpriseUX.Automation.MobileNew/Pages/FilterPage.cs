@@ -79,14 +79,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
         }
 
-        public void SelectFilterFieldValue(string fieldValue)
+        public void SelectFilterFieldValue(string fieldValue, int filterNo)
         {
             int errorCount = 0;
             do
             {
                 try
                 {
-                    bool isFilterFieldDisplayed = FilterField[0].Displayed;
+                    bool isFilterFieldDisplayed = FilterField[filterNo - 1].Displayed;
 
                     if (!isFilterFieldDisplayed)
                     {
@@ -96,23 +96,24 @@ namespace West.EnterpriseUX.Automation.MobileNew
                             ScrollUp();
                         }
                         _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
-                        FilterField[0].Click();
-                        FilterField[0].Clear();
+                        FilterField[filterNo - 1].Click();
+                        FilterField[filterNo - 1].Clear();
                     }
                     else
                     {
-                        FilterField[0].Click();
-                        FilterField[0].Clear();
+                        FilterField[filterNo - 1].Click();
+                        FilterField[filterNo - 1].Clear();
                     }
 
                     WaitForMoment(0.5);
-                    FilterField[0].SendKeys(fieldValue);
+                    FilterField[filterNo - 1].SendKeys(fieldValue);
                     WaitForMoment(0.5);
                     _driver.HideKeyboard();
                     WaitForMoment(1);
                     IWebElement fieldValueElement = SelectFilterField(fieldValue);
                     new TouchAction(_driver).Tap(fieldValueElement).Perform();
                     new Actions(_driver).SendKeys(Keys.Enter).Perform();
+                    WaitForMoment(2);
                     break;
                 }
                 catch (Exception ex)
@@ -123,14 +124,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
             } while (errorCount < 2);
         }
 
-        public void SelectOperatorValue(string operatorValue)
+        public void SelectOperatorValue(string operatorValue, int filterNo)
         {
             int errorCount = 0;
             do
             {
                 try
                 {
-                    bool isOperatorDisplayed = FilterOperator[0].Displayed;
+                    bool isOperatorDisplayed = FilterOperator[filterNo - 1].Displayed;
 
                     if (!isOperatorDisplayed)
                     {
@@ -140,23 +141,24 @@ namespace West.EnterpriseUX.Automation.MobileNew
                             ScrollUp();
                         }
                         _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
-                        FilterOperator[0].Click();
-                        FilterOperator[0].Clear();
+                        FilterOperator[filterNo - 1].Click();
+                        FilterOperator[filterNo - 1].Clear();
                     }
                     else
                     {
-                        FilterOperator[0].Click();
-                        FilterOperator[0].Clear();
+                        FilterOperator[filterNo - 1].Click();
+                        FilterOperator[filterNo - 1].Clear();
                     }
 
                     WaitForMoment(0.5);
-                    FilterOperator[0].SendKeys(operatorValue);
+                    FilterOperator[filterNo - 1].SendKeys(operatorValue);
                     WaitForMoment(0.5);
                     _driver.HideKeyboard();
                     WaitForMoment(1);
                     IWebElement OperatorElement = SelectOperator(operatorValue);
                     new TouchAction(_driver).Tap(OperatorElement).Perform();
                     new Actions(_driver).SendKeys(Keys.Enter).Perform();
+                    WaitForMoment(2);
                     break;
 
                     /*
@@ -187,14 +189,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
             } while (errorCount < 2);
         }
 
-        public void EnterFilterValue(string filterValue)
+        public void EnterFilterValue(string filterValue, int filterNo)
         {
             int errorCount = 0;
             do
             {
                 try
                 {
-                    bool isFilterValueTextBoxDisplayed = FilterValueTextBox[0].Displayed;
+                    bool isFilterValueTextBoxDisplayed = FilterValueTextBox[filterNo - 1].Displayed;
 
                     if (!isFilterValueTextBoxDisplayed)
                     {
@@ -204,19 +206,20 @@ namespace West.EnterpriseUX.Automation.MobileNew
                             ScrollUp();
                         }
                         _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
-                        FilterValueTextBox[0].Click();
+                        FilterValueTextBox[filterNo - 1].Click();
                     }
                     else
                     {
-                        FilterValueTextBox[0].Click();
+                        FilterValueTextBox[filterNo - 1].Click();
                     }
                         
                     WaitForMoment(0.5);
-                    FilterValueTextBox[0].Clear();
+                    FilterValueTextBox[filterNo - 1].Clear();
                     WaitForMoment(0.5);
-                    FilterValueTextBox[0].SendKeys(filterValue);
+                    FilterValueTextBox[filterNo - 1].SendKeys(filterValue);
                     WaitForMoment(0.5);
                     _driver.HideKeyboard();
+                    WaitForMoment(2);
                     break;
                 }
                 catch (Exception ex)

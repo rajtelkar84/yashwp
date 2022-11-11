@@ -6,7 +6,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
     {
         public static IEnumerable<object[]> LoginDataObject()
         {
-           // return ExcelUtils.GetSheetData(@"C:\Users\patilg\source\repos\EnterpriseUX.Automation\West.EnterpriseUX.Automation\MobileAutomationCrossPlatform\TestData\UAT\LoginData.xlsx", "LoginCredentials");
             return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + Constant.ENV_NAME + "/LoginData.xlsx", "LoginCredentials");
         }
 
@@ -18,6 +17,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static IEnumerable<object[]> FilterDataObject()
         {
             return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + Constant.ENV_NAME + "/FilterData.xlsx", "FilterData");
+        }
+
+        public static IEnumerable<object[]> GridSearchDataObject()
+        {
+            return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + Constant.ENV_NAME + "/GridSearchData.xlsx", "GridSearchData");
         }
     }
 }

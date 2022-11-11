@@ -24,8 +24,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
         #region BasePage Elements
 
         public IList<IWebElement> LoaderImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoadingIndicator']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> LoaderImageOnLoginPage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoaderImage']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> LoaderLabel => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoaderLabel']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> HamberMenu => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='hamberMenu']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> ProfileMenu => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='profileMenu']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> Logout => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Logout']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> LogoutOkButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='okButton']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> AllLoadingTexts => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Loading') or contains(@text,'Fetching') or contains(@text,'Fetching Modules') or contains(@text,'Preparing') or contains(@text,'Retry') or contains(@text,'Authenticating user') or contains(@text,'Adding') or contains(@text,'Saving') or contains(@text,'Deleting') or contains(@text,'Removing') or contains(@text,'Refreshing') or contains(@text,'Please wait') or contains(@text,'Sharing Insights') or contains(@text,'Fetching')]"), iosLocator: MobileBy.XPath(""));

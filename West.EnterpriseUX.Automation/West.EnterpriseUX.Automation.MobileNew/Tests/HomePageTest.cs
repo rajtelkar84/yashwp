@@ -12,29 +12,66 @@ namespace West.EnterpriseUX.Automation.MobileNew
     {
         [TestMethod]
         [TestCategory("LoginTest")]
-        [Description("Login to WD app and Get Dashboard page source test;")]
+        [Description("Login to the Android Application;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void LoginToWDAPPTest(string emailId, string password)
+        public void TC_247738_LoginToWDAppTest(string emailId, string password)
         {
-            IList<IWebElement> loader = _basePageInstance.LoaderImage;
-            WaitForLoaderToDisappear(loader);
+            try
+            {
+                IList<IWebElement> loader = _basePageInstance.LoaderImage;
 
-            (new TouchAction(driver)).Tap(284, 441).Perform();
+                WaitForLoaderToDisappear(loader);
+                (new TouchAction(driver)).Tap(284, 441).Perform();
+                new Actions(driver).SendKeys(emailId.Trim()).Perform();
+                WaitForMoment(5);
+                new Actions(driver).SendKeys(Keys.Enter).Perform();
+                WaitForMoment(10);
+                new Actions(driver).SendKeys(password.Trim()).Perform();
+                WaitForMoment(5);
+                new Actions(driver).SendKeys(Keys.Enter).Perform();
+                WaitForMoment(10);
+                new Actions(driver).SendKeys(Keys.Enter).Perform();
+                WaitForLoaderToDisappear(loader);
 
-            new Actions(driver).SendKeys(emailId.Trim()).Perform();
-            WaitForMoment(5);
-            new Actions(driver).SendKeys(Keys.Enter).Perform();
-            WaitForMoment(5);
-            new Actions(driver).SendKeys(password.Trim()).Perform();
-            WaitForMoment(5);
-            new Actions(driver).SendKeys(Keys.Enter).Perform();
-            WaitForMoment(5);
-            new Actions(driver).SendKeys(Keys.Enter).Perform();
+                Assert.IsTrue(_basePageInstance.ProfileMenu[0].Displayed);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
 
-            WaitForLoaderToDisappear(loader);
+        [TestMethod]
+        [TestCategory("LogoutTest")]
+        [Description("Verifying Logout functionality of Application;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252731_LogoutFromWDAppTest(string emailId, string password)
+        {
+            try
+            {
+                IList<IWebElement> loader = _basePageInstance.LoaderImage;
 
-            Console.WriteLine(driver.PageSource);
+                WaitForLoaderToDisappear(loader);
+                _basePageInstance.ProfileMenu[0].Click();
+                _basePageInstance.Logout[0].Click();
+                _basePageInstance.LogoutOkButton[0].Click();
+                WaitForLoaderToDisappear(loader);
+
+                Assert.IsTrue(_basePageInstance.LoaderImageOnLoginPage[0].Displayed);
+                Assert.IsTrue(_basePageInstance.LoaderLabel[0].Displayed);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                TC_247738_LoginToWDAppTest(emailId, password);
+            }
         }
 
         [TestMethod]
@@ -44,8 +81,16 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
         public void TC_252675_InboxPageNavigationFromHomePageTest(string emailId, string password)
         {
-            InboxPage inboxesPage = _basePageInstance.NavigateToInboxesTab();
-            Assert.IsNotNull(inboxesPage);
+            try
+            {
+                InboxPage inboxesPage = _basePageInstance.NavigateToInboxesTab();
+                Assert.IsNotNull(inboxesPage);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
         }
 
         [TestMethod]

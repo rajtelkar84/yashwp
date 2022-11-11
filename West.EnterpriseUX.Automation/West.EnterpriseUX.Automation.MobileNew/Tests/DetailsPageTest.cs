@@ -150,9 +150,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 FilterPage filterPage1 = inboxesTab.ClickOnFilterOption();
                 filterPage1.ClickOnAddFilter();
-                filterPage1.SelectFilterFieldValue(filterField1.Trim());
-                filterPage1.SelectOperatorValue(operator1.Trim());
-                filterPage1.EnterFilterValue(filterValue1.Trim());
+                filterPage1.SelectFilterFieldValue(filterField1.Trim(), 1);
+                filterPage1.SelectOperatorValue(operator1.Trim(), 1);
+                filterPage1.EnterFilterValue(filterValue1.Trim(), 1);
                 filterPage1.ClickOnApplyFilter();
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
@@ -191,9 +191,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 FilterPage filterPage1 = inboxesTab.ClickOnFilterOption();
                 filterPage1.ClickOnAddFilter();
-                filterPage1.SelectFilterFieldValue(filterField1.Trim());
-                filterPage1.SelectOperatorValue(operator1.Trim());
-                filterPage1.EnterFilterValue(filterValue1.Trim());
+                filterPage1.SelectFilterFieldValue(filterField1.Trim(), 1);
+                filterPage1.SelectOperatorValue(operator1.Trim(), 1);
+                filterPage1.EnterFilterValue(filterValue1.Trim(), 1);
                 filterPage1.ClickOnApplyFilter();
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
@@ -258,7 +258,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [Description("Verifying the Expand Records View in the details page;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.InboxDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void TC_252679_VerifyingExpandRecordsViewInDetailsPageTest(string persona, string inbox, string searchRecord)
+        public void TC_252679_VerifyExpandRecordsViewInDetailsPageTest(string persona, string inbox, string searchRecord)
         {
             try
             {
@@ -366,6 +366,108 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Assert.IsTrue(_basePageInstance.LoaderLabel[0].Displayed);
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("DetailsPageTest")]
+        [Description("Verifying Grid Search functionality;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.GridSearchDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252683_VerifyGridSearchFunctionalityTest(string inbox, string searchOption, string searchValue)
+        {
+            try
+            {
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+                
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+                int selectedLabelDataCount = detailsPage.GetLabelDataCount();
+                detailsPage.ClickOnGridSearchIcon();
+                detailsPage.SelectSearchOption(searchOption);
+                detailsPage.EnterSearchValueAndClickOnSearchButton(searchValue);
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                detailsPage.VerifyInboxDataCount(selectedLabelDataCount, false);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("DetailsPageTest")]
+        [Description("Verifying Advance Filter functionality;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.FilterDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252687_VerifyAdvanceFilterFunctionalityTest(string persona, string inbox, string searchRecord, string filterField1, string operator1, string filterValue1, string filterField2, string operator2, string filterValue2)
+        {
+            try
+            {
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+                int selectedLabelDataCount = detailsPage.GetLabelDataCount();
+                FilterPage filterPage1 = inboxesTab.ClickOnFilterOption();
+                filterPage1.ClickOnAddFilter();
+                filterPage1.SelectFilterFieldValue(filterField1.Trim(), 1);
+                filterPage1.SelectOperatorValue(operator1.Trim(), 1);
+                filterPage1.EnterFilterValue(filterValue1.Trim(), 1);
+                filterPage1.ClickOnApplyFilter();
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                Assert.IsTrue(detailsPage.CreateLabelButton[0].Displayed);
+                detailsPage.VerifyInboxDataCount(selectedLabelDataCount, false);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("DetailsPageTest")]
+        [Description("Verifying Group Filter functionality;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.FilterDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252686_VerifyGroupFilterFunctionalityTest(string persona, string inbox, string searchRecord, string filterField1, string operator1, string filterValue1, string filterField2, string operator2, string filterValue2)
+        {
+            try
+            {
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                FilterPage filterPage1 = inboxesTab.ClickOnFilterOption();
+
+                //Applying first filter condition
+                filterPage1.ClickOnAddFilter();
+                filterPage1.SelectFilterFieldValue(filterField1.Trim(), 1);
+                filterPage1.SelectOperatorValue(operator1.Trim(), 1);
+                filterPage1.EnterFilterValue(filterValue1.Trim(), 1);
+
+                //Applying second filter condition
+                filterPage1.ClickOnAddFilter();
+                filterPage1.SelectFilterFieldValue(filterField2.Trim(), 2);
+                filterPage1.SelectOperatorValue(operator2.Trim(), 1);
+                filterPage1.EnterFilterValue(filterValue2.Trim(), 1);
+
+                filterPage1.ClickOnApplyFilter();
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                //need to work........
+
+
             }
             catch (Exception ex)
             {

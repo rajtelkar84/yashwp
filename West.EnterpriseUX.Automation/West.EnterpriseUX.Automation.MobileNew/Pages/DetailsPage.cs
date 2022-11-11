@@ -5,6 +5,7 @@ using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading;
 using West.EnterpriseUX.Automation.MobileNew.Setup;
 
@@ -37,6 +38,18 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> ExpandViewPopupTitle => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='PopupTitle']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> ExpandViewFeedbackImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='FeedBackImage']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> ExpandViewCloseImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='ClosePopupImage']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> GridSearchIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='mobileSearchImage_Container']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> GridSearchPicker => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='gridContent']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> SearchOption(string searchOption)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text, '" + searchOption + "')]"), iosLocator: MobileBy.XPath(""));
+        }
+        public IList<IWebElement> PickerInput => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@resource-id='android:id/numberpicker_input']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> OkButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='OK']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> GridSearchBox => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='searchEntry']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> SearchButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchButton_Container']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> SelectedLabel => WaitAndFindElements(androidLocator: MobileBy.XPath("//android.view.ViewGroup[@content-desc='parentInboxGridView']/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.TextView"), iosLocator: MobileBy.XPath(""));
+
 
         #endregion DetailsPage Elements
 
@@ -214,6 +227,103 @@ namespace West.EnterpriseUX.Automation.MobileNew
             if (FirstWidgetTextValues.Count > 0)
             {
                 ScrollDown();
+            }
+        }
+
+        public void ClickOnGridSearchIcon()
+        {
+            try
+            {
+                if(GridSearchIcon.Count > 0)
+                {
+                    GridSearchIcon[0].Click();
+                    WaitForMoment(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Assert.Fail("Grid search icon is not present on Details page.");
+            }
+        }
+
+        public void SelectSearchOption(string searchOption)
+        {
+            try
+            {
+                if(GridSearchPicker.Count > 0)
+                {
+                    GridSearchPicker[0].Click();
+                    WaitForMoment(1);
+                    
+                    if(PickerInput.Count > 0)
+                    {
+                        PickerInput[0].Click();
+                        PickerInput[0].Clear();
+                        PickerInput[0].SendKeys(searchOption);
+                        WaitForMoment(1);
+
+                        if(OkButton.Count > 0)
+                        {
+                            OkButton[0].Click();
+                            WaitForMoment(1);
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Assert.Fail("Grid search picker is not present on Details page.");
+            }
+        }
+
+        public void EnterSearchValueAndClickOnSearchButton(string searchValue)
+        {
+            try
+            {
+                if(GridSearchBox.Count > 0)
+                {
+                    GridSearchBox[0].Click();
+                    GridSearchBox[0].Clear();
+                    GridSearchBox[0].SendKeys(searchValue);
+
+                    if(SearchButton.Count > 0)
+                    {
+                        SearchButton[0].Click();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                Assert.Fail("Search button is not present on Details page.");
+            }
+        }
+
+        public int GetLabelDataCount()
+        {
+            if(SelectedLabel.Count > 0 && SelectedLabel[0].Displayed)
+            {
+                string dataCount = Regex.Match(SelectedLabel[0].Text, @"\d+").Value;
+                return Int32.Parse(dataCount);
+            }
+            return 0;
+        }
+
+        public void VerifyInboxDataCount(int expectedLabelCount, bool countMatch = false)
+        {
+            int actualLabelCount = GetLabelDataCount();
+            if (countMatch)
+            {
+                Assert.AreEqual(expectedLabelCount, actualLabelCount, $"Inbox actual data count:{actualLabelCount} is not matching as expected data count:{expectedLabelCount}");
+            }
+            else
+            {
+                if (actualLabelCount != 0 && expectedLabelCount != 0)
+                {
+                    Assert.AreNotEqual(expectedLabelCount, actualLabelCount, $"Inbox filtered data count:{actualLabelCount} is matching to unfiltered data count:{expectedLabelCount}");
+                }
             }
         }
 
