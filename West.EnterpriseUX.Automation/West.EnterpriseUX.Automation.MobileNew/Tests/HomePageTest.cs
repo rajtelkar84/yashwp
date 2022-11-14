@@ -11,7 +11,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
     public class HomePageTest : AppiumSetup
     {
         [TestMethod]
-        [TestCategory("LoginTest")]
+        [TestCategory("HomePageTest")]
         [Description("Login to the Android Application;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
@@ -44,7 +44,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         }
 
         [TestMethod]
-        [TestCategory("LogoutTest")]
+        [TestCategory("HomePageTest")]
         [Description("Verifying Logout functionality of Application;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
@@ -102,13 +102,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                //_basePageInstance.ClickOnMoreOptions();
-                //_basePageInstance.VerifyAllOptionsFromMoreOptions();
-                //FeedbackPage _feedbackPage = _basePageInstance.ClickOnOption("Feedback");
-
                 FeedbackPage _feedbackPage = _basePageInstance.ClickOnFeedbackIcon();
+
                 _feedbackPage.VerifyTheFieldsOnFeedbackPage();
-                //_feedbackPage.SelectRating(3);
                 _feedbackPage.TitleTextBox.SendKeys("Test feedback title");
                 _feedbackPage.DescriptionTextBox.SendKeys("Test feedback description");
                 _feedbackPage.SelectEmployee("Patil, Girishwar (EXTERNAL)");

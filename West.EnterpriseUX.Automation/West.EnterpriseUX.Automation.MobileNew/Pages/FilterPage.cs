@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Interactions;
@@ -47,6 +48,16 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> ActiveFiltersTexts => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='ActiveFilters']/descendant::android.widget.TextView"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> ConfirmButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='YES']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> DenyButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='NO']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> FilterCheckBoxes => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='FilterConditions']/descendant::android.widget.CheckBox"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> FilterGroupButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='FilterConditions']/descendant::*[@text='GROUP']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> FilterGroupIdTexts => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='FilterConditions']/descendant::android.widget.TextView"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> FilterConjunctionButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='and. ']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> SelectFilterConjunction(string value)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'" + value + "')]"), iosLocator: MobileBy.XPath(""));
+        }
+
+
 
         #endregion FilterPage Elements
 
@@ -299,6 +310,65 @@ namespace West.EnterpriseUX.Automation.MobileNew
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        public void FilterConjunction(string conjuction)
+        {
+            try
+            {
+                WaitForMoment(1);
+                if(FilterConjunctionButton.Count > 0)
+                {
+                    FilterConjunctionButton[0].Click();
+                    WaitForMoment(1);
+
+                    IList<IWebElement> filterConjunction = SelectFilterConjunction(conjuction);
+                    if (filterConjunction.Count > 0)
+                    {
+                        filterConjunction[0].Click();
+                    }
+                    else
+                    {
+                        Assert.Fail("Filter conjunction option " + conjuction + "  is not present.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail("Filter conjunction button is not present.");
+            }
+        }
+
+        public void GroupFilterConditions(int groupFilters)
+        {
+            try
+            {
+                WaitForMoment(1);
+                for (int i = 0; i < groupFilters; i++)
+                {
+                    FilterCheckBoxes[i].Click();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail("Filter grouping checkboxes are not present.");
+            }
+        }
+
+        public void ClickOnGroupFilterButton()
+        {
+            try
+            {
+                WaitForMoment(1);
+                FilterGroupButton[0].Click();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail("Filter group button is not present.");
             }
         }
 

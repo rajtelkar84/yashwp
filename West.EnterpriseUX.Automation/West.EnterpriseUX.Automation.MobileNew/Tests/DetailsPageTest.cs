@@ -17,7 +17,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
             try
             {
                 InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
-                //DetailsPage detailsPage = inboxPage.PerformGlobalSearch(persona, inbox, searchRecord);
                 DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
@@ -42,7 +41,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
             try
             {
                 InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
-                //DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
                 DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
@@ -86,7 +84,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
             try
             {
                 InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
-                //DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
                 DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
@@ -117,7 +114,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
             try
             {
                 InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
-                //DetailsPage detailsPage = inboxPage.NavigateToInboxByGlobalSearch(persona, inbox);
                 DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
@@ -416,6 +412,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
                 int selectedLabelDataCount = detailsPage.GetLabelDataCount();
+
                 FilterPage filterPage1 = inboxesTab.ClickOnFilterOption();
                 filterPage1.ClickOnAddFilter();
                 filterPage1.SelectFilterFieldValue(filterField1.Trim(), 1);
@@ -447,27 +444,32 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
 
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+                int selectedLabelDataCount = detailsPage.GetLabelDataCount();
 
-                FilterPage filterPage1 = inboxesTab.ClickOnFilterOption();
+                FilterPage filterPage = inboxesTab.ClickOnFilterOption();
 
                 //Applying first filter condition
-                filterPage1.ClickOnAddFilter();
-                filterPage1.SelectFilterFieldValue(filterField1.Trim(), 1);
-                filterPage1.SelectOperatorValue(operator1.Trim(), 1);
-                filterPage1.EnterFilterValue(filterValue1.Trim(), 1);
+                filterPage.ClickOnAddFilter();
+                filterPage.SelectFilterFieldValue(filterField1.Trim(), 1);
+                filterPage.SelectOperatorValue(operator1.Trim(), 1);
+                filterPage.EnterFilterValue(filterValue1.Trim(), 1);
 
                 //Applying second filter condition
-                filterPage1.ClickOnAddFilter();
-                filterPage1.SelectFilterFieldValue(filterField2.Trim(), 2);
-                filterPage1.SelectOperatorValue(operator2.Trim(), 1);
-                filterPage1.EnterFilterValue(filterValue2.Trim(), 1);
+                filterPage.ClickOnAddFilter();
+                filterPage.SelectFilterFieldValue(filterField2.Trim(), 2);
+                filterPage.SelectOperatorValue(operator2.Trim(), 1);
+                filterPage.EnterFilterValue(filterValue2.Trim(), 2);
 
-                filterPage1.ClickOnApplyFilter();
+                //Grouping the filter conditions
+                filterPage.FilterConjunction("or");
+                filterPage.GroupFilterConditions(2);
+                filterPage.ClickOnGroupFilterButton();
+                filterPage.ClickOnApplyFilter();
+
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
 
-                //need to work........
-
-
+                Assert.IsTrue(detailsPage.CreateLabelButton[0].Displayed);
+                detailsPage.VerifyInboxDataCount(selectedLabelDataCount, false);
             }
             catch (Exception ex)
             {
