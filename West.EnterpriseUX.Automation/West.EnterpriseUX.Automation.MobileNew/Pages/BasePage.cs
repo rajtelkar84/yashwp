@@ -79,7 +79,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 if (FavoriteIcon.Count > 0)
                 {
                     FavoriteIcon[0].Click();
-                    Thread.Sleep(2000);
+                    WaitForMoment(2);
                     _favoritePageInstance = new FavoritePage(_driver);
                     return _favoritePageInstance;
                 }

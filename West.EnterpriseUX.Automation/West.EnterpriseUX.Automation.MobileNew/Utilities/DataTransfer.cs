@@ -28,5 +28,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + Constant.ENV_NAME + "/KPIs_252691.xlsx", "KPIs_252691");
         }
+
+        public static IEnumerable<object[]> Charts_252697()
+        {
+            return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + Constant.ENV_NAME + "/Charts_252697.xlsx", "Charts_252697");
+        }
     }
 }

@@ -102,6 +102,16 @@ namespace West.EnterpriseUX.Automation.MobileNew.Setup
                     .Perform();
         }
 
+        public void ScrollUpInMicroFilterView()
+        {
+            (new TouchAction(_driver))
+                    .Press(305, 1320)
+                    .Wait(1000)
+                    .MoveTo(305, 1070)
+                    .Release()
+                    .Perform();
+        }
+
         public static void WaitForMoment(int delay)
         {
             Thread.Sleep(delay * 1000);
