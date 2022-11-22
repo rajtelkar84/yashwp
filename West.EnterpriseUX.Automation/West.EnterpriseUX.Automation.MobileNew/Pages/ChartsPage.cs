@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
+using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,31 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text, '" + chartName + "') and @content-desc='Title']/parent::*/parent::*/following-sibling::*/following-sibling::*/descendant::*[@content-desc='RefreshBlock']"), iosLocator: MobileBy.XPath(""));
         }
+        public IList<IWebElement> UserCreatedTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text, 'Created')]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> CreateChartImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='PerformAction']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> ChartNameTextfield => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='ChartName']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> GetChartType(string chartType)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@content-desc, '" + chartType + "')]"), iosLocator: MobileBy.XPath(""));
+        }
+        public IList<IWebElement> MeasureFieldComboBox => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text, 'Measures')]/parent::*/parent::*/parent::*/following-sibling::*[1]/descendant::*[@content-desc=' Input Field']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> MeasuresViewGroup => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Measures']/parent::*"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> SelectValue(string value)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'" + value + "')]"), iosLocator: MobileBy.XPath(""));
+        }
+        public IList<IWebElement> DimensionFieldComboBox => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text, 'Dimensions')]/parent::*/parent::*/parent::*/following-sibling::*[1]/descendant::*[@content-desc=' Input Field']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> DimensionsViewGroup => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Dimensions']/parent::*"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> CreateChartButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Create']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> ExpanderIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='expanderIcon']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> DeleteIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Delete']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> ConfirmButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='YES']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> GetExpanderIconOfChart(string chartName)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text, '" + chartName + "') and @content-desc='Title']/parent::*/parent::*/following-sibling::*/following-sibling::*/descendant::*[@content-desc='expanderIcon']"), iosLocator: MobileBy.XPath(""));
+        }
 
+        
         #endregion ChartsPage Elements
 
         #region ChartsPage Actions
@@ -59,8 +84,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                //IList<IWebElement> zoomButton = GetChartToZoom(chartName);
-
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 while (GetChartToZoom(chartName).Count == 0)
                 {
@@ -98,8 +121,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                //IList<IWebElement> refreshButton = GetChartToRefresh(chartName);
-
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 while (GetChartToRefresh(chartName).Count == 0)
                 {
@@ -114,6 +135,215 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 Console.WriteLine(ex.Message);
                 Assert.Fail($"{chartName} Chart is not available/configured to Zoom");
+            }
+        }
+
+        public void CreateChart(string chartName, string measure, string dimension, string chartType)
+        {
+            try
+            {
+                SelectUserCreatedTab();
+                ClickOnCreateChartImage();
+                EnterChartName(chartName);
+                SelectChartType(chartType);
+                SelectMeasureField(measure);
+                SelectDimensionField(dimension);
+                ClickOnCreateChart();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"{chartName} Chart is not created.");
+            }
+        }
+
+        public void DeleteAllUserCreatedCharts()
+        {
+            IList<IWebElement> chartTitles = GetAllChartsTitles;
+
+            while (chartTitles.Count > 0)
+            {
+                ExpanderIcon[0].Click();
+                WaitForMoment(1);
+                DeleteIcon[0].Click();
+                WaitForMoment(1);
+                ConfirmButton[0].Click();
+                WaitForMoment(20);
+            }
+        }
+
+        public void SelectUserCreatedTab()
+        {
+            if (UserCreatedTab.Count > 0)
+            {
+                UserCreatedTab[0].Click();
+            }
+            WaitForMoment(5);
+        }
+
+        public void ClickOnCreateChartImage()
+        {
+            if (CreateChartImage.Count > 0)
+            {
+                CreateChartImage[0].Click();
+                WaitForMoment(5);
+            }
+            else
+            {
+                Console.WriteLine($"For Creating a chart : Create Chart button is not present in the current page.");
+                Assert.Fail($"For Creating a chart : Create Chart button is not present in the current page.");
+            }
+        }
+
+        public void EnterChartName(string chartName)
+        {
+            if(ChartNameTextfield.Count > 0)
+            {
+                ChartNameTextfield[0].Click();
+                ChartNameTextfield[0].Clear();
+                ChartNameTextfield[0].SendKeys(chartName);
+            }
+            WaitForMoment(2);
+        }
+
+        public void SelectChartType(string chartType)
+        {
+            WaitForMoment(2);
+
+            try
+            {
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (GetChartType(chartType).Count == 0)
+                {
+                    ScrollUp();
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+                GetChartType(chartType)[0].Click();
+                WaitForMoment(2);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"Chart Type by Name: {chartType} is not found in the current page");
+            }
+        }
+
+        public void SelectMeasureField(string fieldValue)
+        {
+            bool isMeasureComboBoxDisplayed = MeasureFieldComboBox[0].Displayed;
+
+            if (!isMeasureComboBoxDisplayed)
+            {
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (MeasureFieldComboBox.Count == 0)
+                {
+                    ScrollUp();
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+                MeasureFieldComboBox[0].Click();
+                MeasureFieldComboBox[0].Clear();
+            }
+            else
+            {
+                MeasureFieldComboBox[0].Click();
+                MeasureFieldComboBox[0].Clear();
+            }
+            WaitForMoment(0.5);
+            MeasureFieldComboBox[0].SendKeys(fieldValue);
+            WaitForMoment(0.5);
+            _driver.HideKeyboard();
+            WaitForMoment(1);
+            MeasuresViewGroup[0].Click();
+            /*
+            IList<IWebElement> measureElement = SelectValue(fieldValue);
+            new TouchAction(_driver).Tap(measureElement[0]).Perform();
+            new Actions(_driver).SendKeys(Keys.Enter).Perform();
+            */
+            WaitForMoment(2);
+        }
+
+        public void SelectDimensionField(string fieldValue)
+        {
+            bool isDimensionComboBoxDisplayed = DimensionFieldComboBox[0].Displayed;
+
+            if (!isDimensionComboBoxDisplayed)
+            {
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (DimensionFieldComboBox.Count == 0)
+                {
+                    ScrollUp();
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+                DimensionFieldComboBox[0].Click();
+                DimensionFieldComboBox[0].Clear();
+            }
+            else
+            {
+                DimensionFieldComboBox[0].Click();
+                DimensionFieldComboBox[0].Clear();
+            }
+            WaitForMoment(0.5);
+            DimensionFieldComboBox[0].SendKeys(fieldValue);
+            WaitForMoment(0.5);
+            _driver.HideKeyboard();
+            WaitForMoment(1);
+            DimensionsViewGroup[0].Click();
+            /*
+            IList<IWebElement> dimensionElement = SelectValue(fieldValue);
+            new TouchAction(_driver).Tap(dimensionElement[0]).Perform();
+            new Actions(_driver).SendKeys(Keys.Enter).Perform();
+            */
+            WaitForMoment(2);
+        }
+
+        public void ClickOnCreateChart()
+        {
+            if (CreateChartButton.Count > 0)
+            {
+                CreateChartButton[0].Click();
+            }
+            WaitForMoment(2);
+        }
+
+        public void SelectChartToDelete(string chartName)
+        {
+            try
+            {
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (GetExpanderIconOfChart(chartName).Count == 0)
+                {
+                    ScrollUp();
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+                GetExpanderIconOfChart(chartName)[0].Click();
+                WaitForMoment(1);
+                DeleteIcon[0].Click();
+                WaitForMoment(1);
+                ConfirmButton[0].Click();
+                WaitForMoment(20);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"{chartName} Chart is not available/configured to Zoom");
+            }
+        }
+
+        public void VerifyChartPresent(string chartName, bool isPresent = false)
+        {
+            IList<IWebElement> charts = GetChartToRefresh(chartName);
+
+            if (isPresent)
+            {
+                Assert.AreEqual(isPresent, charts.Count > 0, $"Chart Name:{chartName} is not found in the Charts Page after Delete Chart Operation.");
+            }
+            else
+            {
+                Assert.AreEqual(isPresent, charts.Count > 0, $"Chart Name:{chartName} is found in the Charts Page after Delete Chart Operation.");
             }
         }
 

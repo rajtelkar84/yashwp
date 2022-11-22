@@ -118,6 +118,85 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
         }
 
+        [TestMethod]
+        [TestCategory("ChartsPageTest")]
+        [Description("Verifying the Chart creation functionality;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.Charts_252696), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252696_CreateChartTest(string persona, string inbox, string chartType, string measure, string dimension)
+        {
+            ChartsPage chartsPage = null;
+
+            try
+            {
+                string chartName = string.Empty;
+                string uniqueNumber = _helper.GenerateUniqueRandomNumber();
+
+                chartName = "Chart" + chartType + uniqueNumber;
+                Console.WriteLine($"Persona : {persona} - Inbox : {inbox} - ChartType : {chartType}");
+
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+                WaitForMoment(20);
+                chartsPage = inboxesTab.OpenChartsAbstraction();
+                WaitForMoment(20);
+                chartsPage.CreateChart(chartName, measure, dimension, chartType);
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                try
+                {
+                    chartsPage.DeleteAllUserCreatedCharts();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("ChartsPageTest")]
+        [Description("Verifying Delete functionality for Charts;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.Charts_252696), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252699_DeleteChartTest(string persona, string inbox, string chartType, string measure, string dimension)
+        {
+            ChartsPage chartsPage = null;
+
+            try
+            {
+                string chartName = string.Empty;
+                string uniqueNumber = _helper.GenerateUniqueRandomNumber();
+
+                chartName = "Chart" + chartType + uniqueNumber;
+                Console.WriteLine($"Persona : {persona} - Inbox : {inbox} - ChartType : {chartType}");
+
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+                WaitForMoment(20);
+                chartsPage = inboxesTab.OpenChartsAbstraction();
+                WaitForMoment(20);
+                chartsPage.CreateChart(chartName, measure, dimension, chartType);
+
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                chartsPage.SelectChartToDelete(chartName);
+                chartsPage.VerifyChartPresent(chartName, false);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+        }
+
 
     }
 }

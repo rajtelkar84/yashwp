@@ -24,6 +24,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
             return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + Constant.ENV_NAME + "/GridSearchData.xlsx", "GridSearchData");
         }
 
+        public static IEnumerable<object[]> Details_252684()
+        {
+            return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + Constant.ENV_NAME + "/Details_252684.xlsx", "Details_252684");
+        }
+
         public static IEnumerable<object[]> KPIs_252691()
         {
             return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + Constant.ENV_NAME + "/KPIs_252691.xlsx", "KPIs_252691");
@@ -32,6 +37,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static IEnumerable<object[]> Charts_252697()
         {
             return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + Constant.ENV_NAME + "/Charts_252697.xlsx", "Charts_252697");
+        }
+
+        public static IEnumerable<object[]> Charts_252696()
+        {
+            return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + Constant.ENV_NAME + "/Charts_252696.xlsx", "Charts_252696");
         }
     }
 }
