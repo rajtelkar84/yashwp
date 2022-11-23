@@ -1,4 +1,5 @@
 ﻿using AventStack.ExtentReports;
+using BrowserStack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
@@ -159,7 +160,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
                 Console.WriteLine(abc);
             }
-            OpenEmulator();
+
+            //OpenEmulator();
+
             LaunchApp();
             _basePageInstance = new BasePage(driver);
             LoginToWDApp();
@@ -213,6 +216,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             if (platformName.ToLower().Equals("android"))
             {
+                /*
                 appiumOptions = new AppiumOptions();
 
                 appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, platformName);
@@ -222,33 +226,42 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 appiumOptions.AddAdditionalCapability(MobileCapabilityType.NoReset, noReset);
 
                 driver = new AndroidDriver<IWebElement>(_appiumLocalService, appiumOptions);
-
-                // Browserstack POC
-                /*
-                AppiumOptions caps = new AppiumOptions();
-
-                // Set your BrowserStack access credentials
-                caps.AddAdditionalCapability("browserstack.user", "girishwarpatil_xjIfsk");
-                caps.AddAdditionalCapability("browserstack.key", "njA25T7MX9rGB1kFyX8E");
-
-                // Set URL of the application under test
-                caps.AddAdditionalCapability("app", "bs://6ae3789050b8ac1386fdb16068335ee6e238759f");
-
-                // Specify device and os_version
-                caps.AddAdditionalCapability("os_version", "11.0");
-                caps.AddAdditionalCapability("device", "Samsung Galaxy M52");
-                caps.AddAdditionalCapability("browserstack.local", "true");
-
-                // Specify the platform name
-                caps.PlatformName = "Android";
-
-                // Set other BrowserStack capabilities
-                caps.AddAdditionalCapability("project", "WD2.0");
-                caps.AddAdditionalCapability("build", "com.westpharma.uxframework.dev");
-                caps.AddAdditionalCapability("name", "West Digital 2.0");
-
-                driver = new AndroidDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), caps);
                 */
+
+                // ------------------------- Browserstack POC -------------------------
+
+                // To start browserstack local tunneling
+                Local browserStackLocal = new Local();
+                List<KeyValuePair<string, string>> bsLocalArgs = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("key", "MGfnZCgjRHYj5sJa1CHd")
+                };
+
+                foreach (System.Diagnostics.Process myProc in System.Diagnostics.Process.GetProcesses())
+                {
+                    if (myProc.ProcessName == "BrowserStackLocal")
+                    {
+                        myProc.Kill();
+                    }
+                }
+
+                browserStackLocal.start(bsLocalArgs);
+
+                appiumOptions = new AppiumOptions();
+
+                appiumOptions.AddAdditionalCapability("browserstack.user", "girishwarpatilex_nub4P7");
+                appiumOptions.AddAdditionalCapability("browserstack.key", "MGfnZCgjRHYj5sJa1CHd");
+                appiumOptions.AddAdditionalCapability("app", "bs://080fbeaee5d30f303c736c8b80ac00d5247bde34");
+                appiumOptions.AddAdditionalCapability("os_version", "11.0");
+                appiumOptions.AddAdditionalCapability("device", "Samsung Galaxy M52");
+                appiumOptions.AddAdditionalCapability("browserstack.local", "true");
+                appiumOptions.PlatformName = "Android";
+                appiumOptions.AddAdditionalCapability("project", "WD2.0");
+                appiumOptions.AddAdditionalCapability("build", "com.westpharma.uxframework.dev");
+                appiumOptions.AddAdditionalCapability("name", "West Digital 2.0");
+
+                driver = new AndroidDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), appiumOptions);
+
             }
             else
             {

@@ -1,5 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Interactions;
 using System;
@@ -21,6 +22,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 IList<IWebElement> loader = _basePageInstance.LoaderImage;
 
+                /*
                 WaitForLoaderToDisappear(loader);
                 (new TouchAction(driver)).Tap(284, 441).Perform();
                 new Actions(driver).SendKeys(emailId.Trim()).Perform();
@@ -32,6 +34,21 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 new Actions(driver).SendKeys(Keys.Enter).Perform();
                 WaitForMoment(10);
                 new Actions(driver).SendKeys(Keys.Enter).Perform();
+                WaitForLoaderToDisappear(loader);
+                */
+
+                WaitForLoaderToDisappear(loader);
+                (new TouchAction(driver)).Tap(89, 612).Perform();
+                WaitForMoment(5);
+                new Actions(driver).SendKeys(emailId.Trim()).Perform();
+                WaitForMoment(5);
+                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
+                WaitForMoment(5);
+                new Actions(driver).SendKeys(password.Trim()).Perform();
+                WaitForMoment(5);
+                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
+                WaitForMoment(5);
+                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
                 WaitForLoaderToDisappear(loader);
 
                 Assert.IsTrue(_basePageInstance.ProfileMenu[0].Displayed);
