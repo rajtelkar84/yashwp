@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
+using West.EnterpriseUX.Automation.Mobile.Utilities;
 using West.EnterpriseUX.Automation.MobileNew.configFiles;
 using West.EnterpriseUX.Automation.MobileNew.Utilities;
 
@@ -26,20 +27,20 @@ namespace West.EnterpriseUX.Automation.MobileNew
     {
         static AppiumLocalService service;
 
-        protected AppiumDriver<IWebElement> driver;
+        protected static AppiumDriver<IWebElement> driver;
         public static ExtentReports extent;
         public static ExtentTest test;
-        private static string platformName;
-        private static string deviceName;
+        //private static string platformName;
+        //private static string deviceName;
         private static string appPackage;
         private static string appActivity;
         private static Boolean noReset;
         private static string bundleId;
-        private static string automationName;
+        //private static string automationName;
         private static string udid;
         public static string configFile;
         public static string batchFile;
-        private AppiumOptions appiumOptions;
+        public static AppiumOptions appiumOptions;
         public BasePage _basePageInstance;
         public static Helper _helper = new Helper();
 
@@ -54,7 +55,35 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static string laptopName = Constant.LAPTOP_NAME;
         public static string EnvName_PlatformName = EnvName + "_" + PlatformName;
 
+        public static string platformName = string.Empty;
+        public static string platformVersion = string.Empty;
+        public static string deviceName = string.Empty;
+        public static string newCommandTimeout = string.Empty;
+        //public static string appPackage = string.Empty;
+        //public static string appActivity = string.Empty;
+        //public static string udid = string.Empty;
+        //public static string bundleId = string.Empty;
+        public static string appName = string.Empty;
+        public static string automationName = string.Empty;
+        public static bool cloudAutomation = false;
+        public static string browserstackUserName = string.Empty;
+        public static string browserstackPassword = string.Empty;
+        public static string localTunneling = string.Empty;
+        public static string projectName = string.Empty;
+        public static string buildName = string.Empty;
+        public static string testName = string.Empty;
+        public static string appURL = string.Empty;
+        public static Local browserStackLocal = null;
+        public static string logsFolderPath = string.Empty;
+        public static string screenshotsFolderPath = string.Empty;
+        public static string buildsPath = string.Empty;
+        public static string testErrorMessage = string.Empty;
+        public static string userName = string.Empty;
+        public static string password = string.Empty;
+        protected static string MobPlatform;
+
         public TestContext TestContext { get; set; }
+
         [AssemblyInitialize]
         public static void LoadProperties(TestContext context)
         {
@@ -129,67 +158,177 @@ namespace West.EnterpriseUX.Automation.MobileNew
             appActivity = commonEnvironment.appActivity;
             noReset = Convert.ToBoolean(commonEnvironment.NoReset.ToString());
             bundleId = commonEnvironment.bundleId;
-            automationName = commonEnvironment.automationName;
+            //automationName = commonEnvironment.automationName;
             udid = commonEnvironment.udid;
 
-            if (extent == null)
+            //------------------- Browserstack setting POC -------------------//
+
+            try
             {
-                extent = ExtentManager.GetInstance();
+                cloudAutomation = bool.Parse(context.Properties["CloudAutomation"].ToString());
+                MobPlatform = context.Properties["PlatformName"].ToString();
+
+                logsFolderPath = context.Properties["LogFolderPath"].ToString();
+                screenshotsFolderPath = context.Properties["ScreenshotFolderPath"].ToString();
+                buildsPath = context.Properties["BuildsPath"].ToString();
+
+                //Create Logs, Screenshots, Builds Folder if not present
+                _helper.CreateFolder(logsFolderPath);
+                _helper.CreateFolder(screenshotsFolderPath);
+                _helper.CreateFolder(buildsPath);
+
+                //Reads the UserName and Password
+                ReadUserEmailIDandPassword(context);
+
+                //Reading the Pipeline Variables
+                LoadPipelineVariables();
+
+                //Verifying the Pipeline Variables validation
+                if (cloudAutomation && string.IsNullOrEmpty(browserstackUserName))
+                {
+                    //LogInfo("Reading of the RunSetting Variables Started");
+
+                    browserstackUserName = context.Properties["BrowserstackUserName"].ToString();
+                    browserstackPassword = context.Properties["BrowserstackPassword"].ToString();
+
+                    //LogInfo("Browserstack UserName : " + browserstackUserName);
+                }
+                if (cloudAutomation && string.IsNullOrEmpty(appURL))
+                {
+                    appURL = context.Properties["AppURL"].ToString();
+
+                    //LogInfo("Browserstack appURL : " + appURL);
+                    //LogInfo("Reading of the RunSetting Variables finished");
+                }
+
+                if (extent == null)
+                {
+                    extent = ExtentManager.GetInstance();
+                }
             }
+            catch (Exception ex)
+            {
+                //LogError($"{ex.Message} : {ex.StackTrace}");
+                Console.WriteLine($"{ex.Message} : {ex.StackTrace}");
+            }
+            finally
+            {
+                //LogInfo("Assembly Initialize finished");
+                Console.WriteLine("Assembly Initialize finished");
+            }
+
+            //------------------- Browserstack setting POC -------------------//
         }
 
         [AssemblyCleanup]
         public static void CleanUp()
         {
-            extent.Flush();
+            try
+            {
+                extent.Flush();
+
+                //LogInfo("Assembly Cleanup Started");
+
+                //Stop the BrowserStack Local binary
+                if (browserStackLocal != null)
+                {
+                    browserStackLocal.stop();
+                }
+            }
+            catch (Exception ex)
+            {
+                //LogError($"{ex.Message} : {ex.StackTrace}");
+                Console.WriteLine($"{ex.Message} : {ex.StackTrace}");
+            }
+            finally
+            {
+                //LogInfo("Assembly Cleanup finished");
+                Console.WriteLine("Assembly Cleanup finished");
+            }
         }
 
         [TestInitialize]
         public void StartAppiumServerAndInvokeDriver()
         {
-            test = extent.CreateTest(TestContext.TestName);
-
-            if (laptopName.ToUpper().Trim().Equals("MACBOOK"))
+            try
             {
-                string abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
-                Console.WriteLine(abc);
+                test = extent.CreateTest(TestContext.TestName);
 
-                Environment.SetEnvironmentVariable("ANDROID_HOME", "/Users/csadmin/Library/Android/sdk");
-                Environment.SetEnvironmentVariable("JAVA_HOME", "/Library/Java/JavaVirtualMachines/openlogic-openjdk-8.jdk/Contents/Home");
+                if (laptopName.ToUpper().Trim().Equals("MACBOOK"))
+                {
+                    string abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
+                    Console.WriteLine(abc);
 
-                abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
-                Console.WriteLine(abc);
+                    Environment.SetEnvironmentVariable("ANDROID_HOME", "/Users/csadmin/Library/Android/sdk");
+                    Environment.SetEnvironmentVariable("JAVA_HOME", "/Library/Java/JavaVirtualMachines/openlogic-openjdk-8.jdk/Contents/Home");
+
+                    abc = Environment.GetEnvironmentVariable("ANDROID_HOME");
+                    Console.WriteLine(abc);
+                }
+
+                //OpenEmulator();
+                //LaunchApp();
+                LaunchApp(MobPlatform, DeviceType.RealDevice.ToString(), TestContext, cloudAutomation);
+                _basePageInstance = new BasePage(driver);
+                LoginToWDApp();
             }
-
-            //OpenEmulator();
-
-            LaunchApp();
-            _basePageInstance = new BasePage(driver);
-            LoginToWDApp();
+            catch (Exception ex)
+            {
+                //LogError($"{ex.Message} : {ex.StackTrace}");
+                Console.WriteLine($"{ex.Message} : {ex.StackTrace}");
+            }
+            finally
+            {
+                //LogInfo("Test Initialize finished");
+                Console.WriteLine("Test Initialize finished");
+            }
         }
 
         [TestCleanup]
         public void StopAppiumServerAndQuitDriver()
         {
-            if (TestContext.CurrentTestOutcome == UnitTestOutcome.Passed)
+            try
             {
-                test.Log(Status.Pass, "Test Method Name " + TestContext.TestName + " : " + TestContext.CurrentTestOutcome + " - snapshot below");
-            }
-            else if (TestContext.CurrentTestOutcome == UnitTestOutcome.Failed)
-            {
-                test.Log(Status.Fail, "Test Method Name " + TestContext.TestName + " : " + TestContext.CurrentTestOutcome + " - snapshot below");
-            }
-            else
-            {
-                test.Log(Status.Skip, "Test Method Name " + TestContext.TestName + " : " + TestContext.CurrentTestOutcome + " - snapshot below");
-            }
+                if (TestContext.CurrentTestOutcome == UnitTestOutcome.Passed)
+                {
+                    test.Log(Status.Pass, "Test Method Name " + TestContext.TestName + " : " + TestContext.CurrentTestOutcome + " - snapshot below");
+                }
+                else if (TestContext.CurrentTestOutcome == UnitTestOutcome.Failed)
+                {
+                    test.Log(Status.Fail, "Test Method Name " + TestContext.TestName + " : " + TestContext.CurrentTestOutcome + " - snapshot below");
+                }
+                else
+                {
+                    test.Log(Status.Skip, "Test Method Name " + TestContext.TestName + " : " + TestContext.CurrentTestOutcome + " - snapshot below");
+                }
 
-            Screenshot screenshot = driver.GetScreenshot();
-            test.AddScreenCaptureFromBase64String(screenshot.AsBase64EncodedString, title: TestContext.TestName);
+                Screenshot screenshot = driver.GetScreenshot();
+                test.AddScreenCaptureFromBase64String(screenshot.AsBase64EncodedString, title: TestContext.TestName);
 
-            //LogoutFromWDApp();
-            driver?.Quit();
-            service?.Dispose();
+                //LogoutFromWDApp();
+                driver?.Quit();
+                service?.Dispose();
+
+                //Stop the BrowserStack Local binary
+                if (browserStackLocal != null)
+                {
+                    browserStackLocal.stop();
+                }
+
+                //LogInfo($"Test : {TestContext.TestName} finished");
+
+                //LogInfo("Test Cleanup finished");
+            }
+            catch (Exception ex)
+            {
+                //LogError($"{ex.Message} : {ex.StackTrace}");
+                Console.WriteLine($"{ex.Message} : {ex.StackTrace}");
+            }
+            finally
+            {
+                //LogInfo("Test Cleanup finished");
+                Console.WriteLine("Test Cleanup finished");
+            }
         }
 
         private void LaunchApp()
@@ -261,7 +400,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 appiumOptions.AddAdditionalCapability("name", "West Digital 2.0");
 
                 driver = new AndroidDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), appiumOptions);
-
             }
             else
             {
@@ -279,13 +417,91 @@ namespace West.EnterpriseUX.Automation.MobileNew
             driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
         }
 
-        private void LoginToWDApp()
+        public static void LaunchApp(string environment, string deviceType, TestContext context, bool browserStackCloud = false)
+        {
+            if (browserStackCloud)
+            {
+                //LogInfo("Started to load the Browser Stack Desired Capabilities");
+                LoadBrowserStackappiumOptions(context);
+                //LogInfo("Finished loading of Browser Stack Desired Capabilities");
+
+                //LogInfo("Started Local tunnelling");
+                browserStackLocal = new Local();
+                List<KeyValuePair<string, string>> bsLocalArgs = new List<KeyValuePair<string, string>>() {
+                        new KeyValuePair<string, string>("key", browserstackPassword)
+                    };
+
+                foreach (System.Diagnostics.Process myProc in System.Diagnostics.Process.GetProcesses())
+                {
+                    if (myProc.ProcessName == "BrowserStackLocal")
+                    {
+                        myProc.Kill();
+                    }
+                }
+
+                browserStackLocal.start(bsLocalArgs);
+
+                if (MobPlatform.ToLower().Equals(MobileDevicePlatform.IOS.ToString().ToLower()))
+                {
+                    //LogInfo("Started WD IOS App");
+                    driver = new IOSDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), appiumOptions);
+                }
+                else
+                {
+                    //LogInfo("Started WD Android App");
+                    driver = new AndroidDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), appiumOptions);
+                }
+
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+            }
+            else
+            {
+                AppiumLocalService _appiumLocalService;
+                _appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
+                _appiumLocalService.Start();
+
+                Console.WriteLine("Appium Service Started: " + _appiumLocalService.IsRunning);
+                var abv = _appiumLocalService.IsRunning;
+
+                noReset = bool.Parse(context.Properties["NoReset"].ToString());
+
+                if (platformName.ToLower().Equals("android"))
+                {
+                    appiumOptions = new AppiumOptions();
+
+                    appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, platformName);
+                    appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, deviceName);
+                    appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppPackage, appPackage);
+                    appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, appActivity);
+                    appiumOptions.AddAdditionalCapability(MobileCapabilityType.NoReset, noReset);
+
+                    driver = new AndroidDriver<IWebElement>(_appiumLocalService, appiumOptions);                    
+                }
+                else
+                {
+                    appiumOptions = new AppiumOptions();
+                    appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, platformName);
+                    appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, deviceName);
+                    appiumOptions.AddAdditionalCapability(IOSMobileCapabilityType.BundleId, bundleId);
+                    appiumOptions.AddAdditionalCapability(MobileCapabilityType.AutomationName, automationName);
+                    appiumOptions.AddAdditionalCapability(MobileCapabilityType.Udid, udid);
+                    appiumOptions.AddAdditionalCapability(MobileCapabilityType.NoReset, noReset);
+
+                    driver = new IOSDriver<IWebElement>(_appiumLocalService, appiumOptions);
+                }
+
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
+            }
+        }
+
+        public void LoginToWDApp()
         {
             try
             {
                 IList<IWebElement> loader = _basePageInstance.LoaderImage;
-                WaitForLoaderToDisappear(loader);
 
+                /*
+                WaitForLoaderToDisappear(loader);
                 (new TouchAction(driver)).Tap(284, 441).Perform();
                 new Actions(driver).SendKeys(commonEnvironment.TestUser1EmailId).Perform();
                 Thread.Sleep(5000);
@@ -296,8 +512,28 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 new Actions(driver).SendKeys(Keys.Enter).Perform();
                 Thread.Sleep(5000);
                 new Actions(driver).SendKeys(Keys.Enter).Perform();
+                WaitForLoaderToDisappear(loader);
+                */
 
                 WaitForLoaderToDisappear(loader);
+                (new TouchAction(driver)).Tap(89, 612).Perform();
+                WaitForMoment(5);
+                new Actions(driver).SendKeys(userName).Perform();
+                WaitForMoment(5);
+                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
+                WaitForMoment(5);
+                new Actions(driver).SendKeys(password).Perform();
+                WaitForMoment(5);
+                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
+                WaitForMoment(5);
+                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
+                WaitForLoaderToDisappear(loader);
+
+                if(_basePageInstance.SkipButton.Count > 0)
+                {
+                    _basePageInstance.SkipButton[0].Click();
+                    WaitForMoment(5);
+                }
             }
             catch (Exception ex)
             {
@@ -343,12 +579,12 @@ namespace West.EnterpriseUX.Automation.MobileNew
         }
         public void WaitForLoaderToDisappear(IList<IWebElement> loader, string locatorName = "all")
         {
-            int timeout = 60;
+            int timeout = 30;
             Stopwatch stopwatch = new Stopwatch();
             IList<IWebElement> loadingElement = null;
             TimeSpan timeTaken = new TimeSpan();
 
-            Thread.Sleep(1000);
+            WaitForMoment(1);
             IList<IWebElement> AllLoadingTexts = _basePageInstance.AllLoadingTexts;
             stopwatch.Start();
             try
@@ -378,7 +614,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     {
                         break;
                     }
-                    Thread.Sleep(1000);
+                    WaitForMoment(1);
 
                     timeTaken = stopwatch.Elapsed;
 
@@ -398,6 +634,109 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static void WaitForMoment(double delay)
         {
             Thread.Sleep(Convert.ToInt32(delay * 1000));
+        }
+
+        public static void ReadUserEmailIDandPassword(TestContext context)
+        {
+            //LogInfo("Reading of the UserEmailID and Password fields Started");
+
+            if (string.IsNullOrEmpty(userName) | string.IsNullOrEmpty(password))
+            {
+                userName = context.Properties["TestUser4EmailId"].ToString();
+                password = context.Properties["TestUser4Password"].ToString();
+
+                //string encryptedPassword = context.Properties["TestUser2Password"].ToString();
+                //password = CommonTestSettings.Decrypt(encryptedPassword);
+            }
+
+            //LogInfo("Reading of the UserEmailID and Password fields finished");
+        }
+
+        public static void LoadPipelineVariables()
+        {
+            try
+            {
+                //LogInfo("Reading of the Pipleline Variables Started");
+
+                browserstackUserName = Environment.GetEnvironmentVariable("BrowserstackUserName");
+                browserstackPassword = Environment.GetEnvironmentVariable("BrowserstackPassword");
+                appURL = Environment.GetEnvironmentVariable("AppURL");
+
+                //LogInfo("Browserstack UserName : " + browserstackUserName);
+                //LogInfo("Browserstack appURL : " + appURL);
+                //LogInfo("Reading of the Pipleline Variables finished");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                //LogError($"Issue in reading the Azure Pipeline Variables: {ex.Message} : {ex.StackTrace}");
+            }
+        }
+
+        public static void LoadBrowserStackappiumOptions(TestContext context)
+        {
+            try
+            {
+                if (cloudAutomation && MobPlatform.ToLower().Equals(MobileDevicePlatform.IOS.ToString().ToLower()))
+                {
+                    //Initializing the IOS DC for Browser Stack
+                    localTunneling = context.Properties["LocalTunneling"].ToString();
+                    projectName = context.Properties["Project"].ToString();
+                    buildName = context.Properties["Build"].ToString();
+                    testName = context.Properties["TestName"].ToString();
+                    platformVersion = context.Properties["PlatformVersion"].ToString();
+                    deviceName = context.Properties["DeviceName"].ToString();
+                    newCommandTimeout = context.Properties["NewCommandTimeout"].ToString();
+                    //automationName = context.Properties["AutomationName"].ToString();
+
+                    appiumOptions = new AppiumOptions();
+
+                    appiumOptions.AddAdditionalCapability("browserstack.user", browserstackUserName);
+                    appiumOptions.AddAdditionalCapability("browserstack.key", browserstackPassword);
+                    appiumOptions.AddAdditionalCapability("app", appURL);
+                    appiumOptions.AddAdditionalCapability("device", deviceName);
+                    appiumOptions.AddAdditionalCapability("os_version", platformVersion);
+                    appiumOptions.AddAdditionalCapability("browserstack.local", localTunneling);
+                    appiumOptions.PlatformName = "iOS";
+                    appiumOptions.AddAdditionalCapability("project", projectName);
+                    appiumOptions.AddAdditionalCapability("build", buildName);
+                    appiumOptions.AddAdditionalCapability("name", testName);
+                    appiumOptions.AddAdditionalCapability("browserstack.idleTimeout", 120);
+                    appiumOptions.AddAdditionalCapability("browserstack.acceptInsecureCerts", "true");
+                    //appiumOptions.AddAdditionalCapability("automationName", automationName);
+                }
+                else
+                {
+                    //Initializing the Android DC for Browser Stack
+                    localTunneling = context.Properties["LocalTunneling"].ToString();
+                    projectName = context.Properties["Project"].ToString();
+                    buildName = context.Properties["Build"].ToString();
+                    testName = context.Properties["TestName"].ToString();
+                    platformVersion = context.Properties["PlatformVersion"].ToString();
+                    deviceName = context.Properties["DeviceName"].ToString();
+                    newCommandTimeout = context.Properties["NewCommandTimeout"].ToString();
+                    //automationName = context.Properties["AutomationName"].ToString();
+
+                    appiumOptions = new AppiumOptions();
+
+                    appiumOptions.AddAdditionalCapability("browserstack.user", browserstackUserName);
+                    appiumOptions.AddAdditionalCapability("browserstack.key", browserstackPassword);
+                    appiumOptions.AddAdditionalCapability("app", appURL);
+                    appiumOptions.AddAdditionalCapability("device", deviceName);
+                    appiumOptions.AddAdditionalCapability("os_version", platformVersion);
+                    appiumOptions.AddAdditionalCapability("browserstack.local", localTunneling);
+                    appiumOptions.PlatformName = "Android";
+                    appiumOptions.AddAdditionalCapability("project", projectName);
+                    appiumOptions.AddAdditionalCapability("build", buildName);
+                    appiumOptions.AddAdditionalCapability("name", testName);
+                    //appiumOptions.AddAdditionalCapability("automationName", automationName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                //LogError($"{ex.Message} : {ex.StackTrace}");
+            }
         }
     }
 }

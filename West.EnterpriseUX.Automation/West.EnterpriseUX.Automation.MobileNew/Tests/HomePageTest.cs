@@ -85,10 +85,12 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Assert.Fail(ex.Message);
                 Console.WriteLine(ex.Message);
             }
+            /*
             finally
             {
                 TC_247738_LoginToWDAppTest(emailId, password);
             }
+            */
         }
 
         [TestMethod]
