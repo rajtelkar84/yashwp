@@ -721,7 +721,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                string testDataSourceDirPath = projectDirectoryfull + "/TestData/" + appEnvironment;
+                string testDataSourceDirPath = projectDirectoryfull + "/bin/Debug/netcoreapp3.1/TestData/" + appEnvironment;
                 DirectoryInfo sourceDir = new DirectoryInfo(testDataSourceDirPath);
 
                 Console.WriteLine(sourceDir.FullName.ToString());
