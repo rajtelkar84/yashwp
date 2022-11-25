@@ -22,9 +22,9 @@
 	<Parameter name="TestUser2EmailId" value="UX-Auto-testuser1@westpharma.com" />
 	<Parameter name="TestUser2Password" value="670RASeVlpF1Y/ugT9KdbzYKB7T4Y6oXPWdsDoZ+og0=" />
 	<Parameter name="TestUser3EmailId" value="Test_UX09@westpharma.com" />
-	<Parameter name="TestUser3Password" value="Westpharm@2019" />
+	<Parameter name="TestUser3Password" value="RGSMH1cWt+uachOYx5Mlxq13J0d0dXU64W5HiCGWEvc=" />
 	<Parameter name="TestUser4EmailId" value="PRAPPP1@WESTPHARMA.COM" />
-	<Parameter name="TestUser4Password" value="Testing$2020" />
+	<Parameter name="TestUser4Password" value="QmTh3TlnfpyErxE3nFINzbBa02WO8PeGzlyyCXbhsWo=" />
 	<Parameter name="AppPackage" value="com.westpharma.uxframework.dev" />
 	<Parameter name="appActivity" value="crc6429df2d9d200d6e98.MainActivity" />
 	<Parameter name="NoReset" value="true" />

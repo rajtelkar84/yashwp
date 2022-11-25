@@ -22,21 +22,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 IList<IWebElement> loader = _basePageInstance.LoaderImage;
 
-                /*
-                WaitForLoaderToDisappear(loader);
-                (new TouchAction(driver)).Tap(284, 441).Perform();
-                new Actions(driver).SendKeys(emailId.Trim()).Perform();
-                WaitForMoment(5);
-                new Actions(driver).SendKeys(Keys.Enter).Perform();
-                WaitForMoment(10);
-                new Actions(driver).SendKeys(password.Trim()).Perform();
-                WaitForMoment(5);
-                new Actions(driver).SendKeys(Keys.Enter).Perform();
-                WaitForMoment(10);
-                new Actions(driver).SendKeys(Keys.Enter).Perform();
-                WaitForLoaderToDisappear(loader);
-                */
-
                 WaitForLoaderToDisappear(loader);
                 (new TouchAction(driver)).Tap(89, 612).Perform();
                 WaitForMoment(5);
@@ -85,12 +70,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Assert.Fail(ex.Message);
                 Console.WriteLine(ex.Message);
             }
-            /*
-            finally
-            {
-                TC_247738_LoginToWDAppTest(emailId, password);
-            }
-            */
         }
 
         [TestMethod]

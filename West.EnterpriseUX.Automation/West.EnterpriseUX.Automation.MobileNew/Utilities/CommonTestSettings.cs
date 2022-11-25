@@ -6,16 +6,11 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace West.EnterpriseUX.Automation.Mobile.Utilities
+namespace West.EnterpriseUX.Automation.MobileNew.Utilities
 {
     public static class CommonTestSettings
     {
         public const string AppiumServerUrl = "http://127.0.0.1:4723/wd/hub";
-        //public const string TestUserEmailId = "Test_UX09@westpharma.com";
-        //public const string TestUserPassword = "RGSMH1cWt+uachOYx5Mlxq13J0d0dXU64W5HiCGWEvc=";
-        //public const string DevTestUserEmailId = "UX-Auto-testuser1@westpharma.com";
-        //public const string DevTestUserPassword = "nNzLheKlOF15w7WErR2aSuiErsobi47axQFviCGG+8M=";
-
 
         public static string Decrypt(string cipherText)
         {

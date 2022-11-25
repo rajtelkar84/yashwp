@@ -16,14 +16,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
-using West.EnterpriseUX.Automation.Mobile.Utilities;
 using West.EnterpriseUX.Automation.MobileNew.configFiles;
 using West.EnterpriseUX.Automation.MobileNew.Utilities;
 
 namespace West.EnterpriseUX.Automation.MobileNew
 {
     [TestClass]
-    public class AppiumSetup
+    public class AppiumSetup : Logger
     {
         static AppiumLocalService service;
 
@@ -186,19 +185,19 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 //Verifying the Pipeline Variables validation
                 if (cloudAutomation && string.IsNullOrEmpty(browserstackUserName))
                 {
-                    //LogInfo("Reading of the RunSetting Variables Started");
+                    LogInfo("Reading of the RunSetting Variables Started");
 
                     browserstackUserName = context.Properties["BrowserstackUserName"].ToString();
                     browserstackPassword = context.Properties["BrowserstackPassword"].ToString();
 
-                    //LogInfo("Browserstack UserName : " + browserstackUserName);
+                    LogInfo("Browserstack UserName : " + browserstackUserName);
                 }
                 if (cloudAutomation && string.IsNullOrEmpty(appURL))
                 {
                     appURL = context.Properties["AppURL"].ToString();
 
-                    //LogInfo("Browserstack appURL : " + appURL);
-                    //LogInfo("Reading of the RunSetting Variables finished");
+                    LogInfo("Browserstack appURL : " + appURL);
+                    LogInfo("Reading of the RunSetting Variables finished");
                 }
 
                 if (extent == null)
@@ -208,13 +207,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
             catch (Exception ex)
             {
-                //LogError($"{ex.Message} : {ex.StackTrace}");
-                Console.WriteLine($"{ex.Message} : {ex.StackTrace}");
+                LogError($"{ex.Message} : {ex.StackTrace}");
             }
             finally
             {
-                //LogInfo("Assembly Initialize finished");
-                Console.WriteLine("Assembly Initialize finished");
+                LogInfo("Assembly Initialize finished");
             }
 
             //------------------- Browserstack setting POC -------------------//
@@ -227,7 +224,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 extent.Flush();
 
-                //LogInfo("Assembly Cleanup Started");
+                LogInfo("Assembly Cleanup Started");
 
                 //Stop the BrowserStack Local binary
                 if (browserStackLocal != null)
@@ -237,13 +234,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
             catch (Exception ex)
             {
-                //LogError($"{ex.Message} : {ex.StackTrace}");
-                Console.WriteLine($"{ex.Message} : {ex.StackTrace}");
+                LogError($"{ex.Message} : {ex.StackTrace}");
             }
             finally
             {
-                //LogInfo("Assembly Cleanup finished");
-                Console.WriteLine("Assembly Cleanup finished");
+                LogInfo("Assembly Cleanup finished");
             }
         }
 
@@ -274,13 +269,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
             catch (Exception ex)
             {
-                //LogError($"{ex.Message} : {ex.StackTrace}");
-                Console.WriteLine($"{ex.Message} : {ex.StackTrace}");
+                LogError($"{ex.Message} : {ex.StackTrace}");
             }
             finally
             {
-                //LogInfo("Test Initialize finished");
-                Console.WriteLine("Test Initialize finished");
+                LogInfo("Test Initialize finished");
             }
         }
 
@@ -315,37 +308,17 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     browserStackLocal.stop();
                 }
 
-                //LogInfo($"Test : {TestContext.TestName} finished");
-
-                //LogInfo("Test Cleanup finished");
+                LogInfo($"Test : {TestContext.TestName} finished");
+                LogInfo("Test Cleanup finished");
             }
             catch (Exception ex)
             {
-                //LogError($"{ex.Message} : {ex.StackTrace}");
-                Console.WriteLine($"{ex.Message} : {ex.StackTrace}");
-            }
-            finally
-            {
-                //LogInfo("Test Cleanup finished");
-                Console.WriteLine("Test Cleanup finished");
+                LogError($"{ex.Message} : {ex.StackTrace}");
             }
         }
 
         private void LaunchApp()
         {
-            /*  
-            AppiumServiceBuilder appiumServiceBuilder = new AppiumServiceBuilder()
-                 .UsingAnyFreePort()
-                 .WithAppiumJS(new System.IO.FileInfo("/Applications/Appium Server GUI.app/Contents/Resources/app/node_modules/appium/lib/main.js"));
-                 .WithAppiumJS(new System.IO.FileInfo(@"C:\Users\patilg\AppData\Roaming\npm\node_modules\appium\build\lib\main.js"));
-                 .WithAppiumJS(new System.IO.FileInfo(@"/usr/local/lib/node_modules/appium/main.js"));
-
-            service = appiumServiceBuilder.Build();
-
-            if (!service.IsRunning)
-                service.Start();
-            */
-
             AppiumLocalService _appiumLocalService;
             _appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
             _appiumLocalService.Start();
@@ -421,11 +394,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             if (browserStackCloud)
             {
-                //LogInfo("Started to load the Browser Stack Desired Capabilities");
+                LogInfo("Started to load the Browser Stack Desired Capabilities");
                 LoadBrowserStackappiumOptions(context);
-                //LogInfo("Finished loading of Browser Stack Desired Capabilities");
+                LogInfo("Finished loading of Browser Stack Desired Capabilities");
 
-                //LogInfo("Started Local tunnelling");
+                LogInfo("Started Local tunnelling");
                 browserStackLocal = new Local();
                 List<KeyValuePair<string, string>> bsLocalArgs = new List<KeyValuePair<string, string>>() {
                         new KeyValuePair<string, string>("key", browserstackPassword)
@@ -443,12 +416,12 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 if (MobPlatform.ToLower().Equals(MobileDevicePlatform.IOS.ToString().ToLower()))
                 {
-                    //LogInfo("Started WD IOS App");
+                    LogInfo("Started WD IOS App");
                     driver = new IOSDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), appiumOptions);
                 }
                 else
                 {
-                    //LogInfo("Started WD Android App");
+                    LogInfo("Started WD Android App");
                     driver = new AndroidDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), appiumOptions);
                 }
 
@@ -456,6 +429,19 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
             else
             {
+                /*  
+                AppiumServiceBuilder appiumServiceBuilder = new AppiumServiceBuilder()
+                 .UsingAnyFreePort()
+                 .WithAppiumJS(new System.IO.FileInfo("/Applications/Appium Server GUI.app/Contents/Resources/app/node_modules/appium/lib/main.js"));
+                 .WithAppiumJS(new System.IO.FileInfo(@"C:\Users\patilg\AppData\Roaming\npm\node_modules\appium\build\lib\main.js"));
+                 .WithAppiumJS(new System.IO.FileInfo(@"/usr/local/lib/node_modules/appium/main.js"));
+
+                service = appiumServiceBuilder.Build();
+
+                if (!service.IsRunning)
+                    service.Start();
+                */
+
                 AppiumLocalService _appiumLocalService;
                 _appiumLocalService = new AppiumServiceBuilder().UsingAnyFreePort().Build();
                 _appiumLocalService.Start();
@@ -500,21 +486,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 IList<IWebElement> loader = _basePageInstance.LoaderImage;
 
-                /*
-                WaitForLoaderToDisappear(loader);
-                (new TouchAction(driver)).Tap(284, 441).Perform();
-                new Actions(driver).SendKeys(commonEnvironment.TestUser1EmailId).Perform();
-                Thread.Sleep(5000);
-                new Actions(driver).SendKeys(Keys.Enter).Perform();
-                Thread.Sleep(5000);
-                new Actions(driver).SendKeys(commonEnvironment.TestUser1Password).Perform();
-                Thread.Sleep(5000);
-                new Actions(driver).SendKeys(Keys.Enter).Perform();
-                Thread.Sleep(5000);
-                new Actions(driver).SendKeys(Keys.Enter).Perform();
-                WaitForLoaderToDisappear(loader);
-                */
-
                 WaitForLoaderToDisappear(loader);
                 (new TouchAction(driver)).Tap(89, 612).Perform();
                 WaitForMoment(5);
@@ -537,7 +508,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                LogError($"{ex.Message} : {ex.StackTrace}");
             }
         }
 
@@ -557,7 +528,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                LogError($"{ex.Message} : {ex.StackTrace}");
             }
         }
 
@@ -565,16 +536,18 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                Console.WriteLine($"Opening Emulator through Batch file...........");
+                LogInfo($"Opening Emulator through Batch file...........");
+
                 string emulatorPath = projectDirectoryfull + batchFile + "OpenEmulator.bat";
                 Process.Start(emulatorPath);
-                Console.WriteLine($"Open Emulator Batch File Path : {emulatorPath}");
+
+                LogInfo($"Open Emulator Batch File Path : {emulatorPath}");
                 WaitForMoment(1);
                 Process[] emulators = Process.GetProcesses();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error in launching emulator: {ex.Message}");
+                LogError($"Error in launching emulator: {ex.Message}");
             }
         }
         public void WaitForLoaderToDisappear(IList<IWebElement> loader, string locatorName = "all")
@@ -622,7 +595,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.Message} {ex.StackTrace}");
+                LogError($"{ex.Message} {ex.StackTrace}");
             }
         }
 
@@ -638,38 +611,35 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         public static void ReadUserEmailIDandPassword(TestContext context)
         {
-            //LogInfo("Reading of the UserEmailID and Password fields Started");
+            LogInfo("Reading of the UserEmailID and Password fields Started");
 
             if (string.IsNullOrEmpty(userName) | string.IsNullOrEmpty(password))
             {
                 userName = context.Properties["TestUser4EmailId"].ToString();
-                password = context.Properties["TestUser4Password"].ToString();
-
-                //string encryptedPassword = context.Properties["TestUser2Password"].ToString();
-                //password = CommonTestSettings.Decrypt(encryptedPassword);
+                string encryptedPassword = context.Properties["TestUser4Password"].ToString();
+                password = CommonTestSettings.Decrypt(encryptedPassword);
             }
 
-            //LogInfo("Reading of the UserEmailID and Password fields finished");
+            LogInfo("Reading of the UserEmailID and Password fields finished");
         }
 
         public static void LoadPipelineVariables()
         {
             try
             {
-                //LogInfo("Reading of the Pipleline Variables Started");
+                LogInfo("Reading of the Pipleline Variables Started");
 
                 browserstackUserName = Environment.GetEnvironmentVariable("BrowserstackUserName");
                 browserstackPassword = Environment.GetEnvironmentVariable("BrowserstackPassword");
                 appURL = Environment.GetEnvironmentVariable("AppURL");
 
-                //LogInfo("Browserstack UserName : " + browserstackUserName);
-                //LogInfo("Browserstack appURL : " + appURL);
-                //LogInfo("Reading of the Pipleline Variables finished");
+                LogInfo("Browserstack UserName : " + browserstackUserName);
+                LogInfo("Browserstack appURL : " + appURL);
+                LogInfo("Reading of the Pipleline Variables finished");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                //LogError($"Issue in reading the Azure Pipeline Variables: {ex.Message} : {ex.StackTrace}");
+                LogError($"Issue in reading the Azure Pipeline Variables: {ex.Message} : {ex.StackTrace}");
             }
         }
 
@@ -734,8 +704,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                //LogError($"{ex.Message} : {ex.StackTrace}");
+                LogError($"{ex.Message} : {ex.StackTrace}");
             }
         }
     }
