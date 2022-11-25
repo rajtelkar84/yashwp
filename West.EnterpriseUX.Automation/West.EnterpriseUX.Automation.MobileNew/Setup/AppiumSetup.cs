@@ -75,6 +75,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static string logsFolderPath = string.Empty;
         public static string screenshotsFolderPath = string.Empty;
         public static string buildsPath = string.Empty;
+        public static string testDataPath = string.Empty;
         public static string testErrorMessage = string.Empty;
         public static string userName = string.Empty;
         public static string password = string.Empty;
@@ -170,6 +171,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 logsFolderPath = context.Properties["LogFolderPath"].ToString();
                 screenshotsFolderPath = context.Properties["ScreenshotFolderPath"].ToString();
                 buildsPath = context.Properties["BuildsPath"].ToString();
+                testDataPath = context.Properties["TestDataPath"].ToString();
                 applicationEnvironment = context.Properties["AppEnvironment"].ToString();
                 workingDirectory = Environment.CurrentDirectory;
                 projectDirectoryfull = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
@@ -178,6 +180,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 _helper.CreateFolder(logsFolderPath);
                 _helper.CreateFolder(screenshotsFolderPath);
                 _helper.CreateFolder(buildsPath);
+                _helper.CreateFolder(testDataPath + "/" + applicationEnvironment);
 
                 //Copy the TestData based on the Environment
                 CopyTestDataBasedOnEnvironemnt(applicationEnvironment);
@@ -723,6 +726,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 Console.WriteLine(sourceDir.FullName.ToString());
 
+                /*
                 string testDataDestDirPath1 = ".\\";
                 DirectoryInfo destDir1 = new DirectoryInfo(testDataDestDirPath1);
 
@@ -730,16 +734,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 foreach (FileInfo file in sourceDir.GetFiles("*.*", SearchOption.TopDirectoryOnly))
                     file.CopyTo(Path.Combine(destDir1.FullName, file.Name), true);
+                */
 
-                /*
-                string testDataDestDirPath2 = @"C:\TestData\DEV\";
+                string testDataDestDirPath2 = @"C:\TestData\" + appEnvironment + "\\";
                 DirectoryInfo destDir2 = new DirectoryInfo(testDataDestDirPath2);
 
                 Console.WriteLine(destDir2.FullName.ToString());
 
                 foreach (FileInfo file in sourceDir.GetFiles("*.*", SearchOption.TopDirectoryOnly))
                     file.CopyTo(Path.Combine(destDir2.FullName, file.Name), true);
-                */
             }
             catch (Exception ex)
             {

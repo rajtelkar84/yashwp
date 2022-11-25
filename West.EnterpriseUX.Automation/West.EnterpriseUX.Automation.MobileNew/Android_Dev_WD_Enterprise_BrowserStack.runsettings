@@ -29,5 +29,7 @@
 	<Parameter name="appActivity" value="crc6429df2d9d200d6e98.MainActivity" />
 	<Parameter name="NoReset" value="true" />
 	<Parameter name="AppEnvironment" value="DEV" />
+	<Parameter name="TestDataPath" value="C:\TestData\" />
+
   </TestRunParameters>
 </RunSettings>

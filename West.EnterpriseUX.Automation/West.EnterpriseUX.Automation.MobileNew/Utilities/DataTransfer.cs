@@ -6,17 +6,17 @@ namespace West.EnterpriseUX.Automation.MobileNew
     {
         public static IEnumerable<object[]> LoginDataObject()
         {
-            return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + applicationEnvironment + "/LoginData.xlsx", "LoginCredentials");
+            return ExcelUtils.GetSheetData(@"C:\TestData\" + applicationEnvironment + "\\LoginData.xlsx", "LoginCredentials");
         }
 
         public static IEnumerable<object[]> InboxDataObject()
         {
-            return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + applicationEnvironment + "/InboxData.xlsx", "FunctionAndInbox");
+            return ExcelUtils.GetSheetData(@"C:\TestData\" + applicationEnvironment + "\\InboxData.xlsx", "FunctionAndInbox");
         }
 
         public static IEnumerable<object[]> FilterDataObject()
         {
-            return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + applicationEnvironment + "/FilterData.xlsx", "FilterData");
+            return ExcelUtils.GetSheetData(@"C:\TestData\" + applicationEnvironment + "\\FilterData.xlsx", "FilterData");
         }
 
         public static IEnumerable<object[]> GridSearchDataObject()
