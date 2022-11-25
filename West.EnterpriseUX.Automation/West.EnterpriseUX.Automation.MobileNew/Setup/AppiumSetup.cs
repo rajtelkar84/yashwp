@@ -41,7 +41,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public BasePage _basePageInstance;
         public static Helper _helper = new Helper();
 
-        public static CommonEnvironment commonEnvironment = new CommonEnvironment();
+        //public static CommonEnvironment commonEnvironment = new CommonEnvironment();
         public static string workingDirectory;
         public static string projectDirectory;
         public static string projectDirectoryfull;
@@ -56,6 +56,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static string platformVersion = string.Empty;
         public static string deviceName = string.Empty;
         public static string newCommandTimeout = string.Empty;
+        public static string applicationEnvironment = string.Empty;
         //public static string appPackage = string.Empty;
         //public static string appActivity = string.Empty;
         //public static string udid = string.Empty;
@@ -84,6 +85,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [AssemblyInitialize]
         public static void LoadProperties(TestContext context)
         {
+            /*
             //Environment.SetEnvironmentVariable("ENVNAME", "DVV");
             string value = Environment.GetEnvironmentVariable("ENVNAME");
            
@@ -157,6 +159,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             bundleId = commonEnvironment.bundleId;
             //automationName = commonEnvironment.automationName;
             udid = commonEnvironment.udid;
+            */
 
             //------------------- Browserstack setting POC -------------------//
 
@@ -164,15 +167,18 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 cloudAutomation = bool.Parse(context.Properties["CloudAutomation"].ToString());
                 MobPlatform = context.Properties["PlatformName"].ToString();
-
                 logsFolderPath = context.Properties["LogFolderPath"].ToString();
                 screenshotsFolderPath = context.Properties["ScreenshotFolderPath"].ToString();
                 buildsPath = context.Properties["BuildsPath"].ToString();
+                applicationEnvironment = context.Properties["AppEnvironment"].ToString();
 
                 //Create Logs, Screenshots, Builds Folder if not present
                 _helper.CreateFolder(logsFolderPath);
                 _helper.CreateFolder(screenshotsFolderPath);
                 _helper.CreateFolder(buildsPath);
+
+                //Copy the TestData based on the Environment
+                CopyTestDataBasedOnEnvironemnt(applicationEnvironment);
 
                 //Reads the UserName and Password
                 ReadUserEmailIDandPassword(context);
@@ -703,6 +709,29 @@ namespace West.EnterpriseUX.Automation.MobileNew
             catch (Exception ex)
             {
                 LogError($"{ex.Message} : {ex.StackTrace}");
+            }
+        }
+
+        public static void CopyTestDataBasedOnEnvironemnt(string appEnvironment)
+        {
+            try
+            {
+                string testDataSourceDirPath = appEnvironment;
+                DirectoryInfo sourceDir = new DirectoryInfo(testDataSourceDirPath);
+
+                Console.WriteLine(sourceDir.FullName.ToString());
+
+                string testDataDestDirPath = ".\\";
+                DirectoryInfo destDir = new DirectoryInfo(testDataDestDirPath);
+
+                Console.WriteLine(destDir.FullName.ToString());
+
+                foreach (FileInfo file in sourceDir.GetFiles("*.*", SearchOption.TopDirectoryOnly))
+                    file.CopyTo(Path.Combine(destDir.FullName, file.Name), true);
+            }
+            catch (Exception ex)
+            {
+                LogError("Issue in reading the Azure Pipeline Variables: " + ex.Message);
             }
         }
     }

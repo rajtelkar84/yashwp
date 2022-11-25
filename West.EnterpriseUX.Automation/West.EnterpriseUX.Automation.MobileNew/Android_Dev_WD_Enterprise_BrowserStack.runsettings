@@ -28,5 +28,6 @@
 	<Parameter name="AppPackage" value="com.westpharma.uxframework.dev" />
 	<Parameter name="appActivity" value="crc6429df2d9d200d6e98.MainActivity" />
 	<Parameter name="NoReset" value="true" />
+	<Parameter name="AppEnvironment" value="Dev" />
   </TestRunParameters>
 </RunSettings>
