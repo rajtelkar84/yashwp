@@ -28,7 +28,7 @@
     <None Update="BatchFiles\startAppium.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="BrowserStack_Dev_WestEnterprise_Android_RealDevice_DC.runsettings">
+    <None Update="Android_Dev_WD_Enterprise_BrowserStack.runsettings">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="TestData\DEV\Charts_252696.xlsx">
