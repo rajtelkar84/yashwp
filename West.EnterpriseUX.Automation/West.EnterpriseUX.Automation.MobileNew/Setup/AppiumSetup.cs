@@ -171,6 +171,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 screenshotsFolderPath = context.Properties["ScreenshotFolderPath"].ToString();
                 buildsPath = context.Properties["BuildsPath"].ToString();
                 applicationEnvironment = context.Properties["AppEnvironment"].ToString();
+                workingDirectory = Environment.CurrentDirectory;
+                projectDirectoryfull = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
 
                 //Create Logs, Screenshots, Builds Folder if not present
                 _helper.CreateFolder(logsFolderPath);
@@ -716,18 +718,28 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                string testDataSourceDirPath = appEnvironment;
+                string testDataSourceDirPath = projectDirectoryfull + "/TestData/" + appEnvironment;
                 DirectoryInfo sourceDir = new DirectoryInfo(testDataSourceDirPath);
 
                 Console.WriteLine(sourceDir.FullName.ToString());
 
-                string testDataDestDirPath = ".\\";
-                DirectoryInfo destDir = new DirectoryInfo(testDataDestDirPath);
+                string testDataDestDirPath1 = ".\\";
+                DirectoryInfo destDir1 = new DirectoryInfo(testDataDestDirPath1);
 
-                Console.WriteLine(destDir.FullName.ToString());
+                Console.WriteLine(destDir1.FullName.ToString());
 
                 foreach (FileInfo file in sourceDir.GetFiles("*.*", SearchOption.TopDirectoryOnly))
-                    file.CopyTo(Path.Combine(destDir.FullName, file.Name), true);
+                    file.CopyTo(Path.Combine(destDir1.FullName, file.Name), true);
+
+                /*
+                string testDataDestDirPath2 = @"C:\TestData\DEV\";
+                DirectoryInfo destDir2 = new DirectoryInfo(testDataDestDirPath2);
+
+                Console.WriteLine(destDir2.FullName.ToString());
+
+                foreach (FileInfo file in sourceDir.GetFiles("*.*", SearchOption.TopDirectoryOnly))
+                    file.CopyTo(Path.Combine(destDir2.FullName, file.Name), true);
+                */
             }
             catch (Exception ex)
             {
