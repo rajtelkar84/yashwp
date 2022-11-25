@@ -1,5 +1,5 @@
 ﻿using System;
-namespace West.EnterpriseUX.Automation.MobileNew.configFiles
+namespace West.EnterpriseUX.Automation.MobileNew
 {
     public class CommonEnvironment
     {

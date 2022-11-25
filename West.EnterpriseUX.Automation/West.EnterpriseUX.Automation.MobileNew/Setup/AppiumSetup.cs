@@ -16,8 +16,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Threading;
-using West.EnterpriseUX.Automation.MobileNew.configFiles;
-
 
 namespace West.EnterpriseUX.Automation.MobileNew
 {

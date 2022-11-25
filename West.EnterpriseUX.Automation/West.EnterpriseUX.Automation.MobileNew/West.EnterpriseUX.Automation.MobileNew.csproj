@@ -24,11 +24,32 @@
     <None Remove="System.Configuration.ConfigurationManager" />
     <None Remove="Microsoft.Extensions.Configuration.Json" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="configFiles\CommonEnvironment.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <None Update="BatchFiles\startAppium.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Android_Dev_WD_Enterprise_BrowserStack.runsettings">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="configFiles\Android_DEV_Environment.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="configFiles\Android_Quality_Environment.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="configFiles\IOS_DEV_Environment.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="configFiles\IOS_DVV_Environment.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="configFiles\IOS_Quality_Environment.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="TestData\DEV\Charts_252696.xlsx">
