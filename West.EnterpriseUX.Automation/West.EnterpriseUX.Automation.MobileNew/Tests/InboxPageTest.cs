@@ -5,6 +5,7 @@ using System.Threading;
 namespace West.EnterpriseUX.Automation.MobileNew
 {
     [TestClass]
+    [TestCategory("InboxPageTest")]
     public class InboxPageTest : AppiumSetup
     {
         [TestMethod]

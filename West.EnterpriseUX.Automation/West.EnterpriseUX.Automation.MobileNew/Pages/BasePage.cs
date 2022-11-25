@@ -4,7 +4,6 @@ using OpenQA.Selenium.Appium;
 using System;
 using System.Collections.Generic;
 using System.Threading;
-using West.EnterpriseUX.Automation.MobileNew.Setup;
 
 namespace West.EnterpriseUX.Automation.MobileNew
 {

@@ -4,7 +4,7 @@ using AventStack.ExtentReports.Reporter.Configuration;
 using System;
 using System.IO;
 
-namespace West.EnterpriseUX.Automation.MobileNew.Utilities
+namespace West.EnterpriseUX.Automation.MobileNew
 {
     public class ExtentManager : AppiumSetup
     {

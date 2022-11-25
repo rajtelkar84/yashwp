@@ -8,6 +8,7 @@ using System.Collections.Generic;
 namespace West.EnterpriseUX.Automation.MobileNew
 {
     [TestClass]
+    [TestCategory("KPIsPageTest")]
     public class KPIsPageTest : AppiumSetup
     {
         [TestMethod]

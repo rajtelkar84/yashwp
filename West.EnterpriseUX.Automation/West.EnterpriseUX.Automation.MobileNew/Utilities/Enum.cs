@@ -1,4 +1,4 @@
-﻿namespace West.EnterpriseUX.Automation.MobileNew.Utilities
+﻿namespace West.EnterpriseUX.Automation.MobileNew
 {
     public enum DeviceType
     {

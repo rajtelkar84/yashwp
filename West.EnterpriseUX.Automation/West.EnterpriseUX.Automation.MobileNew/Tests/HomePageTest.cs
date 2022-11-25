@@ -9,6 +9,7 @@ using System.Collections.Generic;
 namespace West.EnterpriseUX.Automation.MobileNew
 {
     [TestClass]
+    [TestCategory("HomePageTest")]
     public class HomePageTest : AppiumSetup
     {
         [TestMethod]

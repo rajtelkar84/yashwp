@@ -7,9 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using West.EnterpriseUX.Automation.MobileNew.Utilities;
 
-namespace West.EnterpriseUX.Automation.MobileNew.Setup
+namespace West.EnterpriseUX.Automation.MobileNew
 {
     public class AppiumKeywords : Logger
     {

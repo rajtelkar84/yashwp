@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading;
-using West.EnterpriseUX.Automation.MobileNew.Setup;
 
 namespace West.EnterpriseUX.Automation.MobileNew
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace West.EnterpriseUX.Automation.MobileNew.Utilities
+namespace West.EnterpriseUX.Automation.MobileNew
 {
     public class Logger
     {

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace West.EnterpriseUX.Automation.MobileNew
 {
     [TestClass]
+    [TestCategory("DetailsPageTest")]
     public class DetailsPageTest : AppiumSetup
     {
         [TestMethod]
