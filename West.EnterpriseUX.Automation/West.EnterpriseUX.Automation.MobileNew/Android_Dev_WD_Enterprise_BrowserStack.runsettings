@@ -7,6 +7,7 @@
     <Parameter name="DeviceName" value="Samsung Galaxy M52" />
     <Parameter name="NewCommandTimeout" value="45" />
     <Parameter name="LocalTunneling" value="true" />
+	<Parameter name="NetworkLogs" value="true" />
     <Parameter name="Project" value="Dev WD2.0 Android Automation" />
     <Parameter name="Build" value="AndroidPlatform" />
     <Parameter name="AutomationName" value="UiAutomator1" />
@@ -28,7 +29,7 @@
 	<Parameter name="AppPackage" value="com.westpharma.uxframework.dev" />
 	<Parameter name="appActivity" value="crc6429df2d9d200d6e98.MainActivity" />
 	<Parameter name="NoReset" value="true" />
-	<Parameter name="AppEnvironment" value="DEV" />
+	<Parameter name="AppEnvironment" value="Dev" />
 	<Parameter name="TestDataPath" value="C:\TestData\" />
 
   </TestRunParameters>

@@ -71,6 +71,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static string browserstackUserName = string.Empty;
         public static string browserstackPassword = string.Empty;
         public static string localTunneling = string.Empty;
+        public static string networkLogs = string.Empty;
         public static string projectName = string.Empty;
         public static string buildName = string.Empty;
         public static string testName = string.Empty;
@@ -686,6 +687,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 {
                     //Initializing the IOS DC for Browser Stack
                     localTunneling = context.Properties["LocalTunneling"].ToString();
+                    networkLogs = context.Properties["NetworkLogs"].ToString();
                     projectName = context.Properties["Project"].ToString();
                     buildName = context.Properties["Build"].ToString();
                     testName = context.Properties["TestName"].ToString();
@@ -702,6 +704,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     appiumOptions.AddAdditionalCapability("device", deviceName);
                     appiumOptions.AddAdditionalCapability("os_version", platformVersion);
                     appiumOptions.AddAdditionalCapability("browserstack.local", localTunneling);
+                    appiumOptions.AddAdditionalCapability("browserstack.networkLogs", networkLogs);
                     appiumOptions.PlatformName = "iOS";
                     appiumOptions.AddAdditionalCapability("project", projectName);
                     appiumOptions.AddAdditionalCapability("build", buildName);
@@ -714,6 +717,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 {
                     //Initializing the Android DC for Browser Stack
                     localTunneling = context.Properties["LocalTunneling"].ToString();
+                    networkLogs = context.Properties["NetworkLogs"].ToString();
                     projectName = context.Properties["Project"].ToString();
                     buildName = context.Properties["Build"].ToString();
                     testName = context.Properties["TestName"].ToString();
@@ -730,6 +734,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     appiumOptions.AddAdditionalCapability("device", deviceName);
                     appiumOptions.AddAdditionalCapability("os_version", platformVersion);
                     appiumOptions.AddAdditionalCapability("browserstack.local", localTunneling);
+                    appiumOptions.AddAdditionalCapability("browserstack.networkLogs", networkLogs);
                     appiumOptions.PlatformName = "Android";
                     appiumOptions.AddAdditionalCapability("project", projectName);
                     appiumOptions.AddAdditionalCapability("build", buildName);

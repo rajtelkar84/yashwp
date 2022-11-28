@@ -33,6 +33,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 documentsDirectory = Path.Combine(Environment.ExpandEnvironmentVariables("%userprofile%"), docummentsFolderPath);
                 reportFilepath = documentsDirectory + "\\ExtentReports\\" + timestamp;
                 reportFileLocation = reportFilepath + "\\" + timestamp;
+
                 fileName = GetReportPath(reportFilepath);
             }
             else
@@ -41,6 +42,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 documentsDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + docummentsFolderPath;
                 reportFilepath = documentsDirectory + "/ExtentReports/" + timestamp;
                 reportFileLocation = reportFilepath + "/" + timestamp;
+
                 fileName = GetReportPath(reportFilepath);
             }
             
