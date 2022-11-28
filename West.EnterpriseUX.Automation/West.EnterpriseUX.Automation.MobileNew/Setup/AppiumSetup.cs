@@ -14,7 +14,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace West.EnterpriseUX.Automation.MobileNew
@@ -40,6 +42,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static AppiumOptions appiumOptions;
         public BasePage _basePageInstance;
         public static Helper _helper = new Helper();
+        public Stopwatch testTimer;
+        public static string testResultsLogFileName = "TestResult_" + $"{DateTime.Now:dd_MM_yyyy}" + ".csv";
 
         //public static CommonEnvironment commonEnvironment = new CommonEnvironment();
         public static string workingDirectory;
@@ -80,12 +84,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static string userName = string.Empty;
         public static string password = string.Empty;
         protected static string MobPlatform;
+        public static int currentDataRow = 1;
 
         public TestContext TestContext { get; set; }
 
         [AssemblyInitialize]
         public static void LoadProperties(TestContext context)
         {
+            #region Real device setting
             /*
             //Environment.SetEnvironmentVariable("ENVNAME", "DVV");
             string value = Environment.GetEnvironmentVariable("ENVNAME");
@@ -161,8 +167,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
             //automationName = commonEnvironment.automationName;
             udid = commonEnvironment.udid;
             */
+            #endregion Real device setting
 
-            //------------------- Browserstack setting POC -------------------//
+            #region Browserstack setting
 
             try
             {
@@ -190,6 +197,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 //Reading the Pipeline Variables
                 LoadPipelineVariables();
+
+                //Creating the TestResults CSV File if not present
+                _helper.CheckFileExists(Path.Combine(logsFolderPath, testResultsLogFileName));
 
                 //Verifying the Pipeline Variables validation
                 if (cloudAutomation && string.IsNullOrEmpty(browserstackUserName))
@@ -223,32 +233,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 LogInfo("Assembly Initialize finished");
             }
 
-            //------------------- Browserstack setting POC -------------------//
-        }
-
-        [AssemblyCleanup]
-        public static void CleanUp()
-        {
-            try
-            {
-                extent.Flush();
-
-                LogInfo("Assembly Cleanup Started");
-
-                //Stop the BrowserStack Local binary
-                if (browserStackLocal != null)
-                {
-                    browserStackLocal.stop();
-                }
-            }
-            catch (Exception ex)
-            {
-                LogError($"{ex.Message} : {ex.StackTrace}");
-            }
-            finally
-            {
-                LogInfo("Assembly Cleanup finished");
-            }
+            #endregion Browserstack setting
         }
 
         [TestInitialize]
@@ -256,7 +241,13 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
+                testTimer = new Stopwatch();
+                testTimer.Start();
+
                 test = extent.CreateTest(TestContext.TestName);
+
+                LogInfo("Test Initialize Started");
+                LogInfo($"{TestContext.TestName} Started");
 
                 if (laptopName.ToUpper().Trim().Equals("MACBOOK"))
                 {
@@ -291,6 +282,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
+                LogInfo("Test Cleanup Started");
+
+                //Saving the TestResults to ResultTable
+                ResultTable resultsTable = SaveTestResults(TestContext);
+
+                //Logging TestResults to TestResults.CSV
+                WriteTestResultToCSV(resultsTable);
+
                 if (TestContext.CurrentTestOutcome == UnitTestOutcome.Passed)
                 {
                     test.Log(Status.Pass, "Test Method Name " + TestContext.TestName + " : " + TestContext.CurrentTestOutcome + " - snapshot below");
@@ -304,8 +303,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     test.Log(Status.Skip, "Test Method Name " + TestContext.TestName + " : " + TestContext.CurrentTestOutcome + " - snapshot below");
                 }
 
-                Screenshot screenshot = driver.GetScreenshot();
+                OpenQA.Selenium.Screenshot screenshot = driver.GetScreenshot();
                 test.AddScreenCaptureFromBase64String(screenshot.AsBase64EncodedString, title: TestContext.TestName);
+
+                CaptureScreenShot(driver, TestContext.TestName);
 
                 //LogoutFromWDApp();
                 driver?.Quit();
@@ -323,6 +324,31 @@ namespace West.EnterpriseUX.Automation.MobileNew
             catch (Exception ex)
             {
                 LogError($"{ex.Message} : {ex.StackTrace}");
+            }
+        }
+
+        [AssemblyCleanup]
+        public static void CleanUp()
+        {
+            try
+            {
+                extent.Flush();
+
+                LogInfo("Assembly Cleanup Started");
+
+                //Stop the BrowserStack Local binary
+                if (browserStackLocal != null)
+                {
+                    browserStackLocal.stop();
+                }
+            }
+            catch (Exception ex)
+            {
+                LogError($"{ex.Message} : {ex.StackTrace}");
+            }
+            finally
+            {
+                LogInfo("Assembly Cleanup finished");
             }
         }
 
@@ -748,6 +774,27 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 LogError("Issue in reading the Azure Pipeline Variables: " + ex.Message);
             }
+        }
+
+        public ResultTable SaveTestResults(TestContext testContext)
+        {
+            // Getting the TC Description
+            object testDescriptionObj = GetType().GetMethod(TestContext.TestName).GetCustomAttributes(typeof(DescriptionAttribute), false).FirstOrDefault();
+            string testDescription = testDescriptionObj?.GetType().GetProperty("Description").GetValue(testDescriptionObj, null).ToString();
+
+            string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}",
+                       testTimer.Elapsed.Hours, testTimer.Elapsed.Minutes, testTimer.Elapsed.Seconds);
+
+            // Writing Test Result Data To CSV File
+            //string currentDataRow = TestContext.DataRow?.Table.Rows.IndexOf(TestContext.DataRow).ToString();
+
+            return new ResultTable(
+                        testDescription + testContext.TestName + " (DataRow " + (currentDataRow++) + ")",
+                        testContext.CurrentTestOutcome.ToString(),
+                        elapsedTime,
+                        Regex.Replace(testErrorMessage, @"\r\n?|\n|,", String.Empty),
+                        screenshotFileName
+                        );
         }
     }
 }

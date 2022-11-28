@@ -3,7 +3,7 @@ using System.IO;
 
 namespace West.EnterpriseUX.Automation.MobileNew
 {
-    public class Logger
+    public class Logger : Screenshot
     {
         public static void LogInfo(string infoMessage)
         {
@@ -16,7 +16,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static void WriteToFile(string message)
         {
             Console.WriteLine(message);
-            string filePath = AppiumSetup.logsFolderPath + "\\" + $"UWPAppLogs{DateTime.Now.ToString("dd_MM_yyyy")}.txt";
+            string filePath = AppiumSetup.logsFolderPath + "\\" + $"MobileAppLogs{DateTime.Now.ToString("dd_MM_yyyy")}.txt";
             FileStream fs = new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.None);
             using (StreamWriter sw = new StreamWriter(fs))
             {
@@ -35,16 +35,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
         }
 
-        /*
         public static void WriteTestResultToCSV(ResultTable resultTable)
         {
             string filePath = AppiumSetup.logsFolderPath + AppiumSetup.testResultsLogFileName;
+
             using (StreamWriter swOutputFile = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.Write, FileShare.Read)))
             {
                 swOutputFile.WriteLine($"{resultTable.TestName},{resultTable.TestOutcome},{resultTable.Duration},{resultTable.ErrorMessage},{resultTable.Screenshot}");
                 Console.WriteLine($"{resultTable.TestName},{resultTable.TestOutcome},{resultTable.Duration},{resultTable.ErrorMessage},{resultTable.Screenshot}");
             }
         }
-        */
     }
 }

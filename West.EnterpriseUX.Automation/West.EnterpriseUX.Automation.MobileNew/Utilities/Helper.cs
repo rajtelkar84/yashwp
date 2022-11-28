@@ -74,5 +74,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine(ex.StackTrace);
             }
         }
+
+        public void CheckFileExists(string completeFilePath)
+        {
+            Logger.LogInfo($"The expected file presence in this path {completeFilePath} : {File.Exists(completeFilePath)} ");
+            if (!File.Exists(completeFilePath))
+            {
+                Logger.WriteToCSV(AppiumSetup.testResultsLogFileName, TestResultColumns.TestName + "," + TestResultColumns.TestOutcome + "," + TestResultColumns.Duration + "," + TestResultColumns.ErrorMessage + "," + TestResultColumns.Screenshot);
+            }
+        }
     }
 }
