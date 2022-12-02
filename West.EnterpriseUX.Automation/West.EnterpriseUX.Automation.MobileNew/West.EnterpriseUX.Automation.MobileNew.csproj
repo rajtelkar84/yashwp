@@ -67,6 +67,9 @@
     <None Update="TestData\DEV\Charts_252697.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="TestData\DEV\KPIs_252734.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="TestData\DEV\KPIs_252691.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

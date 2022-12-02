@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Appium;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
         }
         public IList<IWebElement> InboxFavouriteIcons => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='InboxFavourite']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> KpisAndChartsFavouriteIcons => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Favourite']"), iosLocator: MobileBy.XPath(""));
-
+        public IList<IWebElement> GetKPIToZoom(string kpiName)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text, '" + kpiName + "') and @content-desc='Title']/parent::*/parent::*/parent::*/descendant::*[@content-desc='zoomIcon']"), iosLocator: MobileBy.XPath(""));
+        }
 
         #endregion FavoritePage Elements
 
@@ -83,6 +87,28 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine(ex.Message);
             }
         }
+
+        public void SelectKPIToZoom(string kpiName)
+        {
+            try
+            {
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (GetKPIToZoom(kpiName).Count == 0)
+                {
+                    ScrollUp();
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+                GetKPIToZoom(kpiName)[0].Click();
+                WaitForMoment(2);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"{kpiName} KPI is not available/configured to Zoom");
+            }
+        }
+
 
         #endregion FavoritePage Actions
     }

@@ -27,10 +27,11 @@
 	<Parameter name="TestUser4EmailId" value="PRAPPP1@WESTPHARMA.COM" />
 	<Parameter name="TestUser4Password" value="QmTh3TlnfpyErxE3nFINzbBa02WO8PeGzlyyCXbhsWo=" />
 	<Parameter name="AppPackage" value="com.westpharma.uxframework.dev" />
-	<Parameter name="appActivity" value="crc6429df2d9d200d6e98.MainActivity" />
+	<Parameter name="AppActivity" value="crc6429df2d9d200d6e98.MainActivity" />
 	<Parameter name="NoReset" value="true" />
 	<Parameter name="AppEnvironment" value="Dev" />
 	<Parameter name="TestDataPath" value="C:\TestData\" />
+	<Parameter name="ExtentReportsPath" value="C:\ExtentReports\" />
 
   </TestRunParameters>
 </RunSettings>

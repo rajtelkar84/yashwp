@@ -5,6 +5,7 @@ using OpenQA.Selenium.Appium.MultiTouch;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 
@@ -121,5 +122,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             Thread.Sleep(Convert.ToInt32(delay * 1000));
         }
+
+        
     }
 }

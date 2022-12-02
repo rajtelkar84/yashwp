@@ -27,6 +27,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             String fileName = String.Empty;
 
+            /*
             if (laptopName.ToUpper().Equals("WINDOWS"))
             {
                 docummentsFolderPath = "OneDrive - West Pharmaceutical Services, Inc\\Documents";
@@ -45,7 +46,13 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 fileName = GetReportPath(reportFilepath);
             }
-            
+            */
+
+            reportFilepath = extentReportsPath + "\\" + timestamp;
+            reportFileLocation = reportFilepath + "\\" + timestamp;
+
+            fileName = GetReportPath(reportFilepath);
+
             ExtentHtmlReporter htmlReporter = new ExtentHtmlReporter(fileName);
 
             htmlReporter.Config.DocumentTitle = timestamp;

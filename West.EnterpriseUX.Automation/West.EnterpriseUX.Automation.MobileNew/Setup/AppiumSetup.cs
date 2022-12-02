@@ -81,6 +81,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public static string screenshotsFolderPath = string.Empty;
         public static string buildsPath = string.Empty;
         public static string testDataPath = string.Empty;
+        public static string extentReportsPath = string.Empty;
         public static string testErrorMessage = string.Empty;
         public static string userName = string.Empty;
         public static string password = string.Empty;
@@ -180,6 +181,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 screenshotsFolderPath = context.Properties["ScreenshotFolderPath"].ToString();
                 buildsPath = context.Properties["BuildsPath"].ToString();
                 testDataPath = context.Properties["TestDataPath"].ToString();
+                extentReportsPath = context.Properties["ExtentReportsPath"].ToString();
                 applicationEnvironment = context.Properties["AppEnvironment"].ToString();
                 workingDirectory = Environment.CurrentDirectory;
                 projectDirectoryfull = Directory.GetParent(workingDirectory).Parent.Parent.FullName;
@@ -189,6 +191,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 _helper.CreateFolder(screenshotsFolderPath);
                 _helper.CreateFolder(buildsPath);
                 _helper.CreateFolder(testDataPath + "/" + applicationEnvironment);
+                _helper.CreateFolder(extentReportsPath);
 
                 //Copy the TestData based on the Environment
                 CopyTestDataBasedOnEnvironemnt(applicationEnvironment);
@@ -485,13 +488,16 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine("Appium Service Started: " + _appiumLocalService.IsRunning);
                 var abv = _appiumLocalService.IsRunning;
 
+                deviceName = context.Properties["DeviceName"].ToString();
+                appPackage = context.Properties["AppPackage"].ToString();
+                appActivity = context.Properties["AppActivity"].ToString();
                 noReset = bool.Parse(context.Properties["NoReset"].ToString());
 
-                if (platformName.ToLower().Equals("android"))
+                if (MobPlatform.ToLower().Equals("android"))
                 {
                     appiumOptions = new AppiumOptions();
 
-                    appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, platformName);
+                    appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, MobPlatform);
                     appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, deviceName);
                     appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppPackage, appPackage);
                     appiumOptions.AddAdditionalCapability(AndroidMobileCapabilityType.AppActivity, appActivity);
@@ -502,6 +508,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 else
                 {
                     appiumOptions = new AppiumOptions();
+
                     appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, platformName);
                     appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, deviceName);
                     appiumOptions.AddAdditionalCapability(IOSMobileCapabilityType.BundleId, bundleId);
@@ -588,7 +595,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         }
         public void WaitForLoaderToDisappear(IList<IWebElement> loader, string locatorName = "all")
         {
-            int timeout = 30;
+            int timeout = 25;
             Stopwatch stopwatch = new Stopwatch();
             IList<IWebElement> loadingElement = null;
             TimeSpan timeTaken = new TimeSpan();
@@ -651,8 +658,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             if (string.IsNullOrEmpty(userName) | string.IsNullOrEmpty(password))
             {
-                userName = context.Properties["TestUser4EmailId"].ToString();
-                string encryptedPassword = context.Properties["TestUser4Password"].ToString();
+                userName = context.Properties["TestUser1EmailId"].ToString();
+                string encryptedPassword = context.Properties["TestUser1Password"].ToString();
                 password = CommonTestSettings.Decrypt(encryptedPassword);
             }
 

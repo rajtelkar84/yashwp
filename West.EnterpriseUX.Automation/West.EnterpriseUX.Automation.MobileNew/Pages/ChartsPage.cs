@@ -328,7 +328,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                Assert.Fail($"{chartName} Chart is not available/configured to Zoom");
+                Assert.Fail($"{chartName} Chart is not available to delete");
             }
         }
 
@@ -338,11 +338,11 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             if (isPresent)
             {
-                Assert.AreEqual(isPresent, charts.Count > 0, $"Chart Name:{chartName} is not found in the Charts Page after Delete Chart Operation.");
+                Assert.AreEqual(isPresent, charts.Count > 0, $"Chart Name:{chartName} is found in the Charts Page after Delete Chart Operation.");
             }
             else
             {
-                Assert.AreEqual(isPresent, charts.Count > 0, $"Chart Name:{chartName} is found in the Charts Page after Delete Chart Operation.");
+                Assert.AreEqual(isPresent, charts.Count > 0, $"Chart Name:{chartName} is not found in the Charts Page after Delete Chart Operation.");
             }
         }
 
