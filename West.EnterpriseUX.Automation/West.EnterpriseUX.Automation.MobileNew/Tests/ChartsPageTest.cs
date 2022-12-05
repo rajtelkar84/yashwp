@@ -106,7 +106,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 FavoritePage favoritePage2 = _basePageInstance.NavigateToFavoriteTab();
                 favoritePage2.KPIsAndChartsTab.Click();
-
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
 
                 Assert.IsTrue(favoritePage2.CheckForKPIsAndChartsInFavorite(chartName)[0].Displayed);
@@ -124,7 +123,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [Description("Verifying the Chart creation functionality;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.Charts_252696), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void TC_252696_CreateChartTest(string persona, string inbox, string chartType, string measure, string dimension)
+        public void TC_252696_CreateChartTest(string persona, string inbox, string chartType1, string measure, string dimension1, string chartType2, string dimension2)
         {
             ChartsPage chartsPage = null;
 
@@ -133,16 +132,18 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 string chartName = string.Empty;
                 string uniqueNumber = _helper.GenerateUniqueRandomNumber();
 
-                chartName = "Chart" + chartType + uniqueNumber;
-                Console.WriteLine($"Persona : {persona} - Inbox : {inbox} - ChartType : {chartType}");
+                chartName = "Chart" + chartType1 + uniqueNumber;
+                Console.WriteLine($"Persona : {persona} - Inbox : {inbox} - ChartType : {chartType1}");
 
                 InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
                 DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
                 WaitForMoment(20);
                 chartsPage = inboxesTab.OpenChartsAbstraction();
                 WaitForMoment(20);
-                chartsPage.CreateChart(chartName, measure, dimension, chartType);
+
+                chartsPage.CreateChart(chartName, measure, dimension1, chartType1);
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+                LogInfo($"Creating the Chart: {chartName} is successfull");
             }
             catch (Exception ex)
             {
@@ -167,7 +168,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [Description("Verifying Delete functionality for Charts;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.Charts_252696), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void TC_252699_DeleteChartTest(string persona, string inbox, string chartType, string measure, string dimension)
+        public void TC_252699_DeleteChartTest(string persona, string inbox, string chartType1, string measure, string dimension1, string chartType2, string dimension2)
         {
             ChartsPage chartsPage = null;
 
@@ -176,17 +177,18 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 string chartName = string.Empty;
                 string uniqueNumber = _helper.GenerateUniqueRandomNumber();
 
-                chartName = "Chart" + chartType + uniqueNumber;
-                Console.WriteLine($"Persona : {persona} - Inbox : {inbox} - ChartType : {chartType}");
+                chartName = "Chart" + chartType1 + uniqueNumber;
+                Console.WriteLine($"Persona : {persona} - Inbox : {inbox} - ChartType : {chartType1}");
 
                 InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
                 DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
                 WaitForMoment(20);
                 chartsPage = inboxesTab.OpenChartsAbstraction();
                 WaitForMoment(20);
-                chartsPage.CreateChart(chartName, measure, dimension, chartType);
 
+                chartsPage.CreateChart(chartName, measure, dimension1, chartType1);
                 WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+                LogInfo($"Creating the Chart: {chartName} is successfull");
 
                 chartsPage.SelectChartToDelete(chartName);
                 chartsPage.VerifyChartPresent(chartName, false);
@@ -195,6 +197,66 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 Assert.Fail(ex.Message);
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        [TestMethod]
+        [TestCategory("ChartsPageTest")]
+        [Description("Verifying Chart Edit functionality;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.Charts_252696), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_252695_EditChartTest(string persona, string inbox, string chartType1, string measure, string dimension1, string chartType2, string dimension2)
+        {
+            ChartsPage chartsPage = null;
+
+            try
+            {
+                string chartName = string.Empty;
+                string uniqueNumber = _helper.GenerateUniqueRandomNumber();
+
+                chartName = "Chart" + chartType1 + uniqueNumber;
+                LogInfo($"Persona : {persona} - Inbox : {inbox} - ChartType : {chartType1}");
+
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                DetailsPage detailsPage = (DetailsPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "Details");
+                WaitForMoment(20);
+
+                chartsPage = inboxesTab.OpenChartsAbstraction();
+                WaitForMoment(20);
+
+                chartsPage.CreateChart(chartName, measure, dimension1, chartType1);
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+                LogInfo($"Creating the Chart: {chartName} is successfull");
+
+                chartsPage.SelectChartToEdit(chartName);
+                chartName = "Chart" + chartType2 + uniqueNumber;
+                LogInfo($"Persona : {persona} - Inbox : {inbox} - ChartType : {chartType2}");
+                chartsPage.ClearSelectedMeasures();
+                chartsPage.ClearSelectedDimensions(dimension1);
+
+                chartsPage.EditChart(chartName, measure, dimension2, chartType2);
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+                LogInfo($"Updating the Chart: {chartName} is successfull");
+
+                chartsPage.SelectChartToEdit(chartName);
+                chartsPage.VerifyUpdatedChartDetails(chartName, measure, dimension2);
+            }
+            catch (Exception ex)
+            {
+                LogError(ex.Message);
+                Assert.Fail(ex.Message);
+            }
+            finally
+            {
+                try
+                {
+                    _basePageInstance.BackButton[0].Click();
+                    chartsPage.DeleteAllUserCreatedCharts();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
         }
 

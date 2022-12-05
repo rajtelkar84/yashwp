@@ -50,13 +50,26 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> CreateChartButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Create']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> ExpanderIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='expanderIcon']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> DeleteIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Delete']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> EditIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Edit']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> ConfirmButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='YES']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> GetExpanderIconOfChart(string chartName)
         {
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text, '" + chartName + "') and @content-desc='Title']/parent::*/parent::*/following-sibling::*/following-sibling::*/descendant::*[@content-desc='expanderIcon']"), iosLocator: MobileBy.XPath(""));
         }
+        public IList<IWebElement> LoadAllButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='LOAD ALL']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> LoadMoreButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='LOAD MORE']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> RemoveMeasureIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='removeMeasureIcon']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> RemoveDimensionIcon(string dimension)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SelctedDimensionChip_" + dimension + "_CloseButton']"), iosLocator: MobileBy.XPath(""));
+        }
+        public IList<IWebElement> AdvancedConfigurationOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Advanced Configuration']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> GetSelectedMeasureOrDimension(string measureOrDimension)
+        {
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text, '" + measureOrDimension + "')]"), iosLocator: MobileBy.XPath(""));
+        }
 
-        
+
         #endregion ChartsPage Elements
 
         #region ChartsPage Actions
@@ -156,6 +169,42 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
         }
 
+        public void EditChart(string chartName, string measure, string dimension, string chartType)
+        {
+            try
+            {
+                EnterChartName(chartName);
+                SelectChartType(chartType);
+                SelectMeasureField(measure);
+                SelectDimensionField(dimension);
+                ClickOnCreateChart();
+            }
+            catch (Exception ex)
+            {
+                LogError(ex.Message);
+                Assert.Fail($"{chartName} Chart is not created.");
+            }
+        }
+
+        public void VerifyUpdatedChartDetails(string expectedChartName, string expectedMeasure, string expectedDimension)
+        {
+            string actualChartName = ChartNameTextfield[0].Text;
+            Assert.AreEqual(expectedChartName, actualChartName, "Updating of the Chart name is not successfull.");
+
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+            while (AdvancedConfigurationOption.Count == 0)
+            {
+                ScrollUp();
+            }
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+            bool actualMeasure = GetSelectedMeasureOrDimension(expectedMeasure)[0].Displayed;
+            bool actualDimension = GetSelectedMeasureOrDimension(expectedDimension)[0].Displayed;
+
+            Assert.IsTrue(actualMeasure, "Updating of the Chart Measure value is not successfull.");
+            Assert.IsTrue(actualDimension, "Updating of the Chart Dimension value is not successfull.");
+        }
+
         public void DeleteAllUserCreatedCharts()
         {
             IList<IWebElement> chartTitles = GetAllChartsTitles;
@@ -168,6 +217,42 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 WaitForMoment(1);
                 ConfirmButton[0].Click();
                 WaitForMoment(20);
+            }
+        }
+
+        public void ClearSelectedMeasures()
+        {
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+            while (RemoveMeasureIcon.Count == 0)
+            {
+                ScrollUp();
+            }
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+            IList<IWebElement> removeIcon = RemoveMeasureIcon;
+            while (removeIcon.Count > 0)
+            {
+                RemoveMeasureIcon[0].Click();
+                WaitForMoment(1);
+                removeIcon = RemoveMeasureIcon;
+            }
+        }
+
+        public void ClearSelectedDimensions(string dimension)
+        {
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+            while (RemoveDimensionIcon(dimension).Count == 0)
+            {
+                ScrollUp();
+            }
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+            IList<IWebElement> removeIcon = RemoveDimensionIcon(dimension);
+            while (removeIcon.Count > 0)
+            {
+                RemoveDimensionIcon(dimension)[0].Click();
+                WaitForMoment(1);
+                removeIcon = RemoveDimensionIcon(dimension);
             }
         }
 
@@ -196,12 +281,16 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         public void EnterChartName(string chartName)
         {
-            if(ChartNameTextfield.Count > 0)
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+            while (ChartNameTextfield.Count == 0)
             {
-                ChartNameTextfield[0].Click();
-                ChartNameTextfield[0].Clear();
-                ChartNameTextfield[0].SendKeys(chartName);
+                ScrollDown();
             }
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+            ChartNameTextfield[0].Click();
+            ChartNameTextfield[0].Clear();
+            ChartNameTextfield[0].SendKeys(chartName);
             WaitForMoment(2);
         }
 
@@ -332,6 +421,35 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
         }
 
+        public void SelectChartToEdit(string chartName)
+        {
+            try
+            {
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
+                while (GetExpanderIconOfChart(chartName).Count == 0)
+                {
+                    ScrollUp();
+
+                    if(LoadMoreButton.Count > 0)
+                    {
+                        LoadMoreButton[0].Click();
+                        WaitForMoment(1);
+                    }
+                }
+                _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
+
+                GetExpanderIconOfChart(chartName)[0].Click();
+                WaitForMoment(1);
+                EditIcon[0].Click();
+                WaitForMoment(5);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Assert.Fail($"{chartName} Chart is not available to delete");
+            }
+        }
+
         public void VerifyChartPresent(string chartName, bool isPresent = false)
         {
             IList<IWebElement> charts = GetChartToRefresh(chartName);
@@ -345,6 +463,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Assert.AreEqual(isPresent, charts.Count > 0, $"Chart Name:{chartName} is not found in the Charts Page after Delete Chart Operation.");
             }
         }
+
+       
 
         #endregion ChartsPage Actions
     }
