@@ -322,6 +322,54 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
         }
 
+        [TestMethod]
+        [TestCategory("KPIsPageTest")]
+        [Description("Verify Create KPI from Global section;")]
+        [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
+        [DynamicData(nameof(DataTransfer.KPIs_252734), typeof(DataTransfer), DynamicDataSourceType.Method)]
+        public void TC_490987_CreateKPIFromGlobalSectionTest(string persona, string inbox, string kpiName, string propertyValue1, string propertyValue2, string filterField1, string operator1, string filterValue1)
+        {
+            KpisPage kpisPage = null;
+
+            try
+            {
+                string labelName = string.Empty;
+                string kpiTemplateName = string.Empty;
+                string uniqueNumber = _helper.GenerateUniqueRandomNumber();
+
+                labelName = $"Label" + uniqueNumber;
+                kpiTemplateName = $"TestValue" + uniqueNumber;
+
+                InboxPage inboxesTab = _basePageInstance.NavigateToInboxesTab();
+                kpisPage = (KpisPage)inboxesTab.SearchInboxAndSelectAbstraction(inbox, "KPIs");
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                kpisPage.SelectKPICreateTab("Global");
+                kpisPage.ClickOnCreateKPIImage();
+                kpisPage.ConfigureKPIWithValue("Field", kpiTemplateName, propertyValue1);
+                LogInfo($"Configuring the KPI: {labelName} is successfull");
+                WaitForLoaderToDisappear(_basePageInstance.LoaderImage);
+
+                kpisPage.VerifyKPIIsPresentOnCretedByMeTab(labelName);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                try
+                {
+                    kpisPage.DeleteAllUserCreatedKPIs();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+
 
 
     }

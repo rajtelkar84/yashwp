@@ -53,6 +53,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> DeleteIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Delete']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> ConfirmButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='YES']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> UserCreatedTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Created ')]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> GobalTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Global')]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> CreatedByMeTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Created ')]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> SharedByMeTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Shared ')]"), iosLocator: MobileBy.XPath(""));
         public IWebElement SelectAggregationTypeForKPIValues(string aggregationName)
         {
             return WaitAndFindElement(androidLocator: MobileBy.XPath("//*[contains(@content-desc, '" + aggregationName + "']"), iosLocator: MobileBy.XPath(""));
@@ -72,6 +75,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             return WaitAndFindElement(androidLocator: MobileBy.XPath("//*[contains(@text,'" + value + "')]"), iosLocator: MobileBy.XPath(""));
         }
+        public IList<IWebElement> CreateKPIImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='PerformAction']"), iosLocator: MobileBy.XPath(""));
 
         #endregion KpisPage Elements
 
@@ -81,8 +85,6 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
-                //IList<IWebElement> zoomButton = GetKPIToZoom(kpiName);
-
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 while (GetKPIToZoom(kpiName).Count == 0)
                 {
@@ -100,12 +102,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
         }
 
-        public void SelectKPIToRefresh(string kpiName)
+        public bool SelectKPIToRefresh(string kpiName)
         {
             try
             {
-                //IList<IWebElement> refreshButton = GetKPIToRefresh(kpiName);
-
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 while (GetKPIToRefresh(kpiName).Count == 0)
                 {
@@ -115,20 +115,20 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 GetKPIToRefresh(kpiName)[0].Click();
                 WaitForMoment(2);
+                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Assert.Fail($"{kpiName} KPI is not available/configured to Zoom");
             }
+            return false;
         }
 
         public void SelectKPIToApplyFilterOn(string kpiName)
         {
             try
             {
-                //IList<IWebElement> filterButton = GetKPIToApplyFilterOn(kpiName);
-
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 while (GetKPIToApplyFilterOn(kpiName).Count == 0)
                 {
@@ -279,6 +279,20 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
         }
 
+        public void ClickOnCreateKPIImage()
+        {
+            if (CreateKPIImage.Count > 0)
+            {
+                CreateKPIImage[0].Click();
+                WaitForMoment(5);
+            }
+            else
+            {
+                LogError($"For Creating a KPI : Create KPI button is not present in the current page.");
+                Assert.Fail($"For Creating a KPI : Create KPI button is not present in the current page.");
+            }
+        }
+
         public void ConfigureKPIWithValue(string aggregateType, string kpiTemplateName, string propertyValue)
         {
             SelectAggregationType(aggregateType);
@@ -365,6 +379,30 @@ namespace West.EnterpriseUX.Automation.MobileNew
             }
         }
 
+        public void SelectKPICreateTab(string tab)
+        {
+            if (tab.Contains("Global"))
+            {
+                GobalTab[0].Click();
+                WaitForMoment(5);
+            }
+            else if (tab.Contains("Created"))
+            {
+                CreatedByMeTab[0].Click();
+                WaitForMoment(5);
+            }
+            else if (tab.Contains("Shared"))
+            {
+                SharedByMeTab[0].Click();
+                WaitForMoment(5);
+            }
+            else
+            {
+                LogError($"{tab} is not present in the current page.");
+                Assert.Fail($"{tab} is not present in the current page.");
+            }
+        }
+
         public void ClickOnBackButton()
         {
             if (BackButton.Count > 0)
@@ -377,16 +415,26 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         public void VerifyKPIPresent(string kpiName, bool isPresent = false)
         {
-            IList<IWebElement> charts = GetKPIToRefresh(kpiName);
+            IList<IWebElement> kpis = GetKPIToRefresh(kpiName);
 
             if (isPresent)
             {
-                Assert.AreEqual(isPresent, charts.Count > 0, $"KPI Name:{kpiName} is found in the Charts Page after Delete Chart Operation.");
+                Assert.AreEqual(isPresent, kpis.Count > 0, $"KPI Name:{kpiName} is found in the Charts Page after Delete Chart Operation.");
             }
             else
             {
-                Assert.AreEqual(isPresent, charts.Count > 0, $"KPI Name:{kpiName} is not found in the Charts Page after Delete Chart Operation.");
+                Assert.AreEqual(isPresent, kpis.Count > 0, $"KPI Name:{kpiName} is not found in the Charts Page after Delete Chart Operation.");
             }
+        }
+
+        public void VerifyKPIIsPresentOnCretedByMeTab(string kpiName)
+        {
+            Assert.IsTrue(CreatedByMeTab[0].Displayed);
+            Assert.IsTrue(CreatedByMeTab[0].Enabled);
+            Assert.IsTrue(CreatedByMeTab[0].Selected);
+
+            bool isKPIRefrehed = SelectKPIToRefresh(kpiName);
+            Assert.IsTrue(isKPIRefrehed, $"{kpiName} is not available for Refresh");
         }
 
         public void VerifyKPIName(string kPIName)
