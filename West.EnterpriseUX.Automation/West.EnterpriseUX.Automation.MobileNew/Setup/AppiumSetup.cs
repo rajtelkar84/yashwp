@@ -440,8 +440,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 LogInfo("Started Local tunnelling");
                 browserStackLocal = new Local();
+
                 List<KeyValuePair<string, string>> bsLocalArgs = new List<KeyValuePair<string, string>>() {
-                        new KeyValuePair<string, string>("key", browserstackPassword)
+                        new KeyValuePair<string, string>("key", browserstackPassword),
+                        new KeyValuePair<string, string>("forcelocal", "true")
                     };
 
                 foreach (System.Diagnostics.Process myProc in System.Diagnostics.Process.GetProcesses())
