@@ -385,7 +385,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Local browserStackLocal = new Local();
                 List<KeyValuePair<string, string>> bsLocalArgs = new List<KeyValuePair<string, string>>()
                 {
-                    new KeyValuePair<string, string>("key", "MGfnZCgjRHYj5sJa1CHd")
+                    new KeyValuePair<string, string>("key", "MGfnZCgjRHYj5sJa1CHd"),
+                    new KeyValuePair<string, string>("forcelocal", "true")
                 };
 
                 foreach (System.Diagnostics.Process myProc in System.Diagnostics.Process.GetProcesses())
@@ -658,8 +659,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             if (string.IsNullOrEmpty(userName) | string.IsNullOrEmpty(password))
             {
-                userName = context.Properties["TestUser1EmailId"].ToString();
-                string encryptedPassword = context.Properties["TestUser1Password"].ToString();
+                userName = context.Properties["TestUser4EmailId"].ToString();
+                string encryptedPassword = context.Properties["TestUser4Password"].ToString();
                 password = CommonTestSettings.Decrypt(encryptedPassword);
             }
 
