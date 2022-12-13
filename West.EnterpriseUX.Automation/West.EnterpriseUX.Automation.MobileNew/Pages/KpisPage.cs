@@ -55,7 +55,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> UserCreatedTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Created ')]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> GobalTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Global')]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> CreatedByMeTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Created ')]"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> SharedByMeTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Shared ')]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> SharedWithMeTab => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Shared ')]"), iosLocator: MobileBy.XPath(""));
         public IWebElement SelectAggregationTypeForKPIValues(string aggregationName)
         {
             return WaitAndFindElement(androidLocator: MobileBy.XPath("//*[contains(@content-desc, '" + aggregationName + "']"), iosLocator: MobileBy.XPath(""));
@@ -295,8 +295,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         public void ConfigureKPIWithValue(string aggregateType, string kpiTemplateName, string propertyValue)
         {
-            SelectAggregationType(aggregateType);
             EnterKPIValueTitle(kpiTemplateName);
+            SelectAggregationType(aggregateType);
             SelectPropertyValue(propertyValue);
             ClickOnShowPreview();
             ClickOnBackButton();
@@ -337,8 +337,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 KPIValueTextField[0].Click();
                 KPIValueTextField[0].Clear();
                 KPIValueTextField[0].SendKeys(kpiTitle);
-                WaitForMoment(1);
                 _driver.HideKeyboard();
+                WaitForMoment(1);
             }
         }
 
@@ -347,9 +347,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
             if(PropertyFieldCombobox.Count > 0)
             {
                 PropertyFieldCombobox[0].Click();
+                _driver.HideKeyboard();
+                WaitForMoment(1);
                 PropertyFieldCombobox[0].Clear();
                 PropertyFieldCombobox[0].SendKeys(propertyValue);
-                WaitForMoment(1);
             }
             _driver.HideKeyboard();
             WaitForMoment(1);
@@ -384,23 +385,24 @@ namespace West.EnterpriseUX.Automation.MobileNew
             if (tab.Contains("Global"))
             {
                 GobalTab[0].Click();
-                WaitForMoment(5);
+                WaitForMoment(1);
             }
             else if (tab.Contains("Created"))
             {
                 CreatedByMeTab[0].Click();
-                WaitForMoment(5);
+                WaitForMoment(1);
             }
             else if (tab.Contains("Shared"))
             {
-                SharedByMeTab[0].Click();
-                WaitForMoment(5);
+                SharedWithMeTab[0].Click();
+                WaitForMoment(1);
             }
             else
             {
                 LogError($"{tab} is not present in the current page.");
                 Assert.Fail($"{tab} is not present in the current page.");
             }
+            _driver.HideKeyboard();
         }
 
         public void ClickOnBackButton()

@@ -432,7 +432,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         public static void LaunchApp(string environment, string deviceType, TestContext context, bool browserStackCloud = false)
         {
-            if (browserStackCloud)
+            if (!browserStackCloud)
             {
                 LogInfo("Started to load the Browser Stack Desired Capabilities");
                 LoadBrowserStackappiumOptions(context);
