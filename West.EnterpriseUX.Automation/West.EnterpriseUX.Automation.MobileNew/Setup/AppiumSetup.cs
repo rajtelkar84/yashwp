@@ -267,6 +267,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
                 //OpenEmulator();
                 //LaunchApp();
+
                 LaunchApp(MobPlatform, DeviceType.RealDevice.ToString(), TestContext, cloudAutomation);
                 _basePageInstance = new BasePage(driver);
                 LoginToWDApp();
@@ -531,22 +532,34 @@ namespace West.EnterpriseUX.Automation.MobileNew
             try
             {
                 IList<IWebElement> loader = _basePageInstance.LoaderImage;
-
-                WaitForLoaderToDisappear(loader);
-                (new TouchAction(driver)).Tap(89, 612).Perform();
-                WaitForMoment(5);
-                new Actions(driver).SendKeys(userName).Perform();
-                WaitForMoment(5);
-                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
-                WaitForMoment(5);
-                new Actions(driver).SendKeys(password).Perform();
-                WaitForMoment(5);
-                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
-                WaitForMoment(5);
-                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
                 WaitForLoaderToDisappear(loader);
 
-                if(_basePageInstance.SkipButton.Count > 0)
+                if (_basePageInstance.AllowButton.Count > 0)
+                {
+                    _basePageInstance.AllowButton[0].Click();
+                    WaitForMoment(5);
+                }
+
+                _basePageInstance.UserName[0].SendKeys(userName);
+                _basePageInstance.NextButton[0].Click();
+                WaitForMoment(5);
+                _basePageInstance.Password[0].SendKeys(password);
+                _basePageInstance.SignInButton[0].Click();
+                WaitForMoment(5);
+
+                if (MobPlatform.ToLower().Equals("android"))
+                {                    
+                    ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
+                    //((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
+                }
+                else
+                {
+                    _basePageInstance.YesButton[0].Click();
+                    //((IOSDriver<IWebElement>)driver).Keyboard.PressKey(Keys.Enter);
+                }
+                WaitForLoaderToDisappear(loader);
+
+                if (_basePageInstance.SkipButton.Count > 0)
                 {
                     _basePageInstance.SkipButton[0].Click();
                     WaitForMoment(5);
@@ -598,7 +611,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         }
         public void WaitForLoaderToDisappear(IList<IWebElement> loader, string locatorName = "all")
         {
-            int timeout = 25;
+            int timeout = 15;
             Stopwatch stopwatch = new Stopwatch();
             IList<IWebElement> loadingElement = null;
             TimeSpan timeTaken = new TimeSpan();
@@ -661,8 +674,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
             if (string.IsNullOrEmpty(userName) | string.IsNullOrEmpty(password))
             {
-                userName = context.Properties["TestUser4EmailId"].ToString();
-                string encryptedPassword = context.Properties["TestUser4Password"].ToString();
+                userName = context.Properties["TestUser1EmailId"].ToString();
+                string encryptedPassword = context.Properties["TestUser1Password"].ToString();
                 password = CommonTestSettings.Decrypt(encryptedPassword);
             }
 

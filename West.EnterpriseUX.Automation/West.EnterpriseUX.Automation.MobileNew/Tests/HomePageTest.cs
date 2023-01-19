@@ -17,27 +17,48 @@ namespace West.EnterpriseUX.Automation.MobileNew
         [Description("Login to the Android Application;")]
         [Owner("Girishwar.PatilEXTERNAL@westpharma.com")]
         [DynamicData(nameof(DataTransfer.LoginDataObject), typeof(DataTransfer), DynamicDataSourceType.Method)]
-        public void TC_247738_LoginToWDAppTest(string emailId, string password)
+        public void TC_247738_LoginToWDAppTest(string emailId, string password1)
         {
             try
             {
+                if (_basePageInstance.ProfileMenu.Count > 0)
+                {
+                    TC_252731_LogoutFromWDAppTest(emailId, password1);
+                }
+
                 IList<IWebElement> loader = _basePageInstance.LoaderImage;
-
-                WaitForLoaderToDisappear(loader);
-                (new TouchAction(driver)).Tap(89, 612).Perform();
-                WaitForMoment(5);
-                new Actions(driver).SendKeys(emailId.Trim()).Perform();
-                WaitForMoment(5);
-                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
-                WaitForMoment(5);
-                new Actions(driver).SendKeys(password.Trim()).Perform();
-                WaitForMoment(5);
-                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
-                WaitForMoment(5);
-                ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
                 WaitForLoaderToDisappear(loader);
 
-                Assert.IsTrue(_basePageInstance.ProfileMenu[0].Displayed);
+                if (_basePageInstance.AllowButton.Count > 0)
+                {
+                    _basePageInstance.AllowButton[0].Click();
+                    WaitForMoment(5);
+                }
+
+                _basePageInstance.UserName[0].SendKeys(userName);
+                _basePageInstance.NextButton[0].Click();
+                WaitForMoment(5);
+                _basePageInstance.Password[0].SendKeys(password);
+                _basePageInstance.SignInButton[0].Click();
+                WaitForMoment(5);
+
+                if (MobPlatform.ToLower().Equals("android"))
+                {
+                    ((AndroidDriver<IWebElement>)driver).PressKeyCode(new KeyEvent(AndroidKeyCode.Enter));
+                }
+                else
+                {
+                    _basePageInstance.YesButton[0].Click();
+                }
+                WaitForLoaderToDisappear(loader);
+
+                if (_basePageInstance.SkipButton.Count > 0)
+                {
+                    _basePageInstance.SkipButton[0].Click();
+                    WaitForMoment(5);
+                }               
+
+                Assert.IsTrue(_basePageInstance.ProfileMenu.Count > 0);
             }
             catch (Exception ex)
             {
@@ -56,15 +77,29 @@ namespace West.EnterpriseUX.Automation.MobileNew
             try
             {
                 IList<IWebElement> loader = _basePageInstance.LoaderImage;
-
                 WaitForLoaderToDisappear(loader);
+
                 _basePageInstance.ProfileMenu[0].Click();
                 _basePageInstance.Logout[0].Click();
                 _basePageInstance.LogoutOkButton[0].Click();
                 WaitForLoaderToDisappear(loader);
 
-                Assert.IsTrue(_basePageInstance.LoaderImageOnLoginPage[0].Displayed);
-                Assert.IsTrue(_basePageInstance.LoaderLabel[0].Displayed);
+                Assert.IsTrue(_basePageInstance.UserName.Count > 0);
+                Assert.IsTrue(_basePageInstance.NextButton.Count > 0);
+
+                /*
+                if (MobPlatform.ToLower().Equals("android"))
+                {
+                    Assert.IsTrue(_basePageInstance.LoaderImageOnLoginPage[0].Displayed);
+                    Assert.IsTrue(_basePageInstance.LoaderLabel[0].Displayed);
+                }
+                else
+                {
+                    Assert.IsTrue(_basePageInstance.UserName.Count > 0);
+                    Assert.IsTrue(_basePageInstance.NextButton.Count > 0);
+                }
+                */
+                    
             }
             catch (Exception ex)
             {

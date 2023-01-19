@@ -22,14 +22,14 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         #region BasePage Elements
 
-        public IList<IWebElement> LoaderImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoadingIndicator']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> LoaderImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoadingIndicator']"), iosLocator: MobileBy.AccessibilityId("LoaderImage"));
         public IList<IWebElement> LoaderImageOnLoginPage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoaderImage']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> LoaderLabel => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoaderLabel']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> HamberMenu => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='hamberMenu']"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> ProfileMenu => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='profileMenu']"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> Logout => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Logout']"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> SkipButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='SKIP']"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> LogoutOkButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='okButton']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> ProfileMenu => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='profileMenu']"), iosLocator: MobileBy.AccessibilityId("profileMenu"));
+        public IList<IWebElement> Logout => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Logout']"), iosLocator: MobileBy.AccessibilityId("Logout"));
+        public IList<IWebElement> SkipButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='SKIP']"), iosLocator: MobileBy.XPath("//*[@name='Skip']"));
+        public IList<IWebElement> LogoutOkButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='okButton']"), iosLocator: MobileBy.AccessibilityId("YES"));
         public IList<IWebElement> AllLoadingTexts => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@text,'Loading') or contains(@text,'Fetching') or contains(@text,'Fetching Modules') or contains(@text,'Preparing') or contains(@text,'Retry') or contains(@text,'Authenticating user') or contains(@text,'Adding') or contains(@text,'Saving') or contains(@text,'Deleting') or contains(@text,'Removing') or contains(@text,'Refreshing') or contains(@text,'Please wait') or contains(@text,'Sharing Insights') or contains(@text,'Fetching')]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> UserInfromationPopUp => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='confirmationOptions']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> DashboardIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[1]"), iosLocator: MobileBy.XPath(""));
@@ -48,6 +48,16 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> BackButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='back']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> PageTitle => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='TitleLabel']"), iosLocator: MobileBy.XPath(""));
 
+        public IList<IWebElement> UserName => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@resource-id, 'i0116')]"), iosLocator: MobileBy.AccessibilityId("someone@westpharma.com"));
+        public IList<IWebElement> NextButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@resource-id, 'idSIButton9')]"), iosLocator: MobileBy.XPath("(//XCUIElementTypeButton[@name='Next'])[1]"));
+        public IList<IWebElement> Password => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@resource-id, 'i0118')]"), iosLocator: MobileBy.XPath("//*[contains(@name, 'Enter the password')]"));
+        public IList<IWebElement> SignInButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//android.widget.Button[contains(@text, 'Sign in')]"), iosLocator: MobileBy.AccessibilityId("Sign in"));
+        public IList<IWebElement> YesButton => WaitAndFindElements(androidLocator: MobileBy.XPath(""), iosLocator: MobileBy.AccessibilityId("Yes"));
+        public IList<IWebElement> AllowButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Allow']"), iosLocator: MobileBy.XPath("//XCUIElementTypeButton[@name='Allow']"));
+
+
+
+        
 
         #endregion
 

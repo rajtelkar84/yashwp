@@ -31,6 +31,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Update="iOS_Dev_WD_Enterprise_BrowserStack.runsettings">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="BatchFiles\startAppium.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
