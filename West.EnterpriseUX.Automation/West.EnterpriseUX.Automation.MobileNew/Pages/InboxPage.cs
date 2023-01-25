@@ -28,8 +28,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + inboxName + "']"), iosLocator: MobileBy.XPath(""));
         }
-        public IWebElement GlobalSearchIcon => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath(""));
-        public IWebElement InboxSearchBox => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchEntry']"), iosLocator: MobileBy.XPath(""));
+        public IWebElement GlobalSearchIcon => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeButton[@name='SearchIcon']"));
+        public IWebElement InboxSearchBox => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchEntry']"), iosLocator: MobileBy.XPath("//XCUIElementTypeTextField[@name='SearchEntry']"));
         public IWebElement SearchForInbox => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='InboxPicker_Container']"), iosLocator: MobileBy.XPath(""));
         public IWebElement SearchForRecords => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchRecords_Container']"), iosLocator: MobileBy.XPath(""));
         public IWebElement SearchButton => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@text='SEARCH']"), iosLocator: MobileBy.XPath(""));
@@ -78,7 +78,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 PersonaName(persona)[0].Click();
 
-                Thread.Sleep(1000);
+                WaitForMoment(1);
 
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 while (InboxName(inbox).Count == 0)
@@ -109,7 +109,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 PersonaName(persona)[0].Click();
 
-                Thread.Sleep(1000);
+                WaitForMoment(1);
 
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(0);
                 while (InboxName(inbox).Count == 0)
@@ -118,8 +118,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 }
                 _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(20);
                 ContextMenuForInbox(inbox)[0].Click();
-                
-                Thread.Sleep(2000);
+
+                WaitForMoment(2);
             }
             catch (Exception ex)
             {
