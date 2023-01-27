@@ -4,6 +4,7 @@ using OpenQA.Selenium.Appium;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using West.EnterpriseUX.Automation.MobileNew.Pages;
 
 namespace West.EnterpriseUX.Automation.MobileNew
 {
@@ -14,6 +15,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public FavoritePage _favoritePageInstance;
         public GlobalSearchPage _searchPageInstance;
         public FeedbackPage _feedbackPageInstance;
+        public FinancePage _financePageInstance;
 
         public BasePage(AppiumDriver<IWebElement> driver) : base(driver)
         {
@@ -35,7 +37,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> DashboardIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[1]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> FavoriteIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[2]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> SearchIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[4]"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> InboxesIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[3]"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> InboxesIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[3]"), iosLocator: MobileBy.XPath("//XCUIElementTypeButton[@name='InboxMenuPage']"));
         public IList<IWebElement> MyTaskIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("(//*[contains(@resource-id, 'navigation_bar_item_icon_view')])[5]"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> MoreOptions => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='moreOptions']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> NotificationsOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Notifications']"), iosLocator: MobileBy.XPath(""));
@@ -199,6 +201,25 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("Common elements are not displayed");
             }
+        }
+
+        public FinancePage NavigateToFinanceAction()
+        {
+            try
+            {
+                if (InboxesIcon.Count > 0)
+                {
+                    InboxesIcon[0].Click();
+                    Thread.Sleep(2000);
+                    _financePageInstance = new FinancePage(_driver);
+                    return _financePageInstance;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
         }
 
         #endregion
