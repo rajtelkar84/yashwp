@@ -42,7 +42,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> MoreOptions => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='moreOptions']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> NotificationsOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Notifications']"), iosLocator: MobileBy.XPath(""));
         public IList<IWebElement> ReloadOption => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Reload']"), iosLocator: MobileBy.XPath(""));
-        public IList<IWebElement> FeedbackIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='feedbackIcon']"), iosLocator: MobileBy.XPath(""));
+        public IList<IWebElement> FeedbackIcon => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='feedbackIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeButton[@name='feedbackIcon']"));
         public IList<IWebElement> SelectOption(string option)
         {
             return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='Name' and contains(@text, '" + option + "')]"), iosLocator: MobileBy.XPath(""));
@@ -72,14 +72,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 if(InboxesIcon.Count > 0)
                 {
                     InboxesIcon[0].Click();
-                    Thread.Sleep(2000);
+                    WaitForMoment(2);
                     _inboxPageInstance = new InboxPage(_driver);
                     return _inboxPageInstance;
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                LogInfo("Not navigated to Inboxes Page");
+                LogError(ex.Message);
             }
             return null;
         }
@@ -177,7 +178,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 if (FeedbackIcon.Count > 0)
                 {
                     FeedbackIcon[0].Click();
-                    Thread.Sleep(3000);
+                    WaitForMoment(3);
                     _feedbackPageInstance = new FeedbackPage(_driver);
                     return _feedbackPageInstance;
                 }
