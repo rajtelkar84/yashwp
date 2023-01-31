@@ -18,8 +18,12 @@
 	<Parameter name="LogFolderPath" value="C:\MobileAuto\Dev\" />
     <Parameter name="ScreenshotFolderPath" value="C:\MobileAuto\Dev\Screenshots" />
     <Parameter name="BuildsPath" value="C:\Builds\" />
-    <Parameter name="TestUser1EmailId" value="UX-Auto-testuser2@westpharma.com" />
-    <Parameter name="TestUser1Password" value="nNzLheKlOF15w7WErR2aSuiErsobi47axQFviCGG+8M=" />
+    <!--<Parameter name="TestUser1EmailId" value="Test_UX09@westpharma.com" />
+    <Parameter name="TestUser1Password" value="Westpharm@2019" />
+	-->
+	  <Parameter name="TestUser1EmailId" value="UX-Auto-testuser2@westpharma.com" />
+	  <Parameter name="TestUser1Password" value="nNzLheKlOF15w7WErR2aSuiErsobi47axQFviCGG+8M=" />
+	  
 	<Parameter name="TestUser2EmailId" value="UX-Auto-testuser1@westpharma.com" />
 	<Parameter name="TestUser2Password" value="670RASeVlpF1Y/ugT9KdbzYKB7T4Y6oXPWdsDoZ+og0=" />
 	<Parameter name="TestUser3EmailId" value="Test_UX09@westpharma.com" />

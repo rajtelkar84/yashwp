@@ -48,5 +48,10 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             return ExcelUtils.GetSheetData(projectDirectoryfull + "/TestData/" + applicationEnvironment + "/Charts_252696.xlsx", "Charts_252696");
         }
+
+        public static IEnumerable<object[]> AccountPayableNavigation()
+        {
+            return ExcelUtils.GetSheetData(@"C:\TestData\" + applicationEnvironment + "\\AccountPayableNavigation.xlsx", "AccountPayableNavigation");
+        }
     }
 }

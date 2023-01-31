@@ -25,7 +25,7 @@ namespace West.EnterpriseUX.Automation.MobileNew.Pages
         }
         public IList<IWebElement> InboxName(string inboxName)
         {
-            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + inboxName + "']"), iosLocator: MobileBy.XPath("//*[@Label='" + inboxName + "']"));
+            return WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='" + inboxName + "']"), iosLocator: MobileBy.XPath("//*[@label='" + inboxName + "']"));
         }
 
         public IList<IWebElement> LoaderImage => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='LoadingIndicator']"), iosLocator: MobileBy.AccessibilityId("LoaderImage"));
@@ -34,18 +34,20 @@ namespace West.EnterpriseUX.Automation.MobileNew.Pages
 
         public IList<IWebElement> Actions => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@name='Actions']"));
 
+        public IList<IWebElement> ViewDetails => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@name='View Details']"));
+
+        public IList<IWebElement> moreOptions => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeButton[@name='MoreOptions']"));
+        public IList<IWebElement> Sort => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@name='Sort']"));
+        public IList<IWebElement> Filter => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@name='Filter']"));
+        public IList<IWebElement> InvoiceInboxPageHeadline => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@label='Invoices Inbox']"));
         #endregion
 
         #region FinancePage Actions
 
         public void NavigatetoInboxDetailsPage(string Persona, string inboxName)
         { 
-
-            AppiumSetup setup = new AppiumSetup();
-
             try
             {
-                setup.WaitForLoaderToDisappear(LoaderImage);
 
                 if (PersonaName(Persona).Count > 0)
                 {
@@ -54,16 +56,11 @@ namespace West.EnterpriseUX.Automation.MobileNew.Pages
 
                 WaitForMoment(2);
 
-                InboxName(inboxName)[0].Click();
+                if (InboxName(inboxName).Count > 0)
+                {
 
-                setup.WaitForLoaderToDisappear(LoaderImage);
-
-
-               
-
-
-
-
+                    InboxName(inboxName)[0].Click();
+                }
             }
             catch (Exception ex)
             {
@@ -71,7 +68,31 @@ namespace West.EnterpriseUX.Automation.MobileNew.Pages
             }
         }
 
-       
+        public void clickonDetailsTab()
+        {
+            try
+            {
+
+                DetailsButton.Click();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        public  (string pageTitle,int ActionButton,int viewDetailsButton,int moreOptionButton,int sortButton,int filterButton) pagedetailscheck(string inboxName)
+        {
+
+            string pageTitle = InboxName(inboxName)[0].GetAttribute("label");
+            int ActionButton = Actions.Count;
+            int viewDetailsButton = ViewDetails.Count;
+            int moreOptionButton = moreOptions.Count;
+            int sortButton = Sort.Count;
+            int filterButton = Filter.Count;
+            return (pageTitle,ActionButton,viewDetailsButton,moreOptionButton,sortButton,filterButton);
+        }
+
 
         #endregion
     }

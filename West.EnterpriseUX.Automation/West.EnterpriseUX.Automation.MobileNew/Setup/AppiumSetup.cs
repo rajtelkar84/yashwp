@@ -557,6 +557,13 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     _basePageInstance.YesButton[0].Click();
                     //((IOSDriver<IWebElement>)driver).Keyboard.PressKey(Keys.Enter);
                 }
+                WaitForMoment(5);
+
+                if(_basePageInstance.OKButton.Count > 0)
+                {
+                    _basePageInstance.OKButton[0].Click();
+                }
+
                 WaitForLoaderToDisappear(loader);
 
                 if (_basePageInstance.SkipButton.Count > 0)

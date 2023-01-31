@@ -55,6 +55,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         public IList<IWebElement> Password => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[contains(@resource-id, 'i0118')]"), iosLocator: MobileBy.XPath("//*[contains(@name, 'Enter the password')]"));
         public IList<IWebElement> SignInButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//android.widget.Button[contains(@text, 'Sign in')]"), iosLocator: MobileBy.AccessibilityId("Sign in"));
         public IList<IWebElement> YesButton => WaitAndFindElements(androidLocator: MobileBy.XPath(""), iosLocator: MobileBy.AccessibilityId("Yes"));
+        public IList<IWebElement> OKButton => WaitAndFindElements(androidLocator: MobileBy.XPath(""), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@name='OK']"));
         public IList<IWebElement> AllowButton => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@text='Allow']"), iosLocator: MobileBy.XPath("//XCUIElementTypeButton[@name='Allow']"));
 
 
@@ -208,6 +209,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
         {
             try
             {
+                int cne = InboxesIcon.Count;
                 if (InboxesIcon.Count > 0)
                 {
                     InboxesIcon[0].Click();
