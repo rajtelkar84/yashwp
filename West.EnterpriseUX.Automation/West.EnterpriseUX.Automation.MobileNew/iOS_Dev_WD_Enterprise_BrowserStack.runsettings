@@ -12,8 +12,8 @@
     <Parameter name="Build" value="IOSPlatform" />
     <Parameter name="AutomationName" value="XCUITest" />
     <Parameter name="TestName" value="SmokeTest" />
-    <Parameter name="BrowserstackUserName" value="rajkumartelkar_DZgUHv" />
-    <Parameter name="BrowserstackPassword" value="QGfkMqpp2ejzzL5pE447" />
+    <Parameter name="BrowserstackUserName" value="girishwarpatilex_nub4P7" />
+    <Parameter name="BrowserstackPassword" value="MGfnZCgjRHYj5sJa1CHd" />
     <Parameter name="AppURL" value="bs://3211432ae909186aa7250d491c760159e753039c" />
 	<Parameter name="LogFolderPath" value="C:\MobileAuto\Dev\" />
     <Parameter name="ScreenshotFolderPath" value="C:\MobileAuto\Dev\Screenshots" />

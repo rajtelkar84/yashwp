@@ -418,6 +418,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             else
             {
                 appiumOptions = new AppiumOptions();
+                appiumOptions.AddAdditionalCapability("browserstack.idleTimeout", "300");
                 appiumOptions.AddAdditionalCapability(MobileCapabilityType.PlatformName, platformName);
                 appiumOptions.AddAdditionalCapability(MobileCapabilityType.DeviceName, deviceName);
                 appiumOptions.AddAdditionalCapability(IOSMobileCapabilityType.BundleId, bundleId);
@@ -460,7 +461,15 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 if (MobPlatform.ToLower().Equals(MobileDevicePlatform.IOS.ToString().ToLower()))
                 {
                     LogInfo("Started WD IOS App");
-                    driver = new IOSDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), appiumOptions);
+                    try
+                    {
+                        driver = new IOSDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), appiumOptions);
+                    }
+                    catch (Exception ex)
+                    {
+                        driver = new IOSDriver<IWebElement>(new Uri("http://hub-cloud.browserstack.com/wd/hub"), appiumOptions);
+                    }
+                    
                 }
                 else
                 {
@@ -565,6 +574,8 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 }
 
                 WaitForLoaderToDisappear(loader);
+                WaitForMoment(5);
+
 
                 if (_basePageInstance.SkipButton.Count > 0)
                 {
@@ -739,7 +750,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
                     appiumOptions.AddAdditionalCapability("project", projectName);
                     appiumOptions.AddAdditionalCapability("build", buildName);
                     appiumOptions.AddAdditionalCapability("name", testName);
-                    appiumOptions.AddAdditionalCapability("browserstack.idleTimeout", 120);
+                    appiumOptions.AddAdditionalCapability("browserstack.idleTimeout", "120");
                     appiumOptions.AddAdditionalCapability("browserstack.acceptInsecureCerts", "true");
                     //appiumOptions.AddAdditionalCapability("automationName", automationName);
                 }

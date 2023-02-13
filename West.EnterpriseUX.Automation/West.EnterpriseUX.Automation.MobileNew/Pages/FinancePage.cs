@@ -34,9 +34,11 @@ namespace West.EnterpriseUX.Automation.MobileNew.Pages
 
         public IList<IWebElement> Actions => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@name='Actions']"));
 
+        public IWebElement ActionZero => WaitAndFindElement(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@name='Actions']"));
+
         public IList<IWebElement> ViewDetails => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@name='View Details']"));
 
-        public IList<IWebElement> moreOptions => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeButton[@name='MoreOptions']"));
+        public IList<IWebElement> AllListinDetails => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeTable[@name='ExpandableListViewID']/XCUIElementTypeCell"));
         public IList<IWebElement> Sort => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@name='Sort']"));
         public IList<IWebElement> Filter => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@name='Filter']"));
         public IList<IWebElement> InvoiceInboxPageHeadline => WaitAndFindElements(androidLocator: MobileBy.XPath("//*[@content-desc='SearchIcon']"), iosLocator: MobileBy.XPath("//XCUIElementTypeStaticText[@label='Invoices Inbox']"));
@@ -81,16 +83,17 @@ namespace West.EnterpriseUX.Automation.MobileNew.Pages
             }
         }
 
-        public  (string pageTitle,int ActionButton,int viewDetailsButton,int moreOptionButton,int sortButton,int filterButton) pagedetailscheck(string inboxName)
+        public  (string pageTitle,string ActionButton,int viewDetailsButton,int allListinDetails, int sortButton,int filterButton) pagedetailscheck(string inboxName)
         {
 
             string pageTitle = InboxName(inboxName)[0].GetAttribute("label");
-            int ActionButton = Actions.Count;
+            WaitForMoment(10);
+            string ActionButton = ActionZero.GetAttribute("label");
             int viewDetailsButton = ViewDetails.Count;
-            int moreOptionButton = moreOptions.Count;
+            int allListinDetails = AllListinDetails.Count;
             int sortButton = Sort.Count;
             int filterButton = Filter.Count;
-            return (pageTitle,ActionButton,viewDetailsButton,moreOptionButton,sortButton,filterButton);
+            return (pageTitle,ActionButton,viewDetailsButton, allListinDetails, sortButton,filterButton);
         }
 
 

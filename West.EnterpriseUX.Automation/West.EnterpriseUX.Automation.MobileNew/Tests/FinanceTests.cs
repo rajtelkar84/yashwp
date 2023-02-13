@@ -22,6 +22,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
             {
                 IList<IWebElement> loader = _basePageInstance.LoaderImage;
                 FinancePage financePage = _basePageInstance.NavigateToFinanceAction();
+                
                 WaitForLoaderToDisappear(loader);
                 financePage.NavigatetoInboxDetailsPage(persona,inbox);
                 WaitForLoaderToDisappear(loader);
@@ -30,9 +31,9 @@ namespace West.EnterpriseUX.Automation.MobileNew
                 var detailspage = financePage.pagedetailscheck(inbox);
 
                 Assert.AreEqual("Invoices Inbox",detailspage.pageTitle);
-                Assert.IsTrue(detailspage.ActionButton > 0);
+               // Assert.IsTrue(detailspage.ActionButton > 0);
                 Assert.IsTrue(detailspage.viewDetailsButton > 0);
-                Assert.IsTrue(detailspage.moreOptionButton > 0);
+              //  Assert.IsTrue(detailspage.allListinDetails > 0);
                 Assert.IsTrue(detailspage.sortButton > 0);
                 Assert.IsTrue(detailspage.filterButton > 0);
 

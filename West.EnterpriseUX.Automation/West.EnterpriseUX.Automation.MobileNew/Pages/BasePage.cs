@@ -207,6 +207,7 @@ namespace West.EnterpriseUX.Automation.MobileNew
 
         public FinancePage NavigateToFinanceAction()
         {
+            
             try
             {
                 int cne = InboxesIcon.Count;
